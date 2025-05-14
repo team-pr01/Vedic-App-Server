@@ -18,8 +18,8 @@ const postEmergency = catchAsync(async (req, res) => {
 
 
 // Get all emergencies
-const getAllEmergencies = catchAsync(async (req, res) => { 
-   const result = await EmergencyServices.getAllEmergencies();
+const getAllEmergencyPosts = catchAsync(async (req, res) => { 
+   const result = await EmergencyServices.getAllEmergencyPosts();
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -30,9 +30,9 @@ const getAllEmergencies = catchAsync(async (req, res) => {
 
 
 // Get single product by id
-const getSingleProductById = catchAsync(async (req, res) => {
-  const { productId } = req.params;
-  const result = await EmergencyServices.getSingleProductById(productId);
+const getSingleEmergencyPostById = catchAsync(async (req, res) => {
+  const { emergencyId } = req.params;
+  const result = await EmergencyServices.getSingleEmergencyPostById(emergencyId);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -59,8 +59,8 @@ const deleteProduct = catchAsync(async (req, res) => {
 
 export const EmergencyControllers = {
   postEmergency,
-  getAllEmergencies,
-  getSingleProductById,
+  getAllEmergencyPosts,
+  getSingleEmergencyPostById,
   deleteProduct,
   // getMyProducts
 

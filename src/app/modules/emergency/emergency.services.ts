@@ -30,15 +30,16 @@ const postEmergency = async (payload: TEmergency) => {
   return result;
 };
 
-const getAllEmergencies = async () => {
-  const result = await Emergency.find().populate("user");;
+// Get all emergency posts
+const getAllEmergencyPosts = async () => {
+  const result = await Emergency.find().populate("user");
   return result;
 };
 
 
-// Get single product by id
-const getSingleProductById = async (productId: string) => {
-  const result = await Product.findById(productId);
+// Get single emergency post by id
+const getSingleEmergencyPostById = async (emergencyId: string) => {
+  const result = await Emergency.findById(emergencyId).populate("user");
   return result;
 };
 
@@ -69,8 +70,8 @@ const deleteProduct = async (productId: string) => {
 
 export const EmergencyServices = {
   postEmergency,
-  getAllEmergencies,
-  getSingleProductById,
+  getAllEmergencyPosts,
+  getSingleEmergencyPostById,
   geTEmergencysByCategory,
   deleteProduct,
   getAllBrands,

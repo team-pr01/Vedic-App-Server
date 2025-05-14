@@ -8,9 +8,9 @@ router.post(
   EmergencyControllers.postEmergency
 );
 
-router.get("/", EmergencyControllers.getAllEmergencies);
-router.get("/:productId", EmergencyControllers.getSingleProductById);
+router.get("/", EmergencyControllers.getAllEmergencyPosts);
+router.get("/:emergencyId", EmergencyControllers.getSingleEmergencyPostById);
 
-router.delete("/delete-product/:productId", EmergencyControllers.deleteProduct);
+router.delete("/delete-product/:emergencyId", EmergencyControllers.deleteProduct);
 
 export const EmergencyRoutes = router;
