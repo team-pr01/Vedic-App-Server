@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import httpStatus from "http-status";
+import AppError from "../../errors/AppError";
 import { TEmergency } from "./emergency.interface";
 import Emergency from "./emergency.model";
 import Product from "./emergency.model";
@@ -56,14 +58,31 @@ const getAllEmergencyPosts = async (query: TQuery) => {
 };
 
 
-
 // Get single emergency post by id
 const getSingleEmergencyPostById = async (emergencyId: string) => {
   const result = await Emergency.findById(emergencyId).populate("user");
   return result;
 };
 
+// Update emergency post
+const updateEmergencyPost = async (
+  emergencyId: string,
+  payload: Partial<TEmergency>
+) => {
+  console.log(payload);
+  const existingPost = await Emergency.findById(emergencyId);
 
+  if (!existingPost) {
+    throw new AppError(httpStatus.NOT_FOUND, "Emergency post not found");
+  }
+
+  const result = await Emergency.findByIdAndUpdate(emergencyId, payload, {
+    new: true,
+    runValidators: true,
+  });
+
+  return result;
+};
 
 // Delete product by id
 const deleteEmergencyPost = async (emergencyId: string) => {
@@ -76,5 +95,6 @@ export const EmergencyServices = {
   postEmergency,
   getAllEmergencyPosts,
   getSingleEmergencyPostById,
+  updateEmergencyPost,
   deleteEmergencyPost,
 };

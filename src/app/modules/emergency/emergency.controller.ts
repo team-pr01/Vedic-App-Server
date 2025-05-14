@@ -50,7 +50,21 @@ const getSingleEmergencyPostById = catchAsync(async (req, res) => {
 });
 
 
-// Delete product by id
+// Update emergency post
+const updateEmergencyPost = catchAsync(async (req, res) => {
+  const { emergencyId } = req.params;
+  const result = await EmergencyServices.updateEmergencyPost(emergencyId, req.body);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Emergency post updated successfully',
+    data: result,
+  });
+});
+
+
+// Delete emergency post by id
 const deleteEmergencyPost = catchAsync(async (req, res) => {
   const { emergencyId } = req.params;
   const result = await EmergencyServices.deleteEmergencyPost(emergencyId);
@@ -68,7 +82,6 @@ export const EmergencyControllers = {
   postEmergency,
   getAllEmergencyPosts,
   getSingleEmergencyPostById,
+  updateEmergencyPost,
   deleteEmergencyPost,
-  // getMyProducts
-
 };
