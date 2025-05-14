@@ -1,7 +1,7 @@
 import sendResponse from '../../utils/sendResponse';
 import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
-import { ProductServices } from './product.services';
+import { ProductServices } from './emergency.services';
 
 // Create product
 const createProduct = catchAsync(async (req, res) => {

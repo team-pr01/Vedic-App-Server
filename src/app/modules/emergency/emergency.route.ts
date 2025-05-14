@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from "express";
 import { multerUpload } from "../../config/multer.config";
-import { ProductControllers } from "./product.controller";
+import { ProductControllers } from "./emergency.controller";
 
 const router = express.Router();
 
@@ -41,4 +41,4 @@ router.put(
 );
 router.delete("/delete-product/:productId", ProductControllers.deleteProduct);
 
-export const ProductRoutes = router;
+export const EmergencyRoutes = router;

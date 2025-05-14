@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { TProduct } from "./product.interface";
+import { TProduct } from "./emergency.interface";
 import { sendImageToCloudinary } from "../../utils/sendImageToCloudinary";
-import Product from "./product.model";
+import Product from "./emergency.model";
 import { Types } from "mongoose";
 
 // Create product
