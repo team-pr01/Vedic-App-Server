@@ -51,14 +51,14 @@ const getSingleEmergencyPostById = catchAsync(async (req, res) => {
 
 
 // Delete product by id
-const deleteProduct = catchAsync(async (req, res) => {
-  const { productId } = req.params;
-  const result = await EmergencyServices.deleteProduct(productId);
+const deleteEmergencyPost = catchAsync(async (req, res) => {
+  const { emergencyId } = req.params;
+  const result = await EmergencyServices.deleteEmergencyPost(emergencyId);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Product deleted successfully',
+    message: 'Emergency post deleted successfully',
     data: result,
   });
 });
@@ -68,7 +68,7 @@ export const EmergencyControllers = {
   postEmergency,
   getAllEmergencyPosts,
   getSingleEmergencyPostById,
-  deleteProduct,
+  deleteEmergencyPost,
   // getMyProducts
 
 };

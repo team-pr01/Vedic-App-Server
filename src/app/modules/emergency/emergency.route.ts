@@ -1,5 +1,7 @@
 import express from "express";
 import { EmergencyControllers } from "./emergency.controller";
+import auth from "../../middlewares/auth";
+import { UserRole } from "../auth/auth.constannts";
 
 const router = express.Router();
 
@@ -8,10 +10,9 @@ router.post(
   EmergencyControllers.postEmergency
 );
 
-router.get("/", EmergencyControllers.getAllEmergencyPosts);
-router.get("/:emergencyId", EmergencyControllers.getSingleEmergencyPostById);
+router.get("/", auth(UserRole.admin), EmergencyControllers.getAllEmergencyPosts);
+router.get("/:emergencyId", auth(UserRole.admin), EmergencyControllers.getSingleEmergencyPostById);
 
-router.put("/delete-product/:emergencyId", EmergencyControllers.deleteProduct);
-router.delete("/delete-product/:emergencyId", EmergencyControllers.deleteProduct);
+router.delete("/:emergencyId", auth(UserRole.admin), EmergencyControllers.deleteEmergencyPost);
 
 export const EmergencyRoutes = router;

@@ -63,27 +63,11 @@ const getSingleEmergencyPostById = async (emergencyId: string) => {
   return result;
 };
 
-// Get single product by category
-const geTEmergencysByCategory = async (categoryName: string) => {
-  const result = await Product.find({category : categoryName});
-  return result;
-};
-
-// const getMyProducts = async (sellerId: string) => {
-//   const result = await Product.find({vendorId:sellerId});
-//   return result;
-// };
-
-// Get all unique brands
-const getAllBrands = async () => {
-  const brands = await Product.find({ brand: "brand" });
-  return brands;
-};
 
 
 // Delete product by id
-const deleteProduct = async (productId: string) => {
-  const result = await Product.findByIdAndDelete(productId);
+const deleteEmergencyPost = async (emergencyId: string) => {
+  const result = await Product.findByIdAndDelete(emergencyId);
   return result;
 };
 
@@ -92,8 +76,5 @@ export const EmergencyServices = {
   postEmergency,
   getAllEmergencyPosts,
   getSingleEmergencyPostById,
-  geTEmergencysByCategory,
-  deleteProduct,
-  getAllBrands,
-  // getMyProducts,
+  deleteEmergencyPost,
 };
