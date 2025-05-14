@@ -5,42 +5,31 @@ import AppError from "../../errors/AppError";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import config from "../../config";
 import { createToekn } from "./auth.utils";
-import { sendImageToCloudinary } from "../../utils/sendImageToCloudinary";
+// import { sendImageToCloudinary } from "../../utils/sendImageToCloudinary";
 import { User } from "./auth.model";
 import { sendEmail } from "../../utils/sendEmail";
 import bcrypt from 'bcrypt';
 
 // Create user
-const createUser = async (file: any, payload: Partial<TUser>) => {
-  const { name, email, password, contactNumber, role, address, orders, wishlist, followings } = payload;
+const createUser = async (payload: Partial<TUser>) => {
+  const { name, email, phoneNumber, password, role } = payload;
 
-  if (file && file.path) {
-    const imageName = `${name}-${email}`;
-    const path = file.path;
-    const { secure_url } = await sendImageToCloudinary(imageName, path);
-    payload.avatar = secure_url;
-  }
+  // if (file && file.path) {
+  //   const imageName = `${name}-${email}`;
+  //   const path = file.path;
+  //   const { secure_url } = await sendImageToCloudinary(imageName, path);
+  //   payload.avatar = secure_url;
+  // }
 
   const payloadData = {
     name,
     email,
     password,
-    avatar: payload?.avatar || "",
-    contactNumber: contactNumber || "",
+    phoneNumber: phoneNumber || "",
     role: role || "user",
-    address: address || {
-      street: "",
-      city: "",
-      state: "",
-      country: "",
-      zipCode: "",
-    },
     isDeleted : false,
     isSuspended : false,
     isVerified: false,
-    orders: orders || [],
-    wishlist: wishlist || [],
-    followings : followings || [],
   };
 
   // Checking if user already exists

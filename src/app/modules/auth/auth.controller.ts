@@ -5,13 +5,14 @@ import catchAsync from "../../utils/catchAsync";
 import config from "../../config";
 
 const createUser = catchAsync(async (req, res) => {
-  const file = req.file;
-  const result = await AuthServices.createUser(file, req.body);
+  console.log(req.body);
+  // const file = req.file;
+  const result = await AuthServices.createUser(req.body);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "User registered successfully",
+    message: "Registration successful.",
     data: result,
   });
 });

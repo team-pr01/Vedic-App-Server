@@ -3,32 +3,21 @@ export type TLoginAuth = {
   password: string;
 };
 
-import { Model, Types } from "mongoose";
+import { Model } from "mongoose";
 import { UserRole } from "./auth.constannts";
 
 export type TUser= {
   _id:string;
   name: string;
   email: string;
+  phoneNumber?: string;
   password: string;
-  role: "user" | "admin" | "vendor" | "seller";
+  role: "user" | "admin";
   isVerified: boolean;
-  avatar?: string;
   createdAt: Date;
   updatedAt: Date;
-  address?: {
-    street: string;
-    city: string;
-    state: string;
-    country: string;
-    zipCode: string;
-  };
   isDeleted : boolean;
   isSuspended : boolean;
-  contactNumber?: string;
-  orders?: Types.ObjectId[];
-  wishlist?: Types.ObjectId[];
-  followings : string[];
 }
 
 export interface UserModel extends Model<TUser> {

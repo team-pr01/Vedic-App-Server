@@ -1,18 +1,12 @@
-import express, { NextFunction, Request, Response } from "express";
+import express from "express";
 import validateRequest from "../../middlewares/validateRequest";
 import { AuthValidations } from "./auth.validation";
 import { AuthControllers } from "./auth.controller";
 // import { upload } from "../../utils/sendImageToCloudinary";
-import { multerUpload } from "../../config/multer.config";
 const router = express.Router();
 
 router.post(
   "/signup",
-  multerUpload.single('file'),
-  (req: Request, res: Response, next: NextFunction) => {
-    req.body = JSON.parse(req.body.data);
-    next();
-  },
   AuthControllers.createUser
 );
 

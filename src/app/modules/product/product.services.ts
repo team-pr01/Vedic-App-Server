@@ -3,7 +3,6 @@ import { TProduct } from "./product.interface";
 import { sendImageToCloudinary } from "../../utils/sendImageToCloudinary";
 import Product from "./product.model";
 import { Types } from "mongoose";
-import Vendor from "../vendor/vendor.model";
 
 // Create product
 const createProduct = async (payload: TProduct, files: any[]) => {
@@ -37,11 +36,11 @@ const createProduct = async (payload: TProduct, files: any[]) => {
   // Create the product
   const result = await Product.create(payloadData);
 
-  await Vendor.findOneAndUpdate(
-    { userId: vendorId }, // Match the vendor by userId
-    { $addToSet: { products: result._id } }, // Add the product's _id to the products array
-    { new: true } // Return the updated document
-  );
+  // await Vendor.findOneAndUpdate(
+  //   { userId: vendorId },
+  //   { $addToSet: { products: result._id } },
+  //   { new: true }
+  // );
   
 
   return result;

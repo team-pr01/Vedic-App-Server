@@ -1,4 +1,4 @@
-import { Schema, Types, model } from "mongoose";
+import { Schema, model } from "mongoose";
 import bcrypt from "bcrypt";
 import config from "../../config";
 import { TUser, UserModel } from "./auth.interface";
@@ -24,42 +24,19 @@ const userSchema = new Schema<TUser>(
     },
     role: {
       type: String,
-      enum: ["user", "admin", "vendor", "seller"],
+      enum: ["user", "admin"],
       default: "user",
     },
     isVerified: {
       type: Boolean,
       default: false,
     },
-    avatar: {
-      type: String,
-    },
-    address: {
-      street: String,
-      city: String,
-      state: String,
-      country: String,
-      zipCode: String,
-    },
     isDeleted : {type:Boolean, default:false},
     isSuspended : {type:Boolean, default:false},
-    contactNumber: {
+    phoneNumber: {
       type: String,
       trim: true,
     },
-    orders: [
-      {
-        type: Types.ObjectId,
-        ref: "Product",
-      },
-    ],
-    wishlist: [
-      {
-        type: Types.ObjectId,
-        ref: "Product",
-      },
-    ],
-    followings : {type : [String], default : []}
   },
   {
     timestamps: true,
