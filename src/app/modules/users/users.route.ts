@@ -2,14 +2,15 @@
 import express from 'express';
 import { UserControllers } from './users.controller';
 import auth from '../../middlewares/auth';
+import { UserRole } from './user.constant';
 // import { upload } from '../../utils/sendImageToCloudinary';
 
 const router = express.Router();
 
-router.get('/', UserControllers.getAllUser);
-router.get('/me', auth('user', 'admin', 'vendor', 'seller'), UserControllers.getMe);
+router.get('/', auth(UserRole.admin), UserControllers.getAllUser);
+router.get('/me', auth('user', 'admin'), UserControllers.getMe);
 router.get('/:userId', UserControllers.getSingleUserById);
-router.get('/my-orders/:userId',auth('user', 'admin', 'vendor', 'seller'), UserControllers.getMyOrders);
+router.get('/my-orders/:userId',auth('user', 'admin'), UserControllers.getMyOrders);
 // router.get('/my-posts/:authorId', auth('user', 'admin'), UserControllers.getMyPosts);
 
 // router.put('/me', auth('user', 'admin'),

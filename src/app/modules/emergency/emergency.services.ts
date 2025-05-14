@@ -11,7 +11,7 @@ type TQuery = {
 };
 
 
-// Create product
+// Create emergency post
 const postEmergency = async (payload: TEmergency) => {
   const { user, message, location } = payload;
 
@@ -38,8 +38,7 @@ const postEmergency = async (payload: TEmergency) => {
   return result;
 };
 
-// services/emergency.service.ts
-
+// Get all emergency posts with search and filter by status
 const getAllEmergencyPosts = async (query: TQuery) => {
   const { keyword, status } = query;
 
