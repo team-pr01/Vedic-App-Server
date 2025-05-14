@@ -17,16 +17,23 @@ const postEmergency = catchAsync(async (req, res) => {
 });
 
 
-// Get all emergencies
-const getAllEmergencyPosts = catchAsync(async (req, res) => { 
-   const result = await EmergencyServices.getAllEmergencyPosts();
+// Get all emergency posts with search and filter by status
+const getAllEmergencyPosts = catchAsync(async (req, res) => {
+  const { keyword, status } = req.query;
+
+  const result = await EmergencyServices.getAllEmergencyPosts({
+    keyword: keyword as string,
+    status: status as string,
+  });
+
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'All emergencies retrieved successfully',
+    message: "Emergency posts fetched successfully.",
     data: result,
   });
 });
+
 
 
 // Get single product by id

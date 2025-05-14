@@ -5,7 +5,7 @@ export type TEmergency = {
   message: string;
   location: string;
   severity?: "low" | "moderate" | "high" | "critical";
-  isResolved?: boolean;
+  status?: "pending" | "processing" | "resolved";
   resolvedAt?: Date;
   createdAt?: Date;
   updatedAt?: Date;

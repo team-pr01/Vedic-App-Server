@@ -21,9 +21,10 @@ const EmergencySchema = new Schema<TEmergency>(
       enum: ["low", "moderate", "high", "critical"],
       default: "moderate",
     },
-    isResolved: {
-      type: Boolean,
-      default: false,
+    status: {
+      type: String,
+      enum: ["pending", "processing", "resolved"],
+      default: "pending",
     },
     resolvedAt: {
       type: Date,
