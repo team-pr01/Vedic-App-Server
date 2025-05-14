@@ -8,7 +8,7 @@ router.post(
   EmergencyControllers.postEmergency
 );
 
-router.get("/", EmergencyControllers.getAllProducts);
+router.get("/", EmergencyControllers.getAllEmergencies);
 router.get("/:productId", EmergencyControllers.getSingleProductById);
 
 router.delete("/delete-product/:productId", EmergencyControllers.deleteProduct);

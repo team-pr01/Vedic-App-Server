@@ -17,31 +17,14 @@ const postEmergency = catchAsync(async (req, res) => {
 });
 
 
-// Get all product with filteration
-const getAllProducts = catchAsync(async (req, res) => { 
-  const page = parseInt(req.query.page as string) || 1;
-  const limit = parseInt(req.query.limit as string) || 10;
-  const search = req.query.search as string;
-  const category = req.query.category as string;
-  const brand = req.query.brand as string;
-  const rating = parseFloat(req.query.rating as string);
-  const priceRange = req.query.priceRange as string;
-
-  const result = await EmergencyServices.getAllProducts(page, limit, search, category, brand, rating, priceRange);
-
+// Get all emergencies
+const getAllEmergencies = catchAsync(async (req, res) => { 
+   const result = await EmergencyServices.getAllEmergencies();
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Products fetched successfully",
-    data: {
-      metadata: {
-        totalProducts: result.totalProducts,
-        productsPerPage: limit,
-        currentPage: page,
-        totalPages: Math.ceil(result.totalProducts / limit),
-      },
-      products: result.products,
-    },
+    message: 'All emergencies retrieved successfully',
+    data: result,
   });
 });
 
@@ -76,7 +59,7 @@ const deleteProduct = catchAsync(async (req, res) => {
 
 export const EmergencyControllers = {
   postEmergency,
-  getAllProducts,
+  getAllEmergencies,
   getSingleProductById,
   deleteProduct,
   // getMyProducts

@@ -30,70 +30,9 @@ const postEmergency = async (payload: TEmergency) => {
   return result;
 };
 
-// Get all product with filteration
-const getAllProducts = async (
-  page: number,
-  limit: number,
-  search?: string,
-  category?: string,
-  brand?: string,
-  rating?: number,
-  priceRange?: string
-) => {
-  const skip = (page - 1) * limit;
-
-  // Search filter
-  const searchFilter = search
-    ? {
-        $or: [
-          { name: { $regex: search, $options: "i" } },
-          { description: { $regex: search, $options: "i" } },
-          { brand: { $regex: search, $options: "i" } },
-        ],
-      }
-    : {};
-
-  // Category filter
-  const categoryFilter = category
-    ? { category: { $regex: category, $options: "i" } }
-    : {};
-
-  // Brand filter
-  const brandFilter = brand
-    ? { brand: { $regex: brand, $options: "i" } }
-    : {};
-
-  // Rating filter (greater than or equal to the specified rating)
-  const ratingFilter = rating ? { rating: { $gte: rating } } : {};
-
-  // Price range filter (e.g., "100-500")
-  const priceFilter = priceRange
-    ? {
-        price: {
-          $gte: Number(priceRange.split("-")[0]),
-          $lte: Number(priceRange.split("-")[1]),
-        },
-      }
-    : {};
-
-  // Combined filters
-  const filters = {
-    ...searchFilter,
-    ...categoryFilter,
-    ...brandFilter,
-    ...ratingFilter,
-    ...priceFilter,
-  };
-
-  const [products, totalProducts] = await Promise.all([
-    Product.find(filters).skip(skip).limit(limit),
-    Product.countDocuments(filters),
-  ]);
-
-  return {
-    products,
-    totalProducts,
-  };
+const getAllEmergencies = async () => {
+  const result = await Emergency.find().populate("user");;
+  return result;
 };
 
 
@@ -130,7 +69,7 @@ const deleteProduct = async (productId: string) => {
 
 export const EmergencyServices = {
   postEmergency,
-  getAllProducts,
+  getAllEmergencies,
   getSingleProductById,
   geTEmergencysByCategory,
   deleteProduct,
