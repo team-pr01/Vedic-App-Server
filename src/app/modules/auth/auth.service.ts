@@ -11,7 +11,7 @@ import { sendEmail } from "../../utils/sendEmail";
 import bcrypt from 'bcrypt';
 
 // Create user
-const createUser = async (payload: Partial<TUser>) => {
+const signup = async (payload: Partial<TUser>) => {
   const { name, email, phoneNumber, password, role } = payload;
 
   // if (file && file.path) {
@@ -216,7 +216,7 @@ const resetPassword = async (payload:{email:string, newPassword:string}, token:s
 };
 
 export const AuthServices = {
-  createUser,
+  signup,
   loginUser,
   refreshToken,
   forgetPassword,

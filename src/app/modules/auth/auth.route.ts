@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post(
   "/signup",
-  AuthControllers.createUser
+  AuthControllers.signup
 );
 
 router.post(

@@ -4,10 +4,11 @@ import sendResponse from "../../utils/sendResponse";
 import catchAsync from "../../utils/catchAsync";
 import config from "../../config";
 
-const createUser = catchAsync(async (req, res) => {
+// User Signup
+const signup = catchAsync(async (req, res) => {
   console.log(req.body);
   // const file = req.file;
-  const result = await AuthServices.createUser(req.body);
+  const result = await AuthServices.signup(req.body);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -17,6 +18,7 @@ const createUser = catchAsync(async (req, res) => {
   });
 });
 
+// User Login
 const loginUser = catchAsync(async (req, res) => {
 
   const result = await AuthServices.loginUser(req.body);
@@ -74,7 +76,7 @@ const resetPassword = catchAsync(async (req, res) => {
 });
 
 export const AuthControllers = {
-  createUser,
+  signup,
   loginUser,
   refreshToken,
   forgetPassword,
