@@ -63,6 +63,20 @@ const updateEmergencyPost = catchAsync(async (req, res) => {
   });
 });
 
+// Change emergency post status
+const changeEmergencyPostStatus = catchAsync(async (req, res) => {
+  const { emergencyId } = req.params;
+  const { status } = req.body;
+  const result = await EmergencyServices.changeEmergencyPostStatus(emergencyId, status);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User role updated to admin successfully',
+    data: result,
+  });
+});
+
 
 // Delete emergency post by id
 const deleteEmergencyPost = catchAsync(async (req, res) => {
@@ -83,5 +97,6 @@ export const EmergencyControllers = {
   getAllEmergencyPosts,
   getSingleEmergencyPostById,
   updateEmergencyPost,
+  changeEmergencyPostStatus,
   deleteEmergencyPost,
 };

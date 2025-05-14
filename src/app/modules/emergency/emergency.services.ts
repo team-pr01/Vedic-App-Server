@@ -64,6 +64,18 @@ const getSingleEmergencyPostById = async (emergencyId: string) => {
   return result;
 };
 
+// Change emergency post status
+const changeEmergencyPostStatus = async (emergencyId: string, status: "pending" | "processing" | "resolved") => {
+  const emergencyPost = await Emergency.findById(emergencyId);
+  if (!emergencyPost) {
+    throw new Error('Emergency post not found');
+  }
+
+  emergencyPost.status = status;
+  await emergencyPost.save();
+  return emergencyPost;
+};
+
 // Update emergency post
 const updateEmergencyPost = async (
   emergencyId: string,
@@ -96,5 +108,6 @@ export const EmergencyServices = {
   getAllEmergencyPosts,
   getSingleEmergencyPostById,
   updateEmergencyPost,
+  changeEmergencyPostStatus,
   deleteEmergencyPost,
 };
