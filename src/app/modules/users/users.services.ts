@@ -21,7 +21,7 @@ const getMyOrders = async (userId: string) => {
     throw new AppError(httpStatus.NOT_FOUND, "User not found");
   }
 
-  return user.orders;
+  return user;
 };
 
 

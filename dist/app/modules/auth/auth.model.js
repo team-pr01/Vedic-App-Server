@@ -33,45 +33,23 @@ const userSchema = new mongoose_1.Schema({
     password: {
         type: String,
         required: true,
+        select: false,
     },
     role: {
         type: String,
-        enum: ["user", "admin", "vendor", "seller"],
+        enum: ["user", "admin"],
         default: "user",
     },
     isVerified: {
         type: Boolean,
         default: false,
     },
-    avatar: {
-        type: String,
-    },
-    address: {
-        street: String,
-        city: String,
-        state: String,
-        country: String,
-        zipCode: String,
-    },
     isDeleted: { type: Boolean, default: false },
     isSuspended: { type: Boolean, default: false },
-    contactNumber: {
+    phoneNumber: {
         type: String,
         trim: true,
     },
-    orders: [
-        {
-            type: mongoose_1.Types.ObjectId,
-            ref: "Product",
-        },
-    ],
-    wishlist: [
-        {
-            type: mongoose_1.Types.ObjectId,
-            ref: "Product",
-        },
-    ],
-    followings: { type: [String], default: [] }
 }, {
     timestamps: true,
 });
@@ -87,7 +65,7 @@ userSchema.post("save", function (doc, next) {
 });
 userSchema.statics.isUserExists = function (email) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield this.findOne({ email });
+        return yield this.findOne({ email }).select('+password');
     });
 };
 userSchema.statics.isPasswordMatched = function (plainTextPassword, hashedPassword) {

@@ -18,16 +18,19 @@ const auth_service_1 = require("./auth.service");
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const config_1 = __importDefault(require("../../config"));
-const createUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const file = req.file;
-    const result = yield auth_service_1.AuthServices.createUser(file, req.body);
+// User Signup
+const signup = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.body);
+    // const file = req.file;
+    const result = yield auth_service_1.AuthServices.signup(req.body);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: "User registered successfully",
+        message: "Registration successful.",
         data: result,
     });
 }));
+// User Login
 const loginUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield auth_service_1.AuthServices.loginUser(req.body);
     const { refreshToken } = result;
@@ -74,7 +77,7 @@ const resetPassword = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, 
     });
 }));
 exports.AuthControllers = {
-    createUser,
+    signup,
     loginUser,
     refreshToken,
     forgetPassword,

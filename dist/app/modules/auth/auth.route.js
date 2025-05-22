@@ -9,12 +9,8 @@ const validateRequest_1 = __importDefault(require("../../middlewares/validateReq
 const auth_validation_1 = require("./auth.validation");
 const auth_controller_1 = require("./auth.controller");
 // import { upload } from "../../utils/sendImageToCloudinary";
-const multer_config_1 = require("../../config/multer.config");
 const router = express_1.default.Router();
-router.post("/signup", multer_config_1.multerUpload.single('file'), (req, res, next) => {
-    req.body = JSON.parse(req.body.data);
-    next();
-}, auth_controller_1.AuthControllers.createUser);
+router.post("/signup", auth_controller_1.AuthControllers.signup);
 router.post("/login", (0, validateRequest_1.default)(auth_validation_1.AuthValidations.LoginValidationSchema), auth_controller_1.AuthControllers.loginUser);
 router.post("/refresh-token", (0, validateRequest_1.default)(auth_validation_1.AuthValidations.refreshTokenValidationSchema), auth_controller_1.AuthControllers.refreshToken);
 router.post("/forgot-password", (0, validateRequest_1.default)(auth_validation_1.AuthValidations.forgetPasswordValidationSchema), auth_controller_1.AuthControllers.forgetPassword);

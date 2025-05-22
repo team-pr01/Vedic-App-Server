@@ -20,7 +20,7 @@ app.use(cors({ origin: ['https://shopfinity-client.netlify.app','http://localhos
 
 // Root route
 app.get('/', (req, res) => {
-  res.send("Welcome to shopfinity");
+  res.send("Welcome onboard!");
 });
 
 // Application routes

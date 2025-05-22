@@ -30,7 +30,7 @@ const getMyOrders = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     if (!user) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, "User not found");
     }
-    return user.orders;
+    return user;
 });
 // const updateProfile = async (id: string, payload: Partial<TUser>, profilePic: any) => {
 //   let profilePicUrl: string | undefined;

@@ -19,39 +19,28 @@ const AppError_1 = __importDefault(require("../../errors/AppError"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const config_1 = __importDefault(require("../../config"));
 const auth_utils_1 = require("./auth.utils");
-const sendImageToCloudinary_1 = require("../../utils/sendImageToCloudinary");
+// import { sendImageToCloudinary } from "../../utils/sendImageToCloudinary";
 const auth_model_1 = require("./auth.model");
 const sendEmail_1 = require("../../utils/sendEmail");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 // Create user
-const createUser = (file, payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, email, password, contactNumber, role, address, orders, wishlist, followings } = payload;
-    if (file && file.path) {
-        const imageName = `${name}-${email}`;
-        const path = file.path;
-        const { secure_url } = yield (0, sendImageToCloudinary_1.sendImageToCloudinary)(imageName, path);
-        payload.avatar = secure_url;
-    }
+const signup = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const { name, email, phoneNumber, password, role } = payload;
+    // if (file && file.path) {
+    //   const imageName = `${name}-${email}`;
+    //   const path = file.path;
+    //   const { secure_url } = await sendImageToCloudinary(imageName, path);
+    //   payload.avatar = secure_url;
+    // }
     const payloadData = {
         name,
         email,
         password,
-        avatar: (payload === null || payload === void 0 ? void 0 : payload.avatar) || "",
-        contactNumber: contactNumber || "",
+        phoneNumber: phoneNumber || "",
         role: role || "user",
-        address: address || {
-            street: "",
-            city: "",
-            state: "",
-            country: "",
-            zipCode: "",
-        },
         isDeleted: false,
         isSuspended: false,
         isVerified: false,
-        orders: orders || [],
-        wishlist: wishlist || [],
-        followings: followings || [],
     };
     // Checking if user already exists
     const isUserExists = yield auth_model_1.User.findOne({ email: payloadData.email });
@@ -167,7 +156,7 @@ const resetPassword = (payload, token) => __awaiter(void 0, void 0, void 0, func
     });
 });
 exports.AuthServices = {
-    createUser,
+    signup,
     loginUser,
     refreshToken,
     forgetPassword,
