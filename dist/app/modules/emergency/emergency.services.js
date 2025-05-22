@@ -62,7 +62,11 @@ const changeEmergencyPostStatus = (emergencyId, status) => __awaiter(void 0, voi
     if (!emergencyPost) {
         throw new Error('Emergency post not found');
     }
+    // Update status
     emergencyPost.status = status;
+    if (status === "resolved") {
+        emergencyPost.resolvedAt = new Date();
+    }
     yield emergencyPost.save();
     return emergencyPost;
 });
