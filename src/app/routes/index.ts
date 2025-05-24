@@ -4,6 +4,7 @@ import { userRoutes } from "../modules/users/users.route";
 import { EmergencyRoutes } from "../modules/emergency/emergency.route";
 import { ReelsRoutes } from "../modules/reels/reels.route";
 import { YogaRoutes } from "../modules/yoga/yoga.route";
+import { VastuRoutes } from "../modules/vastu/vastu.route";
 
 const router = Router();
 
@@ -27,6 +28,10 @@ const moduleRoutes = [
   {
     path: "/yoga",
     route: YogaRoutes,
+  },
+  {
+    path: "/vastu",
+    route: VastuRoutes,
   },
 ];
 

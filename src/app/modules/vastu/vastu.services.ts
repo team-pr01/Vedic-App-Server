@@ -1,63 +1,57 @@
 import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
-import { TYoga } from "./vastu.interface";
-import Yoga from "./vastu.model";
+import { TVastu } from "./vastu.interface";
+import Vastu from "./vastu.model";
 
-// Add yoga for admin only
-const addYoga = async (payload: TYoga, createdBy: string) => {
+// Add vastu for admin only
+const addVastu = async (payload: TVastu, createdBy: string) => {
   const {
-    name,
-    sanskritName,
+    title,
     description,
+    category,
+    direction,
     imageUrl,
-    videoUrl,
-    difficulty,
-    duration,
-    benefits,
-    contraindications,
-    categories,
+    importance,
+    recommendations,
   } = payload;
 
   const payloadData = {
-    name,
-    sanskritName,
+    title,
     description,
+    category,
+    direction,
     imageUrl,
-    videoUrl,
-    difficulty,
-    duration,
-    benefits,
-    contraindications,
-    categories,
+    importance,
+    recommendations,
     createdBy,
   };
 
-  const result = await Yoga.create(payloadData);
+  const result = await Vastu.create(payloadData);
 
   return result;
 };
 
-// Get all yogas
-const getAllYogas = async () => {
-  const result = await Yoga.find();
+// Get all vastus
+const getAllVastus = async () => {
+  const result = await Vastu.find();
   return result;
 };
 
-// Get single yoga post by id
-const getSingleYogaById = async (yogaId: string) => {
-  const result = await Yoga.findById(yogaId);
+// Get single vastu post by id
+const getSingleVastuById = async (vastuId: string) => {
+  const result = await Vastu.findById(vastuId);
   return result;
 };
 
-// Update yoga
-const updateYoga = async (yogaId: string, payload: Partial<TYoga>) => {
-  const existingPost = await Yoga.findById(yogaId);
+// Update vastu
+const updateVastu = async (vastuId: string, payload: Partial<TVastu>) => {
+  const existingPost = await Vastu.findById(vastuId);
 
   if (!existingPost) {
-    throw new AppError(httpStatus.NOT_FOUND, "Yoga not found");
+    throw new AppError(httpStatus.NOT_FOUND, "Vastu not found");
   }
 
-  const result = await Yoga.findByIdAndUpdate(yogaId, payload, {
+  const result = await Vastu.findByIdAndUpdate(vastuId, payload, {
     new: true,
     runValidators: true,
   });
@@ -65,16 +59,16 @@ const updateYoga = async (yogaId: string, payload: Partial<TYoga>) => {
   return result;
 };
 
-// Delete yoga by id
-const deleteYoga = async (yogaId: string) => {
-  const result = await Yoga.findByIdAndDelete(yogaId);
+// Delete vastu by id
+const deleteVastu = async (vastuId: string) => {
+  const result = await Vastu.findByIdAndDelete(vastuId);
   return result;
 };
 
-export const YogaServices = {
-  addYoga,
-  getAllYogas,
-  getSingleYogaById,
-  updateYoga,
-  deleteYoga,
+export const VastuServices = {
+  addVastu,
+  getAllVastus,
+  getSingleVastuById,
+  updateVastu,
+  deleteVastu,
 };
