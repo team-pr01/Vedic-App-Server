@@ -6,13 +6,13 @@ import { ReelControllers } from "./reels.controller";
 const router = express.Router();
 
 // For admin only
-router.post("/add-reel", ReelControllers.addReel);
+router.post("/add-reel", auth(UserRole.admin), ReelControllers.addReel);
 
-router.get("/", auth(UserRole.admin), ReelControllers.getAllReels);
-router.get("/:reelId", auth(UserRole.admin), ReelControllers.getSingleReelById);
+// router.get("/", auth(UserRole.admin), ReelControllers.getAllReels);
+// router.get("/:reelId", auth(UserRole.admin), ReelControllers.getSingleReelById);
 
-router.put("/:emergencyId", auth(UserRole.admin), ReelControllers.updateReel);
+// router.put("/:emergencyId", auth(UserRole.admin), ReelControllers.updateReel);
 
-router.delete("/:emergencyId", auth(UserRole.admin), ReelControllers.deleteReel);
+// router.delete("/:emergencyId", auth(UserRole.admin), ReelControllers.deleteReel);
 
 export const ReelsRoutes = router;

@@ -34,6 +34,6 @@ const ReelsSchema = new Schema<TReels>(
   }
 );
 
-const Emergency = model<TReels>("Reels", ReelsSchema);
+const Reels = model<TReels>("Reels", ReelsSchema);
 
-export default Emergency;
+export default Reels;
