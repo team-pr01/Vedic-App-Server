@@ -5,10 +5,10 @@ import { UserRole } from "../auth/auth.constannts";
 
 const router = express.Router();
 
-router.post(
-  "/",
-  EmergencyControllers.postEmergency
-);
+// For users
+router.post("/", EmergencyControllers.postEmergency);
+// Just for admin
+router.post("/send-message", auth(UserRole.admin), EmergencyControllers.sendEmergencyMessageAdmin);
 
 router.get("/", auth(UserRole.admin), EmergencyControllers.getAllEmergencyPosts);
 router.get("/:emergencyId", auth(UserRole.admin), EmergencyControllers.getSingleEmergencyPostById);

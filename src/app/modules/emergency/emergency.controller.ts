@@ -3,7 +3,20 @@ import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import { EmergencyServices } from './emergency.services';
 
-// Create product
+
+// Send emergency message by admin
+const sendEmergencyMessageAdmin = catchAsync(async (req, res) => {
+  const result = await EmergencyServices.sendEmergencyMessageAdmin(req.body);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Message sent successfully',
+    data: result,
+  });
+});
+
+// Create emergency post (For user)
 const postEmergency = catchAsync(async (req, res) => {
   // const files = Array.isArray(req.files) ? req.files : [];
   const result = await EmergencyServices.postEmergency(req.body);
@@ -33,7 +46,6 @@ const getAllEmergencyPosts = catchAsync(async (req, res) => {
     data: result,
   });
 });
-
 
 
 // Get single product by id
@@ -93,6 +105,7 @@ const deleteEmergencyPost = catchAsync(async (req, res) => {
 
 
 export const EmergencyControllers = {
+  sendEmergencyMessageAdmin,
   postEmergency,
   getAllEmergencyPosts,
   getSingleEmergencyPostById,

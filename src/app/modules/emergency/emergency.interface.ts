@@ -10,3 +10,11 @@ export type TEmergency = {
   createdAt?: Date;
   updatedAt?: Date;
 };
+
+export type TEmergencyMessageAdmin = {
+  title: string;
+  message: string;
+  severity: "low" | "moderate" | "high" | "critical";
+  targetGroups: ("all" | "staff" | "volunteers" | "members")[];
+  // sentBy: Types.ObjectId;
+};

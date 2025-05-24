@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
-import { TEmergency } from "./emergency.interface";
-import Emergency from "./emergency.model";
+import { TEmergency, TEmergencyMessageAdmin } from "./emergency.interface";
+import Emergency, { EmergencyMessageAdmin } from "./emergency.model";
 import Product from "./emergency.model";
 
 type TQuery = {
@@ -11,7 +11,23 @@ type TQuery = {
 };
 
 
-// Create emergency post
+// Send emergency message by admin
+const sendEmergencyMessageAdmin = async (payload: TEmergencyMessageAdmin) => {
+  const { title, message, severity, targetGroups } = payload;
+
+  const payloadData = {
+    title,
+    message,
+    severity,
+    targetGroups
+  };
+
+  const result = await EmergencyMessageAdmin.create(payloadData);  
+
+  return result;
+};
+
+// Create emergency post (For user)
 const postEmergency = async (payload: TEmergency) => {
   const { user, message, location } = payload;
 
@@ -112,6 +128,7 @@ const deleteEmergencyPost = async (emergencyId: string) => {
 
 
 export const EmergencyServices = {
+  sendEmergencyMessageAdmin,
   postEmergency,
   getAllEmergencyPosts,
   getSingleEmergencyPostById,
