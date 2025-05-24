@@ -3,6 +3,7 @@ import { AuthRoute } from "../modules/auth/auth.route";
 import { userRoutes } from "../modules/users/users.route";
 import { EmergencyRoutes } from "../modules/emergency/emergency.route";
 import { ReelsRoutes } from "../modules/reels/reels.route";
+import { YogaRoutes } from "../modules/yoga/yoga.route";
 
 const router = Router();
 
@@ -22,6 +23,10 @@ const moduleRoutes = [
   {
     path: "/reels",
     route: ReelsRoutes,
+  },
+  {
+    path: "/yoga",
+    route: YogaRoutes,
   },
 ];
 
