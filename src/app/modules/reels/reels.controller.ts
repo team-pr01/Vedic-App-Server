@@ -17,6 +17,34 @@ const addReel = catchAsync(async (req, res) => {
   });
 });
 
+// Get all reels
+const getAllReels = catchAsync(async (req, res) => {
+
+  const result = await ReelServices.getAllReels();
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Reels fetched successfully.",
+    data: result,
+  });
+});
+
+// Get single reel by id
+const getSingleReelById = catchAsync(async (req, res) => {
+  const { reelId } = req.params;
+  const result = await ReelServices.getSingleReelById(reelId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Reel fetched successfully.',
+    data: result,
+  });
+});
+
 export const ReelControllers = {
   addReel,
+  getAllReels,
+  getSingleReelById,
 };

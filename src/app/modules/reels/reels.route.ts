@@ -8,8 +8,8 @@ const router = express.Router();
 // For admin only
 router.post("/add-reel", auth(UserRole.admin), ReelControllers.addReel);
 
-// router.get("/", auth(UserRole.admin), ReelControllers.getAllReels);
-// router.get("/:reelId", auth(UserRole.admin), ReelControllers.getSingleReelById);
+router.get("/", ReelControllers.getAllReels);
+router.get("/:reelId", ReelControllers.getSingleReelById);
 
 // router.put("/:emergencyId", auth(UserRole.admin), ReelControllers.updateReel);
 
