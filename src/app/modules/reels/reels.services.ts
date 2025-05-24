@@ -5,12 +5,13 @@ import Reels from "./reels.model";
 
 // Add reel for admin only
 const addReel = async (payload: TReels, createdBy:string) => {
-  const { title, description, videoUrl, category, tags } = payload;
+  const { title, description, videoUrl, videoSource, category, tags } = payload;
 
   const payloadData = {
     title,
     description,
     videoUrl,
+    videoSource,
     category,
     tags,
     createdBy

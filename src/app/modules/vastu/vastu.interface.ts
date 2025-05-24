@@ -1,12 +1,13 @@
 import { Types } from "mongoose";
 
-export type TReels = {
+export type TVastu = {
   title: string;
   description: string;
-  videoUrl: string;
-  videoSource: string;
   category: string;
-  tags: string[];
+  direction: string;
+  imageUrl: string;
+  importance: "high" | "medium" | "low";
+  recommendations: string[];
   createdBy: Types.ObjectId;
   createdAt?: Date;
   updatedAt?: Date;

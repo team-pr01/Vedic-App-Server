@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
-import { TReels } from "./reels.interface";
+import { TVastu } from "./vastu.interface";
 
-const ReelsSchema = new Schema<TReels>(
+const VastuSchema = new Schema<TVastu>(
   {
     title: {
       type: String,
@@ -11,21 +11,26 @@ const ReelsSchema = new Schema<TReels>(
       type: String,
       required: true,
     },
-    videoUrl: {
-      type: String,
-      required: true,
-    },
-    videoSource: {
-      type: String,
-      required: true,
-    },
     category: {
       type: String,
       required: true,
     },
-    tags: {
-      type: [String],
+    direction: {
+      type: String,
       required: true,
+    },
+    imageUrl: {
+      type: String,
+      required: true,
+    },
+    importance: {
+      type: String,
+      enum: ["high", "medium", "low"],
+      required: true,
+    },
+    recommendations: {
+      type: [String],
+      default: [],
     },
     createdBy: {
       type: Schema.Types.ObjectId,
@@ -38,6 +43,5 @@ const ReelsSchema = new Schema<TReels>(
   }
 );
 
-const Reels = model<TReels>("Reels", ReelsSchema);
-
-export default Reels;
+const Vastu = model<TVastu>("Vastu", VastuSchema);
+export default Vastu;
