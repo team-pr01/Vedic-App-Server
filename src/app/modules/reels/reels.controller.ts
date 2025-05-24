@@ -56,9 +56,23 @@ const updateReel = catchAsync(async (req, res) => {
   });
 });
 
+// Delete emergency post by id
+const deleteReel = catchAsync(async (req, res) => {
+  const { reelId } = req.params;
+  const result = await ReelServices.deleteReel(reelId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Reel deleted successfully',
+    data: result,
+  });
+});
+
 export const ReelControllers = {
   addReel,
   getAllReels,
   getSingleReelById,
   updateReel,
+  deleteReel,
 };

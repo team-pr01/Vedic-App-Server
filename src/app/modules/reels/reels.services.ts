@@ -34,7 +34,7 @@ const getSingleReelById = async (reelId: string) => {
   return result;
 };
 
-// Update emergency post
+// Update reel
 const updateReel = async (
   reelId: string,
   payload: Partial<TReels>
@@ -53,9 +53,16 @@ const updateReel = async (
   return result;
 };
 
+// Delete reel by id
+const deleteReel = async (reelId: string) => {
+  const result = await Reels.findByIdAndDelete(reelId);
+  return result;
+};
+
 export const ReelServices = {
   addReel,
   getAllReels,
   getSingleReelById,
   updateReel,
+  deleteReel,
 };

@@ -13,6 +13,6 @@ router.get("/:reelId", ReelControllers.getSingleReelById);
 
 router.put("/:reelId", auth(UserRole.admin), ReelControllers.updateReel);
 
-// router.delete("/:reelId", auth(UserRole.admin), ReelControllers.deleteReel);
+router.delete("/:reelId", auth(UserRole.admin), ReelControllers.deleteReel);
 
 export const ReelsRoutes = router;
