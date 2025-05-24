@@ -43,8 +43,22 @@ const getSingleReelById = catchAsync(async (req, res) => {
   });
 });
 
+// Update reel
+const updateReel = catchAsync(async (req, res) => {
+  const { reelId } = req.params;
+  const result = await ReelServices.updateReel(reelId, req.body);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Reel details updated successfully',
+    data: result,
+  });
+});
+
 export const ReelControllers = {
   addReel,
   getAllReels,
   getSingleReelById,
+  updateReel,
 };

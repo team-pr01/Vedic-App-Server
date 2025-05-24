@@ -105,7 +105,6 @@ const updateEmergencyPost = async (
   emergencyId: string,
   payload: Partial<TEmergency>
 ) => {
-  console.log(payload);
   const existingPost = await Emergency.findById(emergencyId);
 
   if (!existingPost) {

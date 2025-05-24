@@ -1,3 +1,5 @@
+import httpStatus from "http-status";
+import AppError from "../../errors/AppError";
 import { TReels } from "./reels.interface";
 import Reels from "./reels.model";
 
@@ -32,8 +34,28 @@ const getSingleReelById = async (reelId: string) => {
   return result;
 };
 
+// Update emergency post
+const updateReel = async (
+  reelId: string,
+  payload: Partial<TReels>
+) => {
+  const existingPost = await Reels.findById(reelId);
+
+  if (!existingPost) {
+    throw new AppError(httpStatus.NOT_FOUND, "Reel not found");
+  }
+
+  const result = await Reels.findByIdAndUpdate(reelId, payload, {
+    new: true,
+    runValidators: true,
+  });
+
+  return result;
+};
+
 export const ReelServices = {
   addReel,
   getAllReels,
   getSingleReelById,
+  updateReel,
 };

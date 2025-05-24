@@ -11,8 +11,8 @@ router.post("/add-reel", auth(UserRole.admin), ReelControllers.addReel);
 router.get("/", ReelControllers.getAllReels);
 router.get("/:reelId", ReelControllers.getSingleReelById);
 
-// router.put("/:emergencyId", auth(UserRole.admin), ReelControllers.updateReel);
+router.put("/:reelId", auth(UserRole.admin), ReelControllers.updateReel);
 
-// router.delete("/:emergencyId", auth(UserRole.admin), ReelControllers.deleteReel);
+// router.delete("/:reelId", auth(UserRole.admin), ReelControllers.deleteReel);
 
 export const ReelsRoutes = router;
