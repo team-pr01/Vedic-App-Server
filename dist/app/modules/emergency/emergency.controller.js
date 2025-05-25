@@ -17,7 +17,17 @@ const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const http_status_1 = __importDefault(require("http-status"));
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const emergency_services_1 = require("./emergency.services");
-// Create product
+// Send emergency message by admin
+const sendEmergencyMessageAdmin = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield emergency_services_1.EmergencyServices.sendEmergencyMessageAdmin(req.body);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: 'Message sent successfully',
+        data: result,
+    });
+}));
+// Create emergency post (For user)
 const postEmergency = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // const files = Array.isArray(req.files) ? req.files : [];
     const result = yield emergency_services_1.EmergencyServices.postEmergency(req.body);
@@ -49,7 +59,7 @@ const getSingleEmergencyPostById = (0, catchAsync_1.default)((req, res) => __awa
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'Product fetched successfully.',
+        message: 'Post fetched successfully.',
         data: result,
     });
 }));
@@ -88,6 +98,7 @@ const deleteEmergencyPost = (0, catchAsync_1.default)((req, res) => __awaiter(vo
     });
 }));
 exports.EmergencyControllers = {
+    sendEmergencyMessageAdmin,
     postEmergency,
     getAllEmergencyPosts,
     getSingleEmergencyPostById,

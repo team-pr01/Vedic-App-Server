@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.EmergencyMessageAdmin = void 0;
 const mongoose_1 = require("mongoose");
 const EmergencySchema = new mongoose_1.Schema({
     user: {
@@ -33,3 +34,31 @@ const EmergencySchema = new mongoose_1.Schema({
 });
 const Emergency = (0, mongoose_1.model)("Emergency", EmergencySchema);
 exports.default = Emergency;
+const EmergencyMessageAdminSchema = new mongoose_1.Schema({
+    title: {
+        type: String,
+        required: true,
+    },
+    message: {
+        type: String,
+        required: true,
+    },
+    severity: {
+        type: String,
+        enum: ["low", "moderate", "high", "critical"],
+        default: "moderate",
+    },
+    targetGroups: {
+        type: [String],
+        enum: ["all", "staff", "volunteers", "members"],
+        required: true,
+    },
+    // sentBy: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: "User",
+    //   required: true,
+    // },
+}, {
+    timestamps: true,
+});
+exports.EmergencyMessageAdmin = (0, mongoose_1.model)("EmergencyMessageAdmin", EmergencyMessageAdminSchema);
