@@ -40,6 +40,9 @@ const getAllVastus = async () => {
 // Get single vastu post by id
 const getSingleVastuById = async (vastuId: string) => {
   const result = await Vastu.findById(vastuId);
+  if (!result) {
+    throw new AppError(httpStatus.NOT_FOUND, "Vastu not found");
+  }
   return result;
 };
 
@@ -62,6 +65,9 @@ const updateVastu = async (vastuId: string, payload: Partial<TVastu>) => {
 // Delete vastu by id
 const deleteVastu = async (vastuId: string) => {
   const result = await Vastu.findByIdAndDelete(vastuId);
+  if (!result) {
+    throw new AppError(httpStatus.NOT_FOUND, "Vastu not found");
+  }
   return result;
 };
 

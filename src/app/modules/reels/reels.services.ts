@@ -32,6 +32,9 @@ const getAllReels = async () => {
 // Get single reel post by id
 const getSingleReelById = async (reelId: string) => {
   const result = await Reels.findById(reelId);
+  if (!result) {
+    throw new AppError(httpStatus.NOT_FOUND, "Reel not found");
+  }
   return result;
 };
 
@@ -57,6 +60,9 @@ const updateReel = async (
 // Delete reel by id
 const deleteReel = async (reelId: string) => {
   const result = await Reels.findByIdAndDelete(reelId);
+  if(!result){
+    throw new AppError(httpStatus.NOT_FOUND, "Reel not found");
+  }
   return result;
 };
 

@@ -76,6 +76,9 @@ const getAllEmergencyPosts = async (query: TQuery) => {
 // Get single emergency post by id
 const getSingleEmergencyPostById = async (emergencyId: string) => {
   const result = await Emergency.findById(emergencyId).populate("user");
+  if (!result) {
+    throw new AppError(httpStatus.NOT_FOUND, "Emergency post not found");
+  }
   return result;
 };
 
@@ -122,6 +125,9 @@ const updateEmergencyPost = async (
 // Delete product by id
 const deleteEmergencyPost = async (emergencyId: string) => {
   const result = await Product.findByIdAndDelete(emergencyId);
+  if (!result) {
+    throw new AppError(httpStatus.NOT_FOUND, "Emergency post not found");
+  }
   return result;
 };
 
