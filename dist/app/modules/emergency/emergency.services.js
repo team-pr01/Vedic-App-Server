@@ -1,4 +1,27 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -16,9 +39,21 @@ exports.EmergencyServices = void 0;
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const http_status_1 = __importDefault(require("http-status"));
 const AppError_1 = __importDefault(require("../../errors/AppError"));
-const emergency_model_1 = __importDefault(require("./emergency.model"));
+const emergency_model_1 = __importStar(require("./emergency.model"));
 const emergency_model_2 = __importDefault(require("./emergency.model"));
-// Create emergency post
+// Send emergency message by admin
+const sendEmergencyMessageAdmin = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const { title, message, severity, targetGroups } = payload;
+    const payloadData = {
+        title,
+        message,
+        severity,
+        targetGroups
+    };
+    const result = yield emergency_model_1.EmergencyMessageAdmin.create(payloadData);
+    return result;
+});
+// Create emergency post (For user)
 const postEmergency = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { user, message, location } = payload;
     // const imageUrls: string[] = [];
@@ -54,6 +89,9 @@ const getAllEmergencyPosts = (query) => __awaiter(void 0, void 0, void 0, functi
 // Get single emergency post by id
 const getSingleEmergencyPostById = (emergencyId) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield emergency_model_1.default.findById(emergencyId).populate("user");
+    if (!result) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Emergency post not found");
+    }
     return result;
 });
 // Change emergency post status
@@ -72,7 +110,6 @@ const changeEmergencyPostStatus = (emergencyId, status) => __awaiter(void 0, voi
 });
 // Update emergency post
 const updateEmergencyPost = (emergencyId, payload) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(payload);
     const existingPost = yield emergency_model_1.default.findById(emergencyId);
     if (!existingPost) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Emergency post not found");
@@ -86,9 +123,13 @@ const updateEmergencyPost = (emergencyId, payload) => __awaiter(void 0, void 0, 
 // Delete product by id
 const deleteEmergencyPost = (emergencyId) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield emergency_model_2.default.findByIdAndDelete(emergencyId);
+    if (!result) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Emergency post not found");
+    }
     return result;
 });
 exports.EmergencyServices = {
+    sendEmergencyMessageAdmin,
     postEmergency,
     getAllEmergencyPosts,
     getSingleEmergencyPostById,

@@ -14,22 +14,29 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendEmail = void 0;
 const nodemailer_1 = __importDefault(require("nodemailer"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const sendEmail = (to, html) => __awaiter(void 0, void 0, void 0, function* () {
-    const transporter = nodemailer_1.default.createTransport({
-        host: "smtp.gmail.com",
-        port: 587,
-        secure: false,
-        auth: {
-            user: "rahulsd380@gmail.com",
-            pass: "suhn ieum xijm qilu",
-        },
-    });
-    yield transporter.sendMail({
-        from: 'rahulsd380@gmail.com', // sender address
-        to,
-        subject: "Reset your password within 10 minutes", // Subject line
-        text: "Reset your password within 10 minutes", // plain text body
-        html
-    });
+    try {
+        const transporter = nodemailer_1.default.createTransport({
+            service: "gmail",
+            auth: {
+                user: "rahulsd380@gmail.com",
+                pass: "udzt yuom aqbg fdtm",
+            },
+        });
+        yield transporter.sendMail({
+            from: "rahulsd380@gmail.com",
+            to,
+            subject: "Reset your password within 10 minutes",
+            text: "Reset your password within 10 minutes",
+            html,
+        });
+        console.log(`Email sent to ${to}`);
+    }
+    catch (error) {
+        console.error("Failed to send email:", error);
+        throw new Error("Failed to send email");
+    }
 });
 exports.sendEmail = sendEmail;
