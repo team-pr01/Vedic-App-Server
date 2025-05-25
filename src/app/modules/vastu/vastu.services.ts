@@ -3,7 +3,7 @@ import AppError from "../../errors/AppError";
 import { TVastu } from "./vastu.interface";
 import Vastu from "./vastu.model";
 
-// Add vastu for admin only
+// Add vastu for (admin only)
 const addVastu = async (payload: TVastu, createdBy: string) => {
   const {
     title,
