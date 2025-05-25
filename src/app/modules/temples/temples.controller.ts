@@ -1,77 +1,76 @@
 import httpStatus from "http-status";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
-import { YogaServices } from "./temples.services";
+import { TempleServices } from "./temples.services";
 
-// Add yoga (For admin)
-const addYoga = catchAsync(async (req, res) => {
+// Add temple (For admin)
+const addTemple = catchAsync(async (req, res) => {
   const createdBy = req.user.userId;
-  console.log(req.body);
-  const result = await YogaServices.addYoga(req.body, createdBy);
+  const result = await TempleServices.addTemple(req.body, createdBy);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Yoga added successfully',
+    message: "Temple added successfully",
     data: result,
   });
 });
 
-// Get all yogas
-const getAllYogas = catchAsync(async (req, res) => {
-  const result = await YogaServices.getAllYogas();
+// Get all temples
+const getAllTemples = catchAsync(async (req, res) => {
+  const result = await TempleServices.getAllTemples();
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Yogas fetched successfully.",
+    message: "Temples fetched successfully.",
     data: result,
   });
 });
 
-// Get single yoga by id
-const getSingleYogaById = catchAsync(async (req, res) => {
-  const { yogaId } = req.params;
-  const result = await YogaServices.getSingleYogaById(yogaId);
+// Get single temple by id
+const getSingleTempleById = catchAsync(async (req, res) => {
+  const { templeId } = req.params;
+  const result = await TempleServices.getSingleTempleById(templeId);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Yoga fetched successfully.',
+    message: "Temple fetched successfully.",
     data: result,
   });
 });
 
-// Update yoga
-const updateYoga = catchAsync(async (req, res) => {
-  const { yogaId } = req.params;
-  const result = await YogaServices.updateYoga(yogaId, req.body);
+// Update temple
+const updateTemple = catchAsync(async (req, res) => {
+  const { templeId } = req.params;
+  const result = await TempleServices.updateTemple(templeId, req.body);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Yoga details updated successfully',
+    message: "Temple details updated successfully",
     data: result,
   });
 });
 
-// Delete yoga by id
-const deleteYoga = catchAsync(async (req, res) => {
-  const { yogaId } = req.params;
-  const result = await YogaServices.deleteYoga(yogaId);
+// Delete temple by id
+const deleteTemple = catchAsync(async (req, res) => {
+  const { templeId } = req.params;
+  const result = await TempleServices.deleteTemple(templeId);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Yoga deleted successfully',
+    message: "Temple deleted successfully",
     data: result,
   });
 });
 
-export const YogaControllers = {
-  addYoga,
-  getAllYogas,
-  getSingleYogaById,
-  updateYoga,
-  deleteYoga,
+export const TempleControllers = {
+  addTemple,
+  getAllTemples,
+  getSingleTempleById,
+  updateTemple,
+  deleteTemple,
 };

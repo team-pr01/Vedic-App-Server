@@ -5,6 +5,7 @@ import { EmergencyRoutes } from "../modules/emergency/emergency.route";
 import { ReelsRoutes } from "../modules/reels/reels.route";
 import { YogaRoutes } from "../modules/yoga/yoga.route";
 import { VastuRoutes } from "../modules/vastu/vastu.route";
+import { TempleRoutes } from "../modules/temples/temples.route";
 
 const router = Router();
 
@@ -32,6 +33,10 @@ const moduleRoutes = [
   {
     path: "/vastu",
     route: VastuRoutes,
+  },
+  {
+    path: "/temple",
+    route: TempleRoutes,
   },
 ];
 

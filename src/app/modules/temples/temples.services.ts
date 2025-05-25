@@ -1,63 +1,69 @@
 import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
-import { TYoga } from "./temples.interface";
-import Yoga from "./temples.model";
+import { TTemple } from "./temples.interface";
+import Temple from "./temples.model";
 
-// Add yoga for admin only
-const addYoga = async (payload: TYoga, createdBy: string) => {
+// Add temple for admin only
+const addTemple = async (payload: TTemple, createdBy: string) => {
   const {
     name,
-    sanskritName,
+    mainDeity,
     description,
+    address,
+    city,
+    state,
+    country,
+    establishedYear,
+    visitingHours,
+    contactInfo,
     imageUrl,
     videoUrl,
-    difficulty,
-    duration,
-    benefits,
-    contraindications,
-    categories,
   } = payload;
 
   const payloadData = {
     name,
-    sanskritName,
+    mainDeity,
     description,
+    address,
+    city,
+    state,
+    country,
+    establishedYear,
+    visitingHours,
+    contactInfo,
     imageUrl,
     videoUrl,
-    difficulty,
-    duration,
-    benefits,
-    contraindications,
-    categories,
     createdBy,
   };
 
-  const result = await Yoga.create(payloadData);
-
+  const result = await Temple.create(payloadData);
   return result;
 };
 
-// Get all yogas
-const getAllYogas = async () => {
-  const result = await Yoga.find();
+// Get all temples
+const getAllTemples = async () => {
+  const result = await Temple.find();
   return result;
 };
 
-// Get single yoga post by id
-const getSingleYogaById = async (yogaId: string) => {
-  const result = await Yoga.findById(yogaId);
+// Get single temple post by id
+const getSingleTempleById = async (templeId: string) => {
+  const result = await Temple.findById(templeId);
+  if (!result) {
+    throw new AppError(httpStatus.NOT_FOUND, "Temple not found");
+  }
   return result;
 };
 
-// Update yoga
-const updateYoga = async (yogaId: string, payload: Partial<TYoga>) => {
-  const existingPost = await Yoga.findById(yogaId);
+// Update temple
+const updateTemple = async (templeId: string, payload: Partial<TTemple>) => {
+  const existingTemple = await Temple.findById(templeId);
 
-  if (!existingPost) {
-    throw new AppError(httpStatus.NOT_FOUND, "Yoga not found");
+  if (!existingTemple) {
+    throw new AppError(httpStatus.NOT_FOUND, "Temple not found");
   }
 
-  const result = await Yoga.findByIdAndUpdate(yogaId, payload, {
+  const result = await Temple.findByIdAndUpdate(templeId, payload, {
     new: true,
     runValidators: true,
   });
@@ -65,16 +71,19 @@ const updateYoga = async (yogaId: string, payload: Partial<TYoga>) => {
   return result;
 };
 
-// Delete yoga by id
-const deleteYoga = async (yogaId: string) => {
-  const result = await Yoga.findByIdAndDelete(yogaId);
+// Delete temple by id
+const deleteTemple = async (templeId: string) => {
+  const result = await Temple.findByIdAndDelete(templeId);
+  if (!result) {
+    throw new AppError(httpStatus.NOT_FOUND, "Temple not found");
+  }
   return result;
 };
 
-export const YogaServices = {
-  addYoga,
-  getAllYogas,
-  getSingleYogaById,
-  updateYoga,
-  deleteYoga,
+export const TempleServices = {
+  addTemple,
+  getAllTemples,
+  getSingleTempleById,
+  updateTemple,
+  deleteTemple,
 };

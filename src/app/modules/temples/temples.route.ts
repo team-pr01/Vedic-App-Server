@@ -1,18 +1,18 @@
 import express from "express";
 import auth from "../../middlewares/auth";
 import { UserRole } from "../auth/auth.constannts";
-import { YogaControllers } from "./temples.controller";
+import { TempleControllers } from "./temples.controller";
 
 const router = express.Router();
 
 // For admin only
-router.post("/add-yoga", auth(UserRole.admin), YogaControllers.addYoga);
+router.post("/add-temple", auth(UserRole.admin), TempleControllers.addTemple);
 
-router.get("/", YogaControllers.getAllYogas);
-router.get("/:yogaId", YogaControllers.getSingleYogaById);
+router.get("/", TempleControllers.getAllTemples);
+router.get("/:templeId", TempleControllers.getSingleTempleById);
 
-router.put("/:yogaId", auth(UserRole.admin), YogaControllers.updateYoga);
+router.put("/:templeId", auth(UserRole.admin), TempleControllers.updateTemple);
 
-router.delete("/:yogaId", auth(UserRole.admin), YogaControllers.deleteYoga);
+router.delete("/:templeId", auth(UserRole.admin), TempleControllers.deleteTemple);
 
-export const YogaRoutes = router;
+export const TempleRoutes = router;

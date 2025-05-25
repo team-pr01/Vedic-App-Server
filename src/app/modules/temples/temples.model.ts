@@ -1,45 +1,63 @@
 import { Schema, model } from "mongoose";
-import { TYoga } from "./temples.interface";
+import { TTemple } from "./temples.interface";
 
-const YogaSchema = new Schema<TYoga>(
+const TempleSchema = new Schema< TTemple >(
   {
     name: {
       type: String,
       required: true,
     },
-    sanskritName: {
+    mainDeity: {
       type: String,
+      required: true,
     },
     description: {
       type: String,
       required: true,
     },
-    imageUrl: {
+    address: {
       type: String,
+      required: true,
     },
-    videoUrl: {
+    city: {
       type: String,
+      required: true,
     },
-    difficulty: {
+    state: {
       type: String,
-      enum: ["Beginner", "Intermediate", "Advanced"],
-      default: "Beginner",
+      required: true,
     },
-    duration: {
+    country: {
+      type: String,
+      required: true,
+    },
+    establishedYear: {
       type: Number,
       required: true,
     },
-    benefits: {
-      type: [String],
-      default: [],
+    visitingHours: {
+      type: String,
+      required: true,
     },
-    contraindications: {
-      type: [String],
-      default: [],
+    contactInfo: {
+      phone: {
+        type: String,
+        required: true,
+      },
+      email: {
+        type: String,
+        required: true,
+      },
+      website: {
+        type: String,
+      },
     },
-    categories: {
-      type: [String],
-      default: [],
+    imageUrl: {
+      type: String,
+      required: true,
+    },
+    videoUrl: {
+      type: String,
     },
     createdBy: {
       type: Schema.Types.ObjectId,
@@ -52,5 +70,5 @@ const YogaSchema = new Schema<TYoga>(
   }
 );
 
-const Yoga = model<TYoga>("Yoga", YogaSchema);
-export default Yoga;
+const Temple = model< TTemple >("Temple", TempleSchema);
+export default Temple;
