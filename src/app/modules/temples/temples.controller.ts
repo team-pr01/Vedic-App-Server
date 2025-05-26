@@ -67,10 +67,39 @@ const deleteTemple = catchAsync(async (req, res) => {
   });
 });
 
+
+// Add a new event to a specific temple
+const addEventToTemple = catchAsync(async (req, res) => {
+  const { templeId } = req.params;
+  const result = await TempleServices.addEventToTemple(templeId, req.body);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Event added to temple successfully",
+    data: result,
+  });
+});
+
+// Delete a specific event from a temple
+const deleteEventFromTemple = catchAsync(async (req, res) => {
+  const { templeId, eventId } = req.params;
+  const result = await TempleServices.deleteEventFromTemple(templeId, eventId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Event deleted from temple successfully",
+    data: result,
+  });
+});
+
 export const TempleControllers = {
   addTemple,
   getAllTemples,
   getSingleTempleById,
   updateTemple,
   deleteTemple,
+  addEventToTemple,
+  deleteEventFromTemple
 };

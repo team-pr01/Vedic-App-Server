@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 import { TTemple } from "./temples.interface";
 
-const TempleSchema = new Schema< TTemple >(
+const TempleSchema = new Schema<TTemple>(
   {
     name: {
       type: String,
@@ -56,9 +56,33 @@ const TempleSchema = new Schema< TTemple >(
       type: String,
       required: true,
     },
+    mediaGallery: {
+      type: [String],
+      required: true,
+    },
     videoUrl: {
       type: String,
     },
+    events: [
+      {
+        name: {
+          type: String,
+          required: true,
+        },
+        date: {
+          type: Date,
+          required: true,
+        },
+        time: {
+          type: String,
+          required: true,
+        },
+        description: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
     createdBy: {
       type: Schema.Types.ObjectId,
       ref: "User",
@@ -70,5 +94,5 @@ const TempleSchema = new Schema< TTemple >(
   }
 );
 
-const Temple = model< TTemple >("Temple", TempleSchema);
+const Temple = model<TTemple>("Temple", TempleSchema);
 export default Temple;
