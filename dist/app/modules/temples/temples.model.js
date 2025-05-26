@@ -55,9 +55,33 @@ const TempleSchema = new mongoose_1.Schema({
         type: String,
         required: true,
     },
+    mediaGallery: {
+        type: [String],
+        required: true,
+    },
     videoUrl: {
         type: String,
     },
+    events: [
+        {
+            name: {
+                type: String,
+                required: true,
+            },
+            date: {
+                type: Date,
+                required: true,
+            },
+            time: {
+                type: String,
+                required: true,
+            },
+            description: {
+                type: String,
+                required: true,
+            },
+        },
+    ],
     createdBy: {
         type: mongoose_1.Schema.Types.ObjectId,
         ref: "User",

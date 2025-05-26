@@ -71,10 +71,34 @@ const deleteTemple = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, v
         data: result,
     });
 }));
+// Add a new event to a specific temple
+const addEventToTemple = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { templeId } = req.params;
+    const result = yield temples_services_1.TempleServices.addEventToTemple(templeId, req.body);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "Event added to temple successfully",
+        data: result,
+    });
+}));
+// Delete a specific event from a temple
+const deleteEventFromTemple = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { templeId, eventId } = req.params;
+    const result = yield temples_services_1.TempleServices.deleteEventFromTemple(templeId, eventId);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "Event deleted from temple successfully",
+        data: result,
+    });
+}));
 exports.TempleControllers = {
     addTemple,
     getAllTemples,
     getSingleTempleById,
     updateTemple,
     deleteTemple,
+    addEventToTemple,
+    deleteEventFromTemple
 };
