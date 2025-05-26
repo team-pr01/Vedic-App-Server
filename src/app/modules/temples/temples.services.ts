@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
 import { TTemple } from "./temples.interface";
@@ -16,7 +17,9 @@ const addTemple = async (payload: TTemple, createdBy: string) => {
     establishedYear,
     visitingHours,
     contactInfo,
+    events,
     imageUrl,
+    mediaGallery,
     videoUrl,
   } = payload;
 
@@ -31,7 +34,9 @@ const addTemple = async (payload: TTemple, createdBy: string) => {
     establishedYear,
     visitingHours,
     contactInfo,
+    events,
     imageUrl,
+    mediaGallery,
     videoUrl,
     createdBy,
   };
@@ -80,10 +85,41 @@ const deleteTemple = async (templeId: string) => {
   return result;
 };
 
+// Add event to a temple
+const addEventToTemple = async (templeId: string, eventData: any) => {
+  const temple = await Temple.findById(templeId);
+
+  if (!temple) {
+    throw new AppError(httpStatus.NOT_FOUND, "Temple not found");
+  }
+
+  temple.events.push(eventData);
+  await temple.save();
+  return temple;
+};
+
+// Delete event from a temple
+const deleteEventFromTemple = async (templeId: string, eventId: string) => {
+  const temple = await Temple.findById(templeId);
+
+  if (!temple) {
+    throw new AppError(httpStatus.NOT_FOUND, "Temple not found");
+  }
+
+  temple.events = temple.events.filter(
+    (event: any) => event._id.toString() !== eventId
+  );
+
+  await temple.save();
+  return temple;
+};
+
 export const TempleServices = {
   addTemple,
   getAllTemples,
   getSingleTempleById,
   updateTemple,
   deleteTemple,
+  addEventToTemple,
+  deleteEventFromTemple,
 };

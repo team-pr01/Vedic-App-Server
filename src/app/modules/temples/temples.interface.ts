@@ -16,7 +16,14 @@ export type TTemple = {
     website?: string;
   };
   imageUrl: string;
+  mediaGallery: string[];
   videoUrl?: string;
+  events : {
+    name: string;
+    date: Date;
+    time : string;
+    description: string;
+  }[];
   createdBy: Types.ObjectId;
   createdAt?: Date;
   updatedAt?: Date;
