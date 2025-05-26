@@ -7,6 +7,10 @@ const OrganizationSchema = new Schema<TOrganization>(
       type: String,
       required: true,
     },
+    imageUrl : {
+      type: String,
+      required: true
+    },
     type: {
       type: String,
       enum: ["gurukul", "vedic_institution", "ashram"],
@@ -24,10 +28,10 @@ const OrganizationSchema = new Schema<TOrganization>(
       type: Number,
       required: true,
     },
-    coursesOffered: {
+    coursesOffered: [{
       type: String,
       required: true,
-    },
+    }],
     contact: {
       email: { type: String, required: true },
       phone: { type: String, required: true },
