@@ -17,7 +17,6 @@ const addTemple = async (payload: TTemple, createdBy: string) => {
     establishedYear,
     visitingHours,
     contactInfo,
-    events,
     imageUrl,
     mediaGallery,
     videoUrl,
@@ -34,7 +33,7 @@ const addTemple = async (payload: TTemple, createdBy: string) => {
     establishedYear,
     visitingHours,
     contactInfo,
-    events,
+    events: [],
     imageUrl,
     mediaGallery,
     videoUrl,
@@ -93,7 +92,7 @@ const addEventToTemple = async (templeId: string, eventData: any) => {
     throw new AppError(httpStatus.NOT_FOUND, "Temple not found");
   }
 
-  temple.events.push(eventData);
+  temple?.events?.push(eventData);
   await temple.save();
   return temple;
 };
@@ -106,7 +105,7 @@ const deleteEventFromTemple = async (templeId: string, eventId: string) => {
     throw new AppError(httpStatus.NOT_FOUND, "Temple not found");
   }
 
-  temple.events = temple.events.filter(
+  temple.events = temple?.events?.filter(
     (event: any) => event._id.toString() !== eventId
   );
 
