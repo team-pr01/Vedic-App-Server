@@ -1,10 +1,11 @@
 export type TOrganization = { 
   name: string;
+  imageUrl: string;
   type: "gurukul" | "vedic_institution" | "ashram";
   description: string;
   headTeacher: string;
   studentCapacity: number;
-  coursesOffered: string;
+  coursesOffered: string[];
   contact: {
     email: string;
     phone: string;
