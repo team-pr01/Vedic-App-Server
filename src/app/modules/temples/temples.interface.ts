@@ -18,7 +18,7 @@ export type TTemple = {
   imageUrl: string;
   mediaGallery: string[];
   videoUrl?: string;
-  events : {
+  events? : {
     name: string;
     date: Date;
     time : string;

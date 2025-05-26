@@ -19,7 +19,7 @@ const AppError_1 = __importDefault(require("../../errors/AppError"));
 const temples_model_1 = __importDefault(require("./temples.model"));
 // Add temple for admin only
 const addTemple = (payload, createdBy) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, mainDeity, description, address, city, state, country, establishedYear, visitingHours, contactInfo, events, imageUrl, mediaGallery, videoUrl, } = payload;
+    const { name, mainDeity, description, address, city, state, country, establishedYear, visitingHours, contactInfo, imageUrl, mediaGallery, videoUrl, } = payload;
     const payloadData = {
         name,
         mainDeity,
@@ -31,7 +31,7 @@ const addTemple = (payload, createdBy) => __awaiter(void 0, void 0, void 0, func
         establishedYear,
         visitingHours,
         contactInfo,
-        events,
+        events: [],
         imageUrl,
         mediaGallery,
         videoUrl,
@@ -75,21 +75,23 @@ const deleteTemple = (templeId) => __awaiter(void 0, void 0, void 0, function* (
 });
 // Add event to a temple
 const addEventToTemple = (templeId, eventData) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     const temple = yield temples_model_1.default.findById(templeId);
     if (!temple) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Temple not found");
     }
-    temple.events.push(eventData);
+    (_a = temple === null || temple === void 0 ? void 0 : temple.events) === null || _a === void 0 ? void 0 : _a.push(eventData);
     yield temple.save();
     return temple;
 });
 // Delete event from a temple
 const deleteEventFromTemple = (templeId, eventId) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     const temple = yield temples_model_1.default.findById(templeId);
     if (!temple) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Temple not found");
     }
-    temple.events = temple.events.filter((event) => event._id.toString() !== eventId);
+    temple.events = (_a = temple === null || temple === void 0 ? void 0 : temple.events) === null || _a === void 0 ? void 0 : _a.filter((event) => event._id.toString() !== eventId);
     yield temple.save();
     return temple;
 });
