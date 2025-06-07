@@ -7,10 +7,7 @@ import { UserRole } from "./auth.constannts";
 // import { upload } from "../../utils/sendImageToCloudinary";
 const router = express.Router();
 
-router.post(
-  "/signup",
-  AuthControllers.signup
-);
+router.post("/signup", AuthControllers.signup);
 
 router.post(
   "/login",
@@ -39,6 +36,12 @@ router.put(
   "/change-role",
   auth(UserRole.admin),
   AuthControllers.changeUserRole
+);
+
+router.put(
+  "/assign-pages",
+  auth(UserRole.admin),
+  AuthControllers.assignPagesToUser
 );
 
 export const AuthRoute = router;

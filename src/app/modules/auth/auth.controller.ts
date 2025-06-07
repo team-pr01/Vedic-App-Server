@@ -76,7 +76,7 @@ const resetPassword = catchAsync(async (req, res) => {
 
 // Change User Role (For admin)
 const changeUserRole = catchAsync(async (req, res) => {
-console.log(req.body);
+  console.log(req.body);
   const result = await AuthServices.changeUserRole(req.body);
 
   sendResponse(res, {
@@ -87,6 +87,16 @@ console.log(req.body);
   });
 });
 
+const assignPagesToUser = catchAsync(async (req, res) => {
+  const result = await AuthServices.assignPagesToUser(req.body);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Pages assigned successfully.",
+    data: result,
+  });
+});
 
 export const AuthControllers = {
   signup,
@@ -95,4 +105,5 @@ export const AuthControllers = {
   forgetPassword,
   resetPassword,
   changeUserRole,
+  assignPagesToUser,
 };
