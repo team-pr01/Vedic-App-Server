@@ -20,15 +20,14 @@ const signup = catchAsync(async (req, res) => {
 
 // User Login
 const loginUser = catchAsync(async (req, res) => {
-
   const result = await AuthServices.loginUser(req.body);
-  
-  const {refreshToken} = result;
 
-  res.cookie('refreshToken', refreshToken, {
-    secure : config.node_env === 'production',
-    httpOnly : true
-});
+  const { refreshToken } = result;
+
+  res.cookie("refreshToken", refreshToken, {
+    secure: config.node_env === "production",
+    httpOnly: true,
+  });
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -64,7 +63,7 @@ const forgetPassword = catchAsync(async (req, res) => {
 
 const resetPassword = catchAsync(async (req, res) => {
   const token = req.headers.authorization;
-  console.log(token)
+  console.log(token);
   const result = await AuthServices.resetPassword(req.body, token as string);
 
   sendResponse(res, {
@@ -75,10 +74,25 @@ const resetPassword = catchAsync(async (req, res) => {
   });
 });
 
+// Change User Role (For admin)
+const changeUserRole = catchAsync(async (req, res) => {
+console.log(req.body);
+  const result = await AuthServices.changeUserRole(req.body);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "User role updated successfully.",
+    data: result,
+  });
+});
+
+
 export const AuthControllers = {
   signup,
   loginUser,
   refreshToken,
   forgetPassword,
   resetPassword,
+  changeUserRole,
 };

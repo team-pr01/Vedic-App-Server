@@ -8,7 +8,7 @@ import { createToekn } from "./auth.utils";
 // import { sendImageToCloudinary } from "../../utils/sendImageToCloudinary";
 import { User } from "./auth.model";
 import { sendEmail } from "../../utils/sendEmail";
-import bcrypt from 'bcrypt';
+import bcrypt from "bcrypt";
 
 // Create user
 const signup = async (payload: Partial<TUser>) => {
@@ -27,8 +27,8 @@ const signup = async (payload: Partial<TUser>) => {
     password,
     phoneNumber: phoneNumber || "",
     role: role || "user",
-    isDeleted : false,
-    isSuspended : false,
+    isDeleted: false,
+    isSuspended: false,
     isVerified: false,
   };
 
@@ -43,28 +43,25 @@ const signup = async (payload: Partial<TUser>) => {
   return result;
 };
 
-
-
 // Login
 const loginUser = async (payload: TLoginAuth) => {
   // Check if the user exists or not
   const user = await User.isUserExists(payload.email);
 
-  
   if (!(await user)) {
     throw new AppError(httpStatus.NOT_FOUND, "User does not exists.");
   }
 
   // Check if the user already deleted or not
   const isUserDeleted = user?.isDeleted;
-  if(isUserDeleted){
-      throw new AppError(httpStatus.NOT_FOUND, 'User does not exists.')
+  if (isUserDeleted) {
+    throw new AppError(httpStatus.NOT_FOUND, "User does not exists.");
   }
 
   // Check if the user suspended or not
   const isUserSuspended = user?.isSuspended;
-  if(isUserSuspended){
-      throw new AppError(httpStatus.FORBIDDEN, 'You are suspended!')
+  if (isUserSuspended) {
+    throw new AppError(httpStatus.FORBIDDEN, "You are suspended!");
   }
 
   // Check if the password is correct or not
@@ -130,14 +127,12 @@ const refreshToken = async (token: string) => {
     throw new AppError(httpStatus.NOT_FOUND, "User not found!");
   }
 
-
-    // Checking if the user is deleted or not
-
+  // Checking if the user is deleted or not
 
   // Have to check if the user is suspended or not
 
   const jwtpayload = {
-    userId : user._id,
+    userId: user._id,
     email: user.email,
     role: user.role,
   };
@@ -148,21 +143,20 @@ const refreshToken = async (token: string) => {
   );
 
   return {
-    accessToken
-  }
+    accessToken,
+  };
 };
 
 const forgetPassword = async (email: string) => {
-
   const user = await User.isUserExists(email);
 
   // Checking if the user exists or not
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, "User not found!");
-  };
+  }
 
   const jwtpayload = {
-    userId : user._id,
+    userId: user._id,
     email: user.email,
     role: user.role,
   };
@@ -170,22 +164,24 @@ const forgetPassword = async (email: string) => {
   const resetToken = createToekn(
     jwtpayload,
     config.jwt_access_secret as string,
-   '10m'
+    "10m"
   );
 
- const resetLink = `${config.reset_password_ui_url}/reset-password?email=${user?.email}&token=${resetToken}`;
+  const resetLink = `${config.reset_password_ui_url}/reset-password?email=${user?.email}&token=${resetToken}`;
 
- await sendEmail(user?.email, resetLink);
+  await sendEmail(user?.email, resetLink);
 };
 
-const resetPassword = async (payload:{email:string, newPassword:string}, token:string) => {
-
+const resetPassword = async (
+  payload: { email: string; newPassword: string },
+  token: string
+) => {
   const user = await User.isUserExists(payload?.email);
 
   // Checking if the user exists or not
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, "User not found!");
-  };
+  }
 
   // Check if the token is valid or not.
   const decoded = jwt.verify(
@@ -193,9 +189,9 @@ const resetPassword = async (payload:{email:string, newPassword:string}, token:s
     config.jwt_access_secret as string
   ) as JwtPayload;
 
-  if(payload?.email !== decoded?.email){
+  if (payload?.email !== decoded?.email) {
     throw new AppError(httpStatus.FORBIDDEN, "You are forbidden");
-  };
+  }
 
   const newHashedPassword = await bcrypt.hash(
     payload.newPassword,
@@ -204,15 +200,34 @@ const resetPassword = async (payload:{email:string, newPassword:string}, token:s
 
   await User.findOneAndUpdate(
     {
-      email:decoded.email,
-      role:decoded.role,
+      email: decoded.email,
+      role: decoded.role,
     },
     {
-      password:newHashedPassword,
-      passwordChangedAt : new Date(),
+      password: newHashedPassword,
+      passwordChangedAt: new Date(),
     }
+  );
+};
 
-  )
+// Change user role (For admin)
+const changeUserRole = async (payload: { userId: string; role: any }) => {
+  console.log(payload);
+  const user = await User.findById(payload?.userId);
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, "User not found");
+  }
+
+  const result = await User.findByIdAndUpdate(
+    payload?.userId,
+    { role: payload?.role },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  return result;
 };
 
 export const AuthServices = {
@@ -221,4 +236,5 @@ export const AuthServices = {
   refreshToken,
   forgetPassword,
   resetPassword,
+  changeUserRole,
 };
