@@ -8,6 +8,7 @@ import { VastuRoutes } from "../modules/vastu/vastu.route";
 import { TempleRoutes } from "../modules/temples/temples.route";
 import { OrganizationRoutes } from "../modules/organizations/organizations.route";
 import { NewsRoutes } from "../modules/news/news.route";
+import { NotificationRoutes } from "../modules/notification/notification.route";
 
 const router = Router();
 
@@ -47,6 +48,10 @@ const moduleRoutes = [
   {
     path: "/news",
     route: NewsRoutes,
+  },
+  {
+    path: "/notification",
+    route: NotificationRoutes,
   },
 ];
 
