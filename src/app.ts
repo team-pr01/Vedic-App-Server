@@ -4,7 +4,6 @@ import router from './app/routes';
 import cookieParser from 'cookie-parser';
 import notFoundHandler from './app/middlewares/notFoundHandeler';
 import globalErrorHandler from './app/middlewares/globalErrorHandeler';
-import { cleanupExpiredNotifications } from './app/utils/cleanupExpiredNotifications';
 
 const app = express();
 
@@ -26,8 +25,6 @@ app.get('/', (req, res) => {
 
 // Application routes
 app.use('/api/v1', router);
-
-cleanupExpiredNotifications();
 
 // Catch-all route for handling 404 errors
 app.use(notFoundHandler);
