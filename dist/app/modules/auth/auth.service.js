@@ -61,12 +61,12 @@ const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     // Check if the user already deleted or not
     const isUserDeleted = user === null || user === void 0 ? void 0 : user.isDeleted;
     if (isUserDeleted) {
-        throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'User does not exists.');
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "User does not exists.");
     }
     // Check if the user suspended or not
     const isUserSuspended = user === null || user === void 0 ? void 0 : user.isSuspended;
     if (isUserSuspended) {
-        throw new AppError_1.default(http_status_1.default.FORBIDDEN, 'You are suspended!');
+        throw new AppError_1.default(http_status_1.default.FORBIDDEN, "You are suspended!");
     }
     // Check if the password is correct or not
     if (!(yield auth_model_1.User.isPasswordMatched(payload === null || payload === void 0 ? void 0 : payload.password, user === null || user === void 0 ? void 0 : user.password))) {
@@ -114,7 +114,7 @@ const refreshToken = (token) => __awaiter(void 0, void 0, void 0, function* () {
     };
     const accessToken = (0, auth_utils_1.createToekn)(jwtpayload, config_1.default.jwt_access_secret, config_1.default.jwt_access_expires_in);
     return {
-        accessToken
+        accessToken,
     };
 });
 const forgetPassword = (email) => __awaiter(void 0, void 0, void 0, function* () {
@@ -123,13 +123,12 @@ const forgetPassword = (email) => __awaiter(void 0, void 0, void 0, function* ()
     if (!user) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, "User not found!");
     }
-    ;
     const jwtpayload = {
         userId: user._id,
         email: user.email,
         role: user.role,
     };
-    const resetToken = (0, auth_utils_1.createToekn)(jwtpayload, config_1.default.jwt_access_secret, '10m');
+    const resetToken = (0, auth_utils_1.createToekn)(jwtpayload, config_1.default.jwt_access_secret, "10m");
     const resetLink = `${config_1.default.reset_password_ui_url}/reset-password?email=${user === null || user === void 0 ? void 0 : user.email}&token=${resetToken}`;
     yield (0, sendEmail_1.sendEmail)(user === null || user === void 0 ? void 0 : user.email, resetLink);
 });
@@ -139,13 +138,11 @@ const resetPassword = (payload, token) => __awaiter(void 0, void 0, void 0, func
     if (!user) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, "User not found!");
     }
-    ;
     // Check if the token is valid or not.
     const decoded = jsonwebtoken_1.default.verify(token, config_1.default.jwt_access_secret);
     if ((payload === null || payload === void 0 ? void 0 : payload.email) !== (decoded === null || decoded === void 0 ? void 0 : decoded.email)) {
         throw new AppError_1.default(http_status_1.default.FORBIDDEN, "You are forbidden");
     }
-    ;
     const newHashedPassword = yield bcrypt_1.default.hash(payload.newPassword, Number(config_1.default.bcrypt_salt_round));
     yield auth_model_1.User.findOneAndUpdate({
         email: decoded.email,
@@ -155,10 +152,33 @@ const resetPassword = (payload, token) => __awaiter(void 0, void 0, void 0, func
         passwordChangedAt: new Date(),
     });
 });
+// Change user role (For admin)
+const changeUserRole = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(payload);
+    const user = yield auth_model_1.User.findById(payload === null || payload === void 0 ? void 0 : payload.userId);
+    if (!user) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "User not found");
+    }
+    const result = yield auth_model_1.User.findByIdAndUpdate(payload === null || payload === void 0 ? void 0 : payload.userId, { role: payload === null || payload === void 0 ? void 0 : payload.role }, {
+        new: true,
+        runValidators: true,
+    });
+    return result;
+});
+const assignPagesToUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield auth_model_1.User.findById(payload.userId);
+    if (!user) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "User not found");
+    }
+    const result = yield auth_model_1.User.findByIdAndUpdate(payload.userId, { assignedPages: payload.pages }, { new: true, runValidators: true });
+    return result;
+});
 exports.AuthServices = {
     signup,
     loginUser,
     refreshToken,
     forgetPassword,
     resetPassword,
+    changeUserRole,
+    assignPagesToUser,
 };

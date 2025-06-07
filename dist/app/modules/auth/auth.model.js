@@ -37,8 +37,13 @@ const userSchema = new mongoose_1.Schema({
     },
     role: {
         type: String,
-        enum: ["user", "admin"],
+        enum: ["user", "admin", "moderator", "super-admin"],
         default: "user",
+    },
+    assignedPages: {
+        type: [String],
+        default: [],
+        required: false
     },
     isVerified: {
         type: Boolean,

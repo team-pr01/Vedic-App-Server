@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const app_1 = __importDefault(require("./app"));
 const config_1 = __importDefault(require("./app/config"));
 const mongoose_1 = __importDefault(require("mongoose"));
+const cleanupExpiredNotifications_1 = require("./app/utils/cleanupExpiredNotifications");
 let server;
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -30,6 +31,7 @@ function main() {
     });
 }
 main();
+(0, cleanupExpiredNotifications_1.cleanupExpiredNotifications)();
 process.on('unhandledRejection', () => {
     if (server) {
         server.close(() => {

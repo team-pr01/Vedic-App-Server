@@ -34,9 +34,9 @@ const signup = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0,
 const loginUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield auth_service_1.AuthServices.loginUser(req.body);
     const { refreshToken } = result;
-    res.cookie('refreshToken', refreshToken, {
-        secure: config_1.default.node_env === 'production',
-        httpOnly: true
+    res.cookie("refreshToken", refreshToken, {
+        secure: config_1.default.node_env === "production",
+        httpOnly: true,
     });
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
@@ -76,10 +76,32 @@ const resetPassword = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, 
         data: result,
     });
 }));
+// Change User Role (For admin)
+const changeUserRole = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.body);
+    const result = yield auth_service_1.AuthServices.changeUserRole(req.body);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "User role updated successfully.",
+        data: result,
+    });
+}));
+const assignPagesToUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield auth_service_1.AuthServices.assignPagesToUser(req.body);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "Pages assigned successfully.",
+        data: result,
+    });
+}));
 exports.AuthControllers = {
     signup,
     loginUser,
     refreshToken,
     forgetPassword,
     resetPassword,
+    changeUserRole,
+    assignPagesToUser,
 };
