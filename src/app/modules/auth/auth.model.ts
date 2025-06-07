@@ -25,8 +25,13 @@ const userSchema = new Schema<TUser>(
     },
     role: {
       type: String,
-      enum: ["user", "admin"],
+      enum: ["user", "admin", "moderator", "super-admin"],
       default: "user",
+    },
+    assignedPages : {
+      type : [String],
+      default : [],
+      required : false
     },
     isVerified: {
       type: Boolean,

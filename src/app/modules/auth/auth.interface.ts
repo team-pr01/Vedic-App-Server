@@ -12,7 +12,8 @@ export type TUser= {
   email: string;
   phoneNumber?: string;
   password: string;
-  role: "user" | "admin";
+  role: "user" | "admin" | "moderator" | "super-admin";
+  assignedPages? : string[];
   isVerified: boolean;
   createdAt: Date;
   updatedAt: Date;
