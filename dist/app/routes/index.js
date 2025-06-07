@@ -9,6 +9,8 @@ const yoga_route_1 = require("../modules/yoga/yoga.route");
 const vastu_route_1 = require("../modules/vastu/vastu.route");
 const temples_route_1 = require("../modules/temples/temples.route");
 const organizations_route_1 = require("../modules/organizations/organizations.route");
+const news_route_1 = require("../modules/news/news.route");
+const notification_route_1 = require("../modules/notification/notification.route");
 const router = (0, express_1.Router)();
 const moduleRoutes = [
     {
@@ -42,6 +44,14 @@ const moduleRoutes = [
     {
         path: "/organization",
         route: organizations_route_1.OrganizationRoutes,
+    },
+    {
+        path: "/news",
+        route: news_route_1.NewsRoutes,
+    },
+    {
+        path: "/notification",
+        route: notification_route_1.NotificationRoutes,
     },
 ];
 moduleRoutes.forEach((route) => router.use(route.path, route.route));
