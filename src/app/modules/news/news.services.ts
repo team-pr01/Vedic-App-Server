@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
 import { TNews } from "./news.interface";
@@ -8,8 +9,15 @@ const addNews = async (payload: TNews) => {
   return result;
 };
 
-const getAllNews = async () => {
-  return await News.find();
+const getAllNews = async (keyword:any) => {
+  const filter: any = {};
+
+  if (keyword) {
+    filter.title = { $regex: keyword, $options: "i" };
+  }
+
+  const result = await News.find(filter);
+  return result;
 };
 
 const getSingleNewsById = async (newsId: string) => {

@@ -17,7 +17,8 @@ const addNews = catchAsync(async (req, res) => {
 
 // Get All
 const getAllNews = catchAsync(async (req, res) => {
-  const result = await NewsServices.getAllNews();
+  const { keyword } = req.query;
+  const result = await NewsServices.getAllNews(keyword);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
