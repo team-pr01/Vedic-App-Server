@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.NewsServices = void 0;
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const http_status_1 = __importDefault(require("http-status"));
 const AppError_1 = __importDefault(require("../../errors/AppError"));
 const news_model_1 = __importDefault(require("./news.model"));
@@ -20,8 +21,13 @@ const addNews = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield news_model_1.default.create(payload);
     return result;
 });
-const getAllNews = () => __awaiter(void 0, void 0, void 0, function* () {
-    return yield news_model_1.default.find();
+const getAllNews = (keyword) => __awaiter(void 0, void 0, void 0, function* () {
+    const filter = {};
+    if (keyword) {
+        filter.title = { $regex: keyword, $options: "i" };
+    }
+    const result = yield news_model_1.default.find(filter);
+    return result;
 });
 const getSingleNewsById = (newsId) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield news_model_1.default.findById(newsId);
