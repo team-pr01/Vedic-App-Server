@@ -9,6 +9,10 @@ router.post("/create-content", auth(UserRole.admin), ContentController.createCon
 router.get("/", ContentController.getAllContents);
 router.get("/:contentId", ContentController.getSingleContent);
 router.put("/:contentId", auth(UserRole.admin), ContentController.updateContent);
-router.delete("/:contentId", auth(UserRole.admin), ContentController.deleteContent);
+router.delete(
+  '/delete-content/:contentId/:type/:url',
+  ContentController.deleteContent
+);
+
 
 export const ContentRoutes = router;

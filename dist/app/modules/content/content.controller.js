@@ -17,6 +17,7 @@ const http_status_1 = __importDefault(require("http-status"));
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const content_services_1 = require("./content.services");
+const AppError_1 = __importDefault(require("../../errors/AppError"));
 const createContent = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield content_services_1.ContentService.createContent(req.body);
     (0, sendResponse_1.default)(res, {
@@ -54,11 +55,19 @@ const updateContent = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, 
     });
 }));
 const deleteContent = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield content_services_1.ContentService.deleteContent(req.params.contentId);
+    const { contentId, type, url } = req.params;
+    // Validate type
+    if (!['image', 'video'].includes(type)) {
+        throw new AppError_1.default(http_status_1.default.BAD_REQUEST, "Invalid media type");
+    }
+    if (!url) {
+        throw new AppError_1.default(http_status_1.default.BAD_REQUEST, "URL is required");
+    }
+    const result = yield content_services_1.ContentService.deleteContent(contentId, type, url);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: "Content deleted successfully",
+        message: `${type} URL removed successfully`,
         data: result,
     });
 }));

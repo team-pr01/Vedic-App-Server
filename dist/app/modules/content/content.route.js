@@ -13,5 +13,5 @@ router.post("/create-content", (0, auth_1.default)(auth_constannts_1.UserRole.ad
 router.get("/", content_controller_1.ContentController.getAllContents);
 router.get("/:contentId", content_controller_1.ContentController.getSingleContent);
 router.put("/:contentId", (0, auth_1.default)(auth_constannts_1.UserRole.admin), content_controller_1.ContentController.updateContent);
-router.delete("/:contentId", (0, auth_1.default)(auth_constannts_1.UserRole.admin), content_controller_1.ContentController.deleteContent);
+router.delete('/delete-content/:contentId/:type/:url', content_controller_1.ContentController.deleteContent);
 exports.ContentRoutes = router;

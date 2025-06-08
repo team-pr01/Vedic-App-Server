@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ContentService = void 0;
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const content_model_1 = __importDefault(require("./content.model"));
 const http_status_1 = __importDefault(require("http-status"));
 const AppError_1 = __importDefault(require("../../errors/AppError"));
@@ -40,8 +41,10 @@ const updateContent = (contentId, payload) => __awaiter(void 0, void 0, void 0, 
     }
     return content;
 });
-const deleteContent = (contentId) => __awaiter(void 0, void 0, void 0, function* () {
-    const content = yield content_model_1.default.findByIdAndDelete(contentId);
+const deleteContent = (contentId, type, url) => __awaiter(void 0, void 0, void 0, function* () {
+    const updateField = type === 'image' ? 'imageUrl' : 'videoUrl';
+    const content = yield content_model_1.default.findByIdAndUpdate(contentId, { $pull: { [updateField]: url } }, // MongoDB `$pull` removes matching value from array
+    { new: true });
     if (!content) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Content not found");
     }
