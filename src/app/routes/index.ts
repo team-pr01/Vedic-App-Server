@@ -10,6 +10,7 @@ import { OrganizationRoutes } from "../modules/organizations/organizations.route
 import { NewsRoutes } from "../modules/news/news.route";
 import { NotificationRoutes } from "../modules/notification/notification.route";
 import { PopupRoutes } from "../modules/popup/popup.route";
+import { ContentRoutes } from "../modules/content/content.route";
 
 const router = Router();
 
@@ -57,6 +58,10 @@ const moduleRoutes = [
   {
     path: "/popup",
     route: PopupRoutes,
+  },
+  {
+    path: "/content",
+    route: ContentRoutes,
   },
 ];
 
