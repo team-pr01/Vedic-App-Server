@@ -11,6 +11,7 @@ const temples_route_1 = require("../modules/temples/temples.route");
 const organizations_route_1 = require("../modules/organizations/organizations.route");
 const news_route_1 = require("../modules/news/news.route");
 const notification_route_1 = require("../modules/notification/notification.route");
+const popup_route_1 = require("../modules/popup/popup.route");
 const router = (0, express_1.Router)();
 const moduleRoutes = [
     {
@@ -52,6 +53,10 @@ const moduleRoutes = [
     {
         path: "/notification",
         route: notification_route_1.NotificationRoutes,
+    },
+    {
+        path: "/popup",
+        route: popup_route_1.PopupRoutes,
     },
 ];
 moduleRoutes.forEach((route) => router.use(route.path, route.route));

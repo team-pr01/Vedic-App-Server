@@ -9,6 +9,7 @@ import { TempleRoutes } from "../modules/temples/temples.route";
 import { OrganizationRoutes } from "../modules/organizations/organizations.route";
 import { NewsRoutes } from "../modules/news/news.route";
 import { NotificationRoutes } from "../modules/notification/notification.route";
+import { PopupRoutes } from "../modules/popup/popup.route";
 
 const router = Router();
 
@@ -52,6 +53,10 @@ const moduleRoutes = [
   {
     path: "/notification",
     route: NotificationRoutes,
+  },
+  {
+    path: "/popup",
+    route: PopupRoutes,
   },
 ];
 
