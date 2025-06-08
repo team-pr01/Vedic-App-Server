@@ -33,7 +33,7 @@ const PopupSchema = new mongoose_1.Schema({
     displayFrequency: {
         type: String,
         required: true,
-        enum: ["once", "every-visit", "daily", "weekly"],
+        enum: ["Once", "Every Visit", "Daily", "Weekly"],
     },
 }, { timestamps: true });
 const Popup = (0, mongoose_1.model)("Popup", PopupSchema);

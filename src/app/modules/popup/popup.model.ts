@@ -34,7 +34,7 @@ const PopupSchema = new Schema<TPopup>(
     displayFrequency: {
       type: String,
       required: true,
-      enum: ["once", "every-visit", "daily", "weekly"],
+      enum: ["Once", "Every Visit", "Daily", "Weekly"],
     },
   },
   { timestamps: true }
