@@ -36,7 +36,7 @@ const getAllReligiousTexts = catchAsync(async (req, res) => {
 
 // Get Single ReligiousText by ID
 const getReligiousTextById = catchAsync(async (req, res) => {
-  const id = req.params.textId;
+  const id = req.params.id;
   const result = await ReligiousTextServices.getReligiousTextById(id);
 
   sendResponse(res, {
@@ -49,7 +49,7 @@ const getReligiousTextById = catchAsync(async (req, res) => {
 
 // Update ReligiousText by ID
 const updateReligiousText = catchAsync(async (req, res) => {
-  const id = req.params.textId;
+  const id = req.params.id;
   const updatedData = req.body;
   const result = await ReligiousTextServices.updateReligiousText(id, updatedData);
 

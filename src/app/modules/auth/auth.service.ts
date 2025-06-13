@@ -69,12 +69,15 @@ const loginUser = async (payload: TLoginAuth) => {
     throw new AppError(httpStatus.FORBIDDEN, "Password is not correct.");
   }
 
+  console.log(user);
+
   // Create token and send to client/user
 
   const jwtPayload = {
     userId: user._id.toString(),
     email: user.email,
     role: user.role,
+    assignedPages: user.assignedPages || [],
   };
 
   const accessToken = createToekn(
@@ -99,6 +102,7 @@ const loginUser = async (payload: TLoginAuth) => {
       name: user.name,
       email: user.email,
       role: user.role,
+      assignedPages : user.assignedPages || [],
     },
   };
 };
