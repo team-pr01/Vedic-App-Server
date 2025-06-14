@@ -28,7 +28,7 @@ export const routeAccessMap: Record<string, string[]> = {
   ],
 
   // Notification
-  "/dashboard/notification": [
+  "/dashboard/notifications": [
     "/notification/send-notification", // POST
     "/notification", // GET all
     "/notification/:notificationId", // GET one
@@ -46,7 +46,7 @@ export const routeAccessMap: Record<string, string[]> = {
   ],
 
   //   Popup
-  "/dashboard/popup": [
+  "/dashboard/popups": [
     "/popup/add-popup", // POST
     "/popup", // GET all
     "/popup/:popupId", // GET one
@@ -73,7 +73,7 @@ export const routeAccessMap: Record<string, string[]> = {
   ],
 
   // Temple
-  "/dashboard/temple": [
+  "/dashboard/temple-management": [
     "/temple/add-temple", // POST
     "/temple/:templeId/events", // POST (add event to temple)
     "/temple/:templeId/events/:eventId", // DELETE (delete event from temple)

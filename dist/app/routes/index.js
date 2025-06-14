@@ -13,6 +13,7 @@ const news_route_1 = require("../modules/news/news.route");
 const notification_route_1 = require("../modules/notification/notification.route");
 const popup_route_1 = require("../modules/popup/popup.route");
 const content_route_1 = require("../modules/content/content.route");
+const religiousTexts_route_1 = require("../modules/religiousTexts/religiousTexts.route");
 const router = (0, express_1.Router)();
 const moduleRoutes = [
     {
@@ -62,6 +63,10 @@ const moduleRoutes = [
     {
         path: "/content",
         route: content_route_1.ContentRoutes,
+    },
+    {
+        path: "/religiousTexts",
+        route: religiousTexts_route_1.ReligiousTextRoutes,
     },
 ];
 moduleRoutes.forEach((route) => router.use(route.path, route.route));

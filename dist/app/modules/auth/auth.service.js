@@ -72,11 +72,13 @@ const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     if (!(yield auth_model_1.User.isPasswordMatched(payload === null || payload === void 0 ? void 0 : payload.password, user === null || user === void 0 ? void 0 : user.password))) {
         throw new AppError_1.default(http_status_1.default.FORBIDDEN, "Password is not correct.");
     }
+    console.log(user);
     // Create token and send to client/user
     const jwtPayload = {
         userId: user._id.toString(),
         email: user.email,
         role: user.role,
+        assignedPages: user.assignedPages || [],
     };
     const accessToken = (0, auth_utils_1.createToekn)(jwtPayload, config_1.default.jwt_access_secret, config_1.default.jwt_access_expires_in);
     const refreshToken = (0, auth_utils_1.createToekn)(jwtPayload, config_1.default.jwt_refresh_secret, config_1.default.jwt_refresh_expires_in);
@@ -89,6 +91,7 @@ const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
             name: user.name,
             email: user.email,
             role: user.role,
+            assignedPages: user.assignedPages || [],
         },
     };
 });
