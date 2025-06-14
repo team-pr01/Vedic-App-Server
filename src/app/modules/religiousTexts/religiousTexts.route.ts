@@ -2,11 +2,12 @@ import express from "express";
 import auth from "../../middlewares/auth";
 import { UserRole } from "../auth/auth.constannts";
 import { ReligiousTextControllers } from "./religiousTexts.controller";
+import authorizeRoute from "../../middlewares/authorizeRoute";
 
 const router = express.Router();
 
 // Create a new religious text entry (admin only)
-router.post("/add", auth(UserRole.admin), ReligiousTextControllers.createReligiousText);
+router.post("/add", auth('admin', 'moderator'), authorizeRoute(), ReligiousTextControllers.createReligiousText);
 
 // Get all religious texts (with optional filters)
 router.get("/", ReligiousTextControllers.getAllReligiousTexts);
