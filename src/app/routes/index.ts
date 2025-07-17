@@ -12,6 +12,7 @@ import { NotificationRoutes } from "../modules/notification/notification.route";
 import { PopupRoutes } from "../modules/popup/popup.route";
 import { ContentRoutes } from "../modules/content/content.route";
 import { ReligiousTextRoutes } from "../modules/religiousTexts/religiousTexts.route";
+import { BookRoutes } from "../modules/book/book.route";
 
 const router = Router();
 
@@ -67,6 +68,10 @@ const moduleRoutes = [
   {
     path: "/religiousTexts",
     route: ReligiousTextRoutes,
+  },
+  {
+    path: "/book",
+    route: BookRoutes,
   },
 ];
 

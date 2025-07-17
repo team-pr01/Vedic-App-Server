@@ -48,8 +48,9 @@ const authorizeRoute = () => {
     // 👇️ Construct and normalize current route
     let currentRoute = req.baseUrl + (req.route?.path ?? "");
 
-    // 👇️ Remove /api/v1 or any version prefix
-    currentRoute = currentRoute.replace(/^\/api\/v[0-9]+/, "");
+    currentRoute = currentRoute.replace(/^\/api\/v[0-9]+/, "").replace(/\/$/, "");
+
+    console.log(currentRoute);
 
 
     // Flatten allowed backend routes from assigned frontend pages
@@ -58,6 +59,7 @@ const authorizeRoute = () => {
         (frontendPath: string) => routeAccessMap[frontendPath] || []
       )
       .flat();
+      console.log(allowedRoutes);
 
     if (!allowedRoutes.includes(currentRoute)) {
       throw new AppError(httpStatus.FORBIDDEN, "Access denied to this route");
