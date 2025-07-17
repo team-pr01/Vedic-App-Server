@@ -14,6 +14,7 @@ import { ContentRoutes } from "../modules/content/content.route";
 import { ReligiousTextRoutes } from "../modules/religiousTexts/religiousTexts.route";
 import { BookRoutes } from "../modules/religiousTextsNew/book/book.route";
 import { ChapterRoutes } from "../modules/religiousTextsNew/chapter/chapter.route";
+import { SlokOrMantraRoutes } from "../modules/religiousTextsNew/slokOrMantra/slokOrMantra.route";
 
 const router = Router();
 
@@ -77,6 +78,10 @@ const moduleRoutes = [
   {
     path: "/chapter",
     route: ChapterRoutes,
+  },
+  {
+    path: "/slokOrMantra",
+    route: SlokOrMantraRoutes,
   },
 ];
 
