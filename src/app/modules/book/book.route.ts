@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from "express";
 import auth from "../../middlewares/auth";
-import authorizeRoute from "../../middlewares/authorizeRoute";
+// import authorizeRoute from "../../middlewares/authorizeRoute";
 import { UserRole } from "../auth/auth.constannts";
 import { BookController } from "./book.controller";
 import { multerUpload } from "../../config/multer.config";
@@ -34,9 +34,9 @@ router.put(
 
 // Delete a book (protected)
 router.delete(
-  "/:bookId",
+  "/delete-book/:bookId",
   auth(UserRole.admin, UserRole.moderator, UserRole["super-admin"]),
-  authorizeRoute(),
+  // authorizeRoute(),
   BookController.deleteBook
 );
 
