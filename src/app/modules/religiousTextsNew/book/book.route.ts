@@ -1,9 +1,9 @@
 import express, { NextFunction, Request, Response } from "express";
-import auth from "../../middlewares/auth";
+import auth from "../../../middlewares/auth";
 // import authorizeRoute from "../../middlewares/authorizeRoute";
-import { UserRole } from "../auth/auth.constannts";
+import { UserRole } from "../../auth/auth.constannts";
 import { BookController } from "./book.controller";
-import { multerUpload } from "../../config/multer.config";
+import { multerUpload } from "../../../config/multer.config";
 
 const router = express.Router();
 

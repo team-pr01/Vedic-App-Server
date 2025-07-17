@@ -13,5 +13,5 @@ const BookSchema = new Schema<TBook>(
   { timestamps: true }
 );
 
-const Content = model<TBook>("Book", BookSchema);
-export default Content;
+const Book = model<TBook>("Book", BookSchema);
+export default Book;

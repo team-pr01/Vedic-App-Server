@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import Book from "./book.model";
 import { TBook } from "./book.interface";
 import httpStatus from "http-status";
-import AppError from "../../errors/AppError";
-import { sendImageToCloudinary } from "../../utils/sendImageToCloudinary";
+import AppError from "../../../errors/AppError";
+import { sendImageToCloudinary } from "../../../utils/sendImageToCloudinary";
+import Book from "./book.model";
 
 // ✅ Create a new book
 const createBook = async (payload: TBook, file: Express.Multer.File | undefined) => {
