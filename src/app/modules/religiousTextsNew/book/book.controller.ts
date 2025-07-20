@@ -79,10 +79,45 @@ const deleteBook = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const addChaptersInBook = catchAsync(async (req: Request, res: Response) => {
+  const { bookId } = req.params;
+  const chapterData = req.body.chapters;
+
+  const result = await BookService.addBookChapters(bookId, chapterData);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Chapters updated successfully",
+    data: result,
+  });
+});
+
+const addSlokOrMantraToChapter = catchAsync(
+  async (req: Request, res: Response) => {
+    const { bookId, chapterIndex } = req.params;
+
+    const result = await BookService.addSlokOrMantraToChapter(
+      bookId,
+      parseInt(chapterIndex),
+      req.body
+    );
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Slok or Mantra added to chapter successfully",
+      data: result,
+    });
+  }
+);
+
 export const BookController = {
   createBook,
   getAllBooks,
   getSingleBook,
   updateBook,
   deleteBook,
+  addChaptersInBook,
+  addSlokOrMantraToChapter
 };

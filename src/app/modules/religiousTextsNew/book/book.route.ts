@@ -32,6 +32,20 @@ router.put(
   BookController.updateBook
 );
 
+// Add or update chapters in a book (protected: admin, moderator, super-admin)
+router.put(
+  "/add-chapters/:bookId",
+  auth(UserRole.admin, UserRole.moderator, UserRole["super-admin"]),
+  BookController.addChaptersInBook
+);
+
+// Add or update satisfies;ol or mantra in a chapter (protected: admin, moderator, super-admin)
+router.put(
+  "/:bookId/chapters/:chapterIndex/slokOrMantra",
+  BookController.addSlokOrMantraToChapter
+);
+
+
 // Delete a book (protected)
 router.delete(
   "/delete-book/:bookId",
