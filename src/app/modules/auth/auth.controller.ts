@@ -6,7 +6,6 @@ import config from "../../config";
 
 // User Signup
 const signup = catchAsync(async (req, res) => {
-  console.log(req.body);
   // const file = req.file;
   const result = await AuthServices.signup(req.body);
 
@@ -63,7 +62,6 @@ const forgetPassword = catchAsync(async (req, res) => {
 
 const resetPassword = catchAsync(async (req, res) => {
   const token = req.headers.authorization;
-  console.log(token);
   const result = await AuthServices.resetPassword(req.body, token as string);
 
   sendResponse(res, {
@@ -76,7 +74,6 @@ const resetPassword = catchAsync(async (req, res) => {
 
 // Change User Role (For admin)
 const changeUserRole = catchAsync(async (req, res) => {
-  console.log(req.body);
   const result = await AuthServices.changeUserRole(req.body);
 
   sendResponse(res, {

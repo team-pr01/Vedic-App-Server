@@ -50,8 +50,6 @@ const authorizeRoute = () => {
 
     currentRoute = currentRoute.replace(/^\/api\/v[0-9]+/, "").replace(/\/$/, "");
 
-    console.log(currentRoute);
-
 
     // Flatten allowed backend routes from assigned frontend pages
     const allowedRoutes = user!
@@ -59,7 +57,6 @@ const authorizeRoute = () => {
         (frontendPath: string) => routeAccessMap[frontendPath] || []
       )
       .flat();
-      console.log(allowedRoutes);
 
     if (!allowedRoutes.includes(currentRoute)) {
       throw new AppError(httpStatus.FORBIDDEN, "Access denied to this route");
