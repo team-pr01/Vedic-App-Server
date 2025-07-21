@@ -6,8 +6,11 @@ import { sendImageToCloudinary } from "../../../utils/sendImageToCloudinary";
 import Book from "./book.model";
 
 // ✅ Create a new book
-const createBook = async (payload: TBook, file: Express.Multer.File | undefined) => {
-  let imageUrl = '';
+const createBook = async (
+  payload: TBook,
+  file: Express.Multer.File | undefined
+) => {
+  let imageUrl = "";
 
   if (file) {
     const imageName = `${payload.title}-${Date.now()}`;
@@ -26,8 +29,6 @@ const createBook = async (payload: TBook, file: Express.Multer.File | undefined)
   return result;
 };
 
-
-
 // ✅ Get all books
 const getAllBooks = async () => {
   const books = await Book.find();
@@ -43,42 +44,36 @@ const getSingleBook = async (bookId: string) => {
   return book;
 };
 
-
 const updateBook = async (id: string, payload: Partial<TBook>, file: any) => {
-    // First get the existing book
-    const existingBook = await Book.findById(id);
-    if (!existingBook) {
-        throw new Error('Book not found');
-    }
+  // First get the existing book
+  const existingBook = await Book.findById(id);
+  if (!existingBook) {
+    throw new Error("Book not found");
+  }
 
-    let imageUrl: string | undefined;
+  let imageUrl: string | undefined;
 
-    if (file) {
-        const imageName = `${payload?.title || existingBook.title}-${Date.now()}`;
-        const path = file.path;
+  if (file) {
+    const imageName = `${payload?.title || existingBook.title}-${Date.now()}`;
+    const path = file.path;
 
-        const { secure_url } = await sendImageToCloudinary(imageName, path);
-        imageUrl = secure_url;
-    }
+    const { secure_url } = await sendImageToCloudinary(imageName, path);
+    imageUrl = secure_url;
+  }
 
-    // Prepare the update payload
-    const updatePayload: Partial<TBook> = {
-        ...payload,
-        ...(imageUrl && { imageUrl }) // Only add imageUrl if it exists
-    };
+  // Prepare the update payload
+  const updatePayload: Partial<TBook> = {
+    ...payload,
+    ...(imageUrl && { imageUrl }), // Only add imageUrl if it exists
+  };
 
-    const result = await Book.findByIdAndUpdate(
-        id, 
-        updatePayload, 
-        {
-            new: true,
-            runValidators: true,
-        }
-    );
+  const result = await Book.findByIdAndUpdate(id, updatePayload, {
+    new: true,
+    runValidators: true,
+  });
 
-    return result;
+  return result;
 };
-
 
 // ✅ Delete book by ID
 const deleteBook = async (bookId: string) => {
@@ -89,16 +84,14 @@ const deleteBook = async (bookId: string) => {
   return deletedBook;
 };
 
-
-const addBookChapters = async (bookId: string, chapters: any[]) => {
+const addBookChapters = async (bookId: string, newChapters: any[]) => {
   const updatedBook = await Book.findByIdAndUpdate(
     bookId,
-    { $set: { chapters } },
+    { $push: { chapters: { $each: newChapters } } },
     { new: true, runValidators: true }
   );
   return updatedBook;
 };
-
 
 const addSlokOrMantraToChapter = async (
   bookId: string,
@@ -108,36 +101,42 @@ const addSlokOrMantraToChapter = async (
   const book = await Book.findById(bookId);
   if (!book) throw new Error("Book not found");
 
-  if (!book.chapters || !book.chapters[chapterIndex]) {
-    throw new Error("Chapter not found at the specified index");
-  }
-
-  const chapter = book.chapters[chapterIndex];
+  const chapter = book.chapters?.[chapterIndex];
+  if (!chapter) throw new Error("Chapter not found");
 
   const normalizedType = payload.type.toLowerCase();
 
-  if (!chapter.type?.includes(normalizedType)) {
-    chapter.type?.push(normalizedType);
-  }
+  // Add type
+  if (!Array.isArray(chapter.type)) chapter.type = [];
+  if (!chapter.type.includes(normalizedType)) chapter.type.push(normalizedType);
 
-  if (!chapter.slokOrMantras) {
-    chapter.slokOrMantras = [];
-  }
+  // Flat and unique type
+  chapter.type = [...new Set(chapter.type.flat())];
 
-  chapter.slokOrMantras.push({
+  // Ensure slokOrMantras exists
+  if (!Array.isArray(chapter.slokOrMantras)) chapter.slokOrMantras = [];
+
+  // Push new slok/mantra
+  const newSlok = {
     ...payload,
     type: normalizedType as any,
     createdAt: new Date(),
     updatedAt: new Date(),
-  });
+  };
 
-  book.markModified("chapters");
+  chapter.slokOrMantras.push(newSlok);
 
-  try {
-    return await book.save();
-  } catch (error:any) {
-    throw new Error(`Validation failed: ${error.message}`);
-  }
+  // Debug check
+  console.log("Added slok:", newSlok);
+  console.log("Final chapter:", chapter);
+
+  // Mark paths as modified
+  book.markModified(`chapters.${chapterIndex}.slokOrMantras`);
+  book.markModified(`chapters.${chapterIndex}.type`);
+
+  // Save and return updated book
+  const updatedBook = await book.save();
+  return updatedBook;
 };
 
 export const BookService = {

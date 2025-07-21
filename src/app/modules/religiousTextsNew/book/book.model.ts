@@ -22,7 +22,7 @@ const SlokOrMantraSchema = new Schema(
 const ChapterSchema = new Schema(
   {
     chapterTitle: { type: String, default: "" },
-    type: [{ type: [String], enum: ["slok", "mantra"], default: "slok" }],
+    type: [{ type: String, default: [] }],
     order: { type: Number, default: 0 },
     slokOrMantras: { type: [SlokOrMantraSchema], default: [] },
   },
