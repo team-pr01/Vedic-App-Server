@@ -4,6 +4,7 @@ import httpStatus from "http-status";
 import AppError from "../../../errors/AppError";
 import { sendImageToCloudinary } from "../../../utils/sendImageToCloudinary";
 import Book from "./book.model";
+import { FilterQuery } from "mongoose";
 
 // ✅ Create a new book
 const createBook = async (
@@ -30,8 +31,20 @@ const createBook = async (
 };
 
 // ✅ Get all books
-const getAllBooks = async () => {
-  const books = await Book.find();
+const getAllBooks = async (searchTerm?: string) => {
+  let filter: FilterQuery<any> = {};
+
+  if (searchTerm) {
+    const searchRegex = new RegExp(searchTerm, "i"); // case-insensitive
+    filter = {
+      $or: [
+        { title: { $regex: searchRegex } },
+        { "chapters.slokOrMantras.originalText": { $regex: searchRegex } },
+      ],
+    };
+  }
+
+  const books = await Book.find(filter);
   return books;
 };
 

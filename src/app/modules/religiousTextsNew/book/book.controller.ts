@@ -22,8 +22,9 @@ const createBook = catchAsync(async (req: Request, res: Response) => {
 
 
 // ✅ Get all books
-const getAllBooks = catchAsync(async (_req: Request, res: Response) => {
-  const result = await BookService.getAllBooks();
+const getAllBooks = catchAsync(async (req: Request, res: Response) => {
+  const keyword = req.query.keyword as string;
+  const result = await BookService.getAllBooks(keyword);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
