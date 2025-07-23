@@ -46,8 +46,7 @@ const authorizeRoute = () => {
         req.user = decoded;
         // 👇️ Construct and normalize current route
         let currentRoute = req.baseUrl + ((_b = (_a = req.route) === null || _a === void 0 ? void 0 : _a.path) !== null && _b !== void 0 ? _b : "");
-        // 👇️ Remove /api/v1 or any version prefix
-        currentRoute = currentRoute.replace(/^\/api\/v[0-9]+/, "");
+        currentRoute = currentRoute.replace(/^\/api\/v[0-9]+/, "").replace(/\/$/, "");
         // Flatten allowed backend routes from assigned frontend pages
         const allowedRoutes = user
             .assignedPages.map((frontendPath) => routeAccessMap_constants_1.routeAccessMap[frontendPath] || [])

@@ -14,6 +14,9 @@ const notification_route_1 = require("../modules/notification/notification.route
 const popup_route_1 = require("../modules/popup/popup.route");
 const content_route_1 = require("../modules/content/content.route");
 const religiousTexts_route_1 = require("../modules/religiousTexts/religiousTexts.route");
+const book_route_1 = require("../modules/religiousTextsNew/book/book.route");
+const chapter_route_1 = require("../modules/religiousTextsNew/chapter/chapter.route");
+const slokOrMantra_route_1 = require("../modules/religiousTextsNew/slokOrMantra/slokOrMantra.route");
 const router = (0, express_1.Router)();
 const moduleRoutes = [
     {
@@ -67,6 +70,18 @@ const moduleRoutes = [
     {
         path: "/religiousTexts",
         route: religiousTexts_route_1.ReligiousTextRoutes,
+    },
+    {
+        path: "/book",
+        route: book_route_1.BookRoutes,
+    },
+    {
+        path: "/chapter",
+        route: chapter_route_1.ChapterRoutes,
+    },
+    {
+        path: "/slokOrMantra",
+        route: slokOrMantra_route_1.SlokOrMantraRoutes,
     },
 ];
 moduleRoutes.forEach((route) => router.use(route.path, route.route));

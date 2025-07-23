@@ -20,7 +20,6 @@ const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const config_1 = __importDefault(require("../../config"));
 // User Signup
 const signup = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.body);
     // const file = req.file;
     const result = yield auth_service_1.AuthServices.signup(req.body);
     (0, sendResponse_1.default)(res, {
@@ -67,7 +66,6 @@ const forgetPassword = (0, catchAsync_1.default)((req, res) => __awaiter(void 0,
 }));
 const resetPassword = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const token = req.headers.authorization;
-    console.log(token);
     const result = yield auth_service_1.AuthServices.resetPassword(req.body, token);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
@@ -78,7 +76,6 @@ const resetPassword = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, 
 }));
 // Change User Role (For admin)
 const changeUserRole = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.body);
     const result = yield auth_service_1.AuthServices.changeUserRole(req.body);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
