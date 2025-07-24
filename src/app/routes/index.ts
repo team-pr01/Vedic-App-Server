@@ -16,6 +16,7 @@ import { BookRoutes } from "../modules/religiousTextsNew/book/book.route";
 import { ChapterRoutes } from "../modules/religiousTextsNew/chapter/chapter.route";
 import { SlokOrMantraRoutes } from "../modules/religiousTextsNew/slokOrMantra/slokOrMantra.route";
 import { ReelCategoryRoutes } from "../modules/categories/reelCategory/reelCategory.route";
+import { VastuCategoryRoutes } from "../modules/categories/vastuCategory/vastuCategory.route";
 
 const router = Router();
 
@@ -87,6 +88,10 @@ const moduleRoutes = [
   {
     path: "/reelCategory",
     route: ReelCategoryRoutes,
+  },
+  {
+    path: "/vastuCategory",
+    route: VastuCategoryRoutes,
   },
 ];
 
