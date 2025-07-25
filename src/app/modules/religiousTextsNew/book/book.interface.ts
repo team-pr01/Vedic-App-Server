@@ -1,34 +1,36 @@
 import { Types } from "mongoose";
 
-// Single slok/mantra structure
-export type TSlokOrMantra = {
-  type: "slok" | "mantra";
-  number: string;
-  originalText: string;
-  translations: {
-    [langCode: string]: string;
-  };
-  createdAt?: Date;
-  updatedAt?: Date;
+// Level 3: Slok / Mantra
+export type TMantra = {
+  name?: string;
+  number?: string;
+  originalText?: string;
+  translations?: Record<string, string>; // e.g., { en: "text", hi: "text" }
 };
 
-// Chapter with embedded slok/mantra list
-export type TChapter = {
-  chapterTitle?: string;
-  type?: string[]; // e.g., ["slok", "mantra"]
-  order?: number;
-  slokOrMantras?: TSlokOrMantra[];
-  createdAt?: Date;
-  updatedAt?: Date;
+// Level 2: Sukta / Sarga
+export type TSubSection = {
+  type?: string;
+  number?: string;
+  contents?: TMantra[];
 };
 
-// Book with chapters
+// Level 1: Mandal / Kand / Adhyay
+export type TSection = {
+  name?: string;
+  number?: string;
+  contents?: TSubSection[];
+};
+
+// Main Book Interface
 export type TBook = {
   _id?: Types.ObjectId;
   imageUrl?: string;
   title: string;
-  description: string;
-  chapters?: TChapter[];
+  category: string;         // Ramayan/Ved/etc
+  subCategory?: string;     // Rigved/etc
+  description?: string;
+  sections?: TSection[];
   createdAt?: Date;
   updatedAt?: Date;
 };
