@@ -24,11 +24,13 @@ const BookSchema = new Schema<TBook>(
                 name: { type: String, required: false, default: "" },
                 number: { type: String, default: "" }, //Mantra no, Slok No etc
                 originalText: { type: String, required: false, default: "" },
-                translations: {
-                  type: Map,
-                  of: String,
-                  default: {},
-                },
+                translations: [
+                  {
+                    language: { type: String, required: true },
+                    title: { type: String, default: "" },
+                    description: { type: String, default: "" },
+                  },
+                ],
               },
             ],
           },

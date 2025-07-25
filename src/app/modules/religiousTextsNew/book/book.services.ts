@@ -21,14 +21,26 @@ const createBook = async (
     imageUrl = secure_url;
   }
 
+  // 🛠️ Fix: parse sections if it's a string (due to FormData)
+  let parsedSections = payload.sections;
+  if (typeof parsedSections === "string") {
+    try {
+      parsedSections = JSON.parse(parsedSections);
+    } catch (error) {
+      throw new Error("Invalid JSON format for sections");
+    }
+  }
+
   const payloadData = {
     ...payload,
-    imageUrl, // string, not array
+    sections: parsedSections,
+    imageUrl,
   };
 
   const result = await Book.create(payloadData);
   return result;
 };
+
 
 // ✅ Get all books
 const getAllBooks = async (searchTerm?: string) => {

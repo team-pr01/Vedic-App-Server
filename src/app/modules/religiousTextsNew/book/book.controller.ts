@@ -55,15 +55,29 @@ const getSingleBook = catchAsync(async (req: Request, res: Response) => {
 const updateBook = catchAsync(async (req, res) => {
   const file = req.file;
   const { bookId } = req.params;
+
+  // ✅ Parse 'sections' if it's a string
+  if (typeof req.body.sections === "string") {
+    try {
+      req.body.sections = JSON.parse(req.body.sections);
+    } catch (error) {
+      return res.status(400).json({
+        message: "Invalid JSON in 'sections'",
+        error,
+      });
+    }
+  }
+
   const result = await BookService.updateBook(bookId, req.body, file);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Book updated successfully',
+    message: "Book updated successfully",
     data: result,
   });
 });
+
 
 // ✅ Delete book by ID
 const deleteBook = catchAsync(async (req: Request, res: Response) => {
