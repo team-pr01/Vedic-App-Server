@@ -2,30 +2,30 @@ import express from "express";
 import auth from "../../../middlewares/auth";
 import { UserRole } from "../../auth/auth.constannts";
 import authorizeRoute from "../../../middlewares/authorizeRoute";
-import { VastuCategoryController } from "./vastuCategory.controller";
+import { CategoryController } from "./categories.controller";
 
 const router = express.Router();
 
-// Add vastu category (admin only)
+// Add reel category (admin only)
 router.post(
   "/add-category",
   auth(UserRole.admin, UserRole.moderator, UserRole["super-admin"]),
   authorizeRoute(),
-  VastuCategoryController.addVastuCategory
+  CategoryController.addCategory
 );
 
-// Get all vastu categories
-router.get("/", VastuCategoryController.getAllVastuCategories);
+// Get all reel categories
+router.get("/", CategoryController.getAllCategories);
 
-// Get a single vastu category by ID
-router.get("/:categoryId", VastuCategoryController.getSingleVastuCategoryById);
+// Get a single reel category by ID
+router.get("/:categoryId", CategoryController.getSingleCategoryById);
 
-// Delete a vastu category (admin only)
+// Delete a reel category (admin only)
 router.delete(
   "/:categoryId",
   auth(UserRole.admin, UserRole.moderator, UserRole["super-admin"]),
   authorizeRoute(),
-  VastuCategoryController.deleteVastuCategory
+  CategoryController.deleteCategory
 );
 
-export const VastuCategoryRoutes = router;
+export const CategoryRoutes = router;

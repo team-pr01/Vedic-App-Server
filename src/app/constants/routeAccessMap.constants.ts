@@ -62,10 +62,10 @@ export const routeAccessMap: Record<string, string[]> = {
     "/reels/:reelId", // PUT
     "/reels/:reelId", // DELETE
     // Category
-    "/reelCategory/add-category", // POST
-    "/reelCategory", // GET all
-    "/reelCategory/:categoryId", // GET one
-    "/reelCategory/:categoryId", // DELETE
+    "/category/add-category", // POST
+    "/category", // GET all
+    "/category/:categoryId", // GET one
+    "/category/:categoryId", // DELETE
   ],
 
   // Religious Texts

@@ -15,9 +15,8 @@ import { ReligiousTextRoutes } from "../modules/religiousTexts/religiousTexts.ro
 import { BookRoutes } from "../modules/religiousTextsNew/book/book.route";
 import { ChapterRoutes } from "../modules/religiousTextsNew/chapter/chapter.route";
 import { SlokOrMantraRoutes } from "../modules/religiousTextsNew/slokOrMantra/slokOrMantra.route";
-import { ReelCategoryRoutes } from "../modules/categories/reelCategory/reelCategory.route";
-import { VastuCategoryRoutes } from "../modules/categories/vastuCategory/vastuCategory.route";
 import { ConsultancyServiceRoutes } from "../modules/consultancyService/consultancyService.route";
+import { CategoryRoutes } from "../modules/categories/reelCategory/categories.route";
 
 const router = Router();
 
@@ -87,12 +86,8 @@ const moduleRoutes = [
     route: SlokOrMantraRoutes,
   },
   {
-    path: "/reelCategory",
-    route: ReelCategoryRoutes,
-  },
-  {
-    path: "/vastuCategory",
-    route: VastuCategoryRoutes,
+    path: "/category",
+    route: CategoryRoutes,
   },
   {
     path: "/consultancyService",
