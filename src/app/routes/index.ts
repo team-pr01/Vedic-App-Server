@@ -17,6 +17,7 @@ import { ChapterRoutes } from "../modules/religiousTextsNew/chapter/chapter.rout
 import { SlokOrMantraRoutes } from "../modules/religiousTextsNew/slokOrMantra/slokOrMantra.route";
 import { ReelCategoryRoutes } from "../modules/categories/reelCategory/reelCategory.route";
 import { VastuCategoryRoutes } from "../modules/categories/vastuCategory/vastuCategory.route";
+import { ConsultancyServiceRoutes } from "../modules/consultancyService/consultancyService.route";
 
 const router = Router();
 
@@ -92,6 +93,10 @@ const moduleRoutes = [
   {
     path: "/vastuCategory",
     route: VastuCategoryRoutes,
+  },
+  {
+    path: "/consultancyService",
+    route: ConsultancyServiceRoutes,
   },
 ];
 

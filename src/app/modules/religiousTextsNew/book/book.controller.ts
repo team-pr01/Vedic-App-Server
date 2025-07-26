@@ -7,7 +7,6 @@ import AppError from "../../../errors/AppError";
 
 // ✅ Create a new book
 const createBook = catchAsync(async (req: Request, res: Response) => {
-  console.log(req.body);
   const file = req.file;
 
   const result = await BookService.createBook(req.body, file);
