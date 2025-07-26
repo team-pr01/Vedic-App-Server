@@ -21,7 +21,8 @@ const addConsultancyService = catchAsync(async (req, res) => {
 
 // Get all consultancy services
 const getAllConsultancyServices = catchAsync(async (req, res) => {
-  const result = await ConsultancyServiceServices.getAllConsultancyServices();
+  const { keyword, category } = req.query;
+  const result = await ConsultancyServiceServices.getAllConsultancyServices(keyword, category);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

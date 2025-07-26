@@ -30,8 +30,24 @@ const addConsultancyService = async (
 };
 
 // Get all consultancy services
-const getAllConsultancyServices = async () => {
-  const result = await ConsultancyService.find();
+const getAllConsultancyServices = async (keyword:any, category:any) => {
+
+  // Build dynamic filter object
+  const query: any = {};
+
+  if (keyword) {
+    // Case-insensitive regex search on name and specialty
+    query.$or = [
+      { name: { $regex: keyword, $options: "i" } },
+      { specialty: { $regex: keyword, $options: "i" } },
+    ];
+  }
+
+   if (category) {
+    query.category = { $regex: category, $options: "i" };
+  }
+
+  const result = await ConsultancyService.find(query);
   return result;
 };
 
