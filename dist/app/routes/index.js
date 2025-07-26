@@ -17,9 +17,8 @@ const religiousTexts_route_1 = require("../modules/religiousTexts/religiousTexts
 const book_route_1 = require("../modules/religiousTextsNew/book/book.route");
 const chapter_route_1 = require("../modules/religiousTextsNew/chapter/chapter.route");
 const slokOrMantra_route_1 = require("../modules/religiousTextsNew/slokOrMantra/slokOrMantra.route");
-const reelCategory_route_1 = require("../modules/categories/reelCategory/reelCategory.route");
-const vastuCategory_route_1 = require("../modules/categories/vastuCategory/vastuCategory.route");
 const consultancyService_route_1 = require("../modules/consultancyService/consultancyService.route");
+const categories_route_1 = require("../modules/categories/reelCategory/categories.route");
 const router = (0, express_1.Router)();
 const moduleRoutes = [
     {
@@ -87,12 +86,8 @@ const moduleRoutes = [
         route: slokOrMantra_route_1.SlokOrMantraRoutes,
     },
     {
-        path: "/reelCategory",
-        route: reelCategory_route_1.ReelCategoryRoutes,
-    },
-    {
-        path: "/vastuCategory",
-        route: vastuCategory_route_1.VastuCategoryRoutes,
+        path: "/category",
+        route: categories_route_1.CategoryRoutes,
     },
     {
         path: "/consultancyService",
