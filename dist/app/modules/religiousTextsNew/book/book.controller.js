@@ -20,7 +20,6 @@ const book_services_1 = require("./book.services");
 const AppError_1 = __importDefault(require("../../../errors/AppError"));
 // ✅ Create a new book
 const createBook = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.body);
     const file = req.file;
     const result = yield book_services_1.BookService.createBook(req.body, file);
     (0, sendResponse_1.default)(res, {

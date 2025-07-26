@@ -76,7 +76,6 @@ const updateBook = (id, payload, file) => __awaiter(void 0, void 0, void 0, func
         const { secure_url } = yield (0, sendImageToCloudinary_1.sendImageToCloudinary)(imageName, path);
         imageUrl = secure_url;
     }
-    // Prepare the update payload
     const updatePayload = Object.assign(Object.assign({}, payload), (imageUrl && { imageUrl }));
     const result = yield book_model_1.default.findByIdAndUpdate(id, updatePayload, {
         new: true,

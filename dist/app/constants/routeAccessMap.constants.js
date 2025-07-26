@@ -94,8 +94,16 @@ exports.routeAccessMap = {
     "/dashboard/yoga": [
         "/yoga/add-yoga", // POST
         "/yoga", // GET all
-        "/yoga/:yogaId", // GET one
+        "/yoga/:consultancyServiceId", // GET one
         "/yoga/:yogaId", // PUT
         "/yoga/:yogaId", // DELETE
+    ],
+    //   Conaultancy Service
+    "/dashboard/consultancy-service": [
+        "/consultancyService/add-consultancy-service", // POST
+        "/consultancyService", // GET all
+        "/consultancyService/:consultancyServiceId", // GET one
+        "/consultancyService/:consultancyServiceId", // PUT
+        "/consultancyService/:consultancyServiceId", // DELETE
     ],
 };

@@ -19,6 +19,7 @@ const chapter_route_1 = require("../modules/religiousTextsNew/chapter/chapter.ro
 const slokOrMantra_route_1 = require("../modules/religiousTextsNew/slokOrMantra/slokOrMantra.route");
 const reelCategory_route_1 = require("../modules/categories/reelCategory/reelCategory.route");
 const vastuCategory_route_1 = require("../modules/categories/vastuCategory/vastuCategory.route");
+const consultancyService_route_1 = require("../modules/consultancyService/consultancyService.route");
 const router = (0, express_1.Router)();
 const moduleRoutes = [
     {
@@ -92,6 +93,10 @@ const moduleRoutes = [
     {
         path: "/vastuCategory",
         route: vastuCategory_route_1.VastuCategoryRoutes,
+    },
+    {
+        path: "/consultancyService",
+        route: consultancyService_route_1.ConsultancyServiceRoutes,
     },
 ];
 moduleRoutes.forEach((route) => router.use(route.path, route.route));
