@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { TBook, TSlokOrMantra } from "./book.interface";
+import { TBook } from "./book.interface";
 import httpStatus from "http-status";
 import AppError from "../../../errors/AppError";
 import { sendImageToCloudinary } from "../../../utils/sendImageToCloudinary";
@@ -118,51 +118,52 @@ const addBookChapters = async (bookId: string, newChapters: any[]) => {
   return updatedBook;
 };
 
-const addSlokOrMantraToChapter = async (
-  bookId: string,
-  chapterIndex: number,
-  payload: TSlokOrMantra
-) => {
-  const book = await Book.findById(bookId);
-  if (!book) throw new Error("Book not found");
+// const addSlokOrMantraToChapter = async (
+//   bookId: string,
+//   chapterIndex: number,
+//   payload: any
+// ) => {
+//   const bookDoc = await Book.findById(bookId);
+//   if (!bookDoc) throw new Error("Book not found");
 
-  const chapter = book.chapters?.[chapterIndex];
-  if (!chapter) throw new Error("Chapter not found");
+//   const book = bookDoc.toObject() as TBook;
+//   const chapter = book.chapters?.[chapterIndex];
+//   if (!chapter) throw new Error("Chapter not found");
 
-  const normalizedType = payload.type.toLowerCase();
+//   const normalizedType = payload.type.toLowerCase();
 
-  // Add type
-  if (!Array.isArray(chapter.type)) chapter.type = [];
-  if (!chapter.type.includes(normalizedType)) chapter.type.push(normalizedType);
+//   // Add type
+//   if (!Array.isArray(chapter.type)) chapter.type = [];
+//   if (!chapter.type.includes(normalizedType)) chapter.type.push(normalizedType);
 
-  // Flat and unique type
-  chapter.type = [...new Set(chapter.type.flat())];
+//   // Flat and unique type
+//   chapter.type = [...new Set(chapter.type.flat())];
 
-  // Ensure slokOrMantras exists
-  if (!Array.isArray(chapter.slokOrMantras)) chapter.slokOrMantras = [];
+//   // Ensure slokOrMantras exists
+//   if (!Array.isArray(chapter.slokOrMantras)) chapter.slokOrMantras = [];
 
-  // Push new slok/mantra
-  const newSlok = {
-    ...payload,
-    type: normalizedType as any,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  };
+//   // Push new slok/mantra
+//   const newSlok = {
+//     ...payload,
+//     type: normalizedType as any,
+//     createdAt: new Date(),
+//     updatedAt: new Date(),
+//   };
 
-  chapter.slokOrMantras.push(newSlok);
+//   chapter.slokOrMantras.push(newSlok);
 
-  // Debug check
-  console.log("Added slok:", newSlok);
-  console.log("Final chapter:", chapter);
+//   // Debug check
+//   console.log("Added slok:", newSlok);
+//   console.log("Final chapter:", chapter);
 
-  // Mark paths as modified
-  book.markModified(`chapters.${chapterIndex}.slokOrMantras`);
-  book.markModified(`chapters.${chapterIndex}.type`);
+//   // Mark paths as modified
+//   book.markModified(`chapters.${chapterIndex}.slokOrMantras`);
+//   book.markModified(`chapters.${chapterIndex}.type`);
 
-  // Save and return updated book
-  const updatedBook = await book.save();
-  return updatedBook;
-};
+//   // Save and return updated book
+//   const updatedBook = await book.save();
+//   return updatedBook;
+// };
 
 export const BookService = {
   createBook,
@@ -171,5 +172,5 @@ export const BookService = {
   updateBook,
   deleteBook,
   addBookChapters,
-  addSlokOrMantraToChapter,
+  // addSlokOrMantraToChapter,
 };

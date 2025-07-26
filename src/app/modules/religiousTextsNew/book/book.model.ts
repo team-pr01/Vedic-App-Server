@@ -27,7 +27,6 @@ const BookSchema = new Schema<TBook>(
                 translations: [
                   {
                     language: { type: String, required: true },
-                    title: { type: String, default: "" },
                     description: { type: String, default: "" },
                   },
                 ],

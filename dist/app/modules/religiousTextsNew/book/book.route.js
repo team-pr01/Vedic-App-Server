@@ -24,7 +24,10 @@ router.put("/update-book/:bookId", multer_config_1.multerUpload.single("file"), 
 // Add or update chapters in a book (protected: admin, moderator, super-admin)
 router.put("/add-chapters/:bookId", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), book_controller_1.BookController.addChaptersInBook);
 // Add or update satisfies;ol or mantra in a chapter (protected: admin, moderator, super-admin)
-router.put("/:bookId/chapters/:chapterIndex/slokOrMantra", book_controller_1.BookController.addSlokOrMantraToChapter);
+// router.put(
+//   "/:bookId/chapters/:chapterIndex/slokOrMantra",
+//   BookController.addSlokOrMantraToChapter
+// );
 // Delete a book (protected)
 router.delete("/delete-book/:bookId", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), 
 // authorizeRoute(),

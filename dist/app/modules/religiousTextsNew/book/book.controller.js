@@ -59,11 +59,23 @@ const getSingleBook = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, 
 const updateBook = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const file = req.file;
     const { bookId } = req.params;
+    // ✅ Parse 'sections' if it's a string
+    if (typeof req.body.sections === "string") {
+        try {
+            req.body.sections = JSON.parse(req.body.sections);
+        }
+        catch (error) {
+            return res.status(400).json({
+                message: "Invalid JSON in 'sections'",
+                error,
+            });
+        }
+    }
     const result = yield book_services_1.BookService.updateBook(bookId, req.body, file);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'Book updated successfully',
+        message: "Book updated successfully",
         data: result,
     });
 }));
@@ -90,16 +102,22 @@ const addChaptersInBook = (0, catchAsync_1.default)((req, res) => __awaiter(void
         data: result,
     });
 }));
-const addSlokOrMantraToChapter = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { bookId, chapterIndex } = req.params;
-    const result = yield book_services_1.BookService.addSlokOrMantraToChapter(bookId, parseInt(chapterIndex), req.body);
-    (0, sendResponse_1.default)(res, {
-        statusCode: http_status_1.default.OK,
-        success: true,
-        message: "Slok or Mantra added to chapter successfully",
-        data: result,
-    });
-}));
+// const addSlokOrMantraToChapter = catchAsync(
+//   async (req: Request, res: Response) => {
+//     const { bookId, chapterIndex } = req.params;
+//     const result = await BookService.addSlokOrMantraToChapter(
+//       bookId,
+//       parseInt(chapterIndex),
+//       req.body
+//     );
+//     sendResponse(res, {
+//       statusCode: httpStatus.OK,
+//       success: true,
+//       message: "Slok or Mantra added to chapter successfully",
+//       data: result,
+//     });
+//   }
+// );
 exports.BookController = {
     createBook,
     getAllBooks,
@@ -107,5 +125,5 @@ exports.BookController = {
     updateBook,
     deleteBook,
     addChaptersInBook,
-    addSlokOrMantraToChapter
+    // addSlokOrMantraToChapter
 };

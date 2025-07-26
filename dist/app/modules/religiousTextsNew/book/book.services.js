@@ -26,7 +26,17 @@ const createBook = (payload, file) => __awaiter(void 0, void 0, void 0, function
         const { secure_url } = yield (0, sendImageToCloudinary_1.sendImageToCloudinary)(imageName, path);
         imageUrl = secure_url;
     }
-    const payloadData = Object.assign(Object.assign({}, payload), { imageUrl });
+    // 🛠️ Fix: parse sections if it's a string (due to FormData)
+    let parsedSections = payload.sections;
+    if (typeof parsedSections === "string") {
+        try {
+            parsedSections = JSON.parse(parsedSections);
+        }
+        catch (error) {
+            throw new Error("Invalid JSON format for sections");
+        }
+    }
+    const payloadData = Object.assign(Object.assign({}, payload), { sections: parsedSections, imageUrl });
     const result = yield book_model_1.default.create(payloadData);
     return result;
 });
@@ -86,38 +96,42 @@ const addBookChapters = (bookId, newChapters) => __awaiter(void 0, void 0, void 
     const updatedBook = yield book_model_1.default.findByIdAndUpdate(bookId, { $push: { chapters: { $each: newChapters } } }, { new: true, runValidators: true });
     return updatedBook;
 });
-const addSlokOrMantraToChapter = (bookId, chapterIndex, payload) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
-    const book = yield book_model_1.default.findById(bookId);
-    if (!book)
-        throw new Error("Book not found");
-    const chapter = (_a = book.chapters) === null || _a === void 0 ? void 0 : _a[chapterIndex];
-    if (!chapter)
-        throw new Error("Chapter not found");
-    const normalizedType = payload.type.toLowerCase();
-    // Add type
-    if (!Array.isArray(chapter.type))
-        chapter.type = [];
-    if (!chapter.type.includes(normalizedType))
-        chapter.type.push(normalizedType);
-    // Flat and unique type
-    chapter.type = [...new Set(chapter.type.flat())];
-    // Ensure slokOrMantras exists
-    if (!Array.isArray(chapter.slokOrMantras))
-        chapter.slokOrMantras = [];
-    // Push new slok/mantra
-    const newSlok = Object.assign(Object.assign({}, payload), { type: normalizedType, createdAt: new Date(), updatedAt: new Date() });
-    chapter.slokOrMantras.push(newSlok);
-    // Debug check
-    console.log("Added slok:", newSlok);
-    console.log("Final chapter:", chapter);
-    // Mark paths as modified
-    book.markModified(`chapters.${chapterIndex}.slokOrMantras`);
-    book.markModified(`chapters.${chapterIndex}.type`);
-    // Save and return updated book
-    const updatedBook = yield book.save();
-    return updatedBook;
-});
+// const addSlokOrMantraToChapter = async (
+//   bookId: string,
+//   chapterIndex: number,
+//   payload: any
+// ) => {
+//   const bookDoc = await Book.findById(bookId);
+//   if (!bookDoc) throw new Error("Book not found");
+//   const book = bookDoc.toObject() as TBook;
+//   const chapter = book.chapters?.[chapterIndex];
+//   if (!chapter) throw new Error("Chapter not found");
+//   const normalizedType = payload.type.toLowerCase();
+//   // Add type
+//   if (!Array.isArray(chapter.type)) chapter.type = [];
+//   if (!chapter.type.includes(normalizedType)) chapter.type.push(normalizedType);
+//   // Flat and unique type
+//   chapter.type = [...new Set(chapter.type.flat())];
+//   // Ensure slokOrMantras exists
+//   if (!Array.isArray(chapter.slokOrMantras)) chapter.slokOrMantras = [];
+//   // Push new slok/mantra
+//   const newSlok = {
+//     ...payload,
+//     type: normalizedType as any,
+//     createdAt: new Date(),
+//     updatedAt: new Date(),
+//   };
+//   chapter.slokOrMantras.push(newSlok);
+//   // Debug check
+//   console.log("Added slok:", newSlok);
+//   console.log("Final chapter:", chapter);
+//   // Mark paths as modified
+//   book.markModified(`chapters.${chapterIndex}.slokOrMantras`);
+//   book.markModified(`chapters.${chapterIndex}.type`);
+//   // Save and return updated book
+//   const updatedBook = await book.save();
+//   return updatedBook;
+// };
 exports.BookService = {
     createBook,
     getAllBooks,
@@ -125,5 +139,5 @@ exports.BookService = {
     updateBook,
     deleteBook,
     addBookChapters,
-    addSlokOrMantraToChapter,
+    // addSlokOrMantraToChapter,
 };

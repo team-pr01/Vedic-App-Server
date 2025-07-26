@@ -58,6 +58,11 @@ exports.routeAccessMap = {
         "/reels/:reelId", // GET one
         "/reels/:reelId", // PUT
         "/reels/:reelId", // DELETE
+        // Category
+        "/reelCategory/add-category", // POST
+        "/reelCategory", // GET all
+        "/reelCategory/:categoryId", // GET one
+        "/reelCategory/:categoryId", // DELETE
     ],
     // Religious Texts
     "/dashboard/religious-texts": [

@@ -40,10 +40,10 @@ router.put(
 );
 
 // Add or update satisfies;ol or mantra in a chapter (protected: admin, moderator, super-admin)
-router.put(
-  "/:bookId/chapters/:chapterIndex/slokOrMantra",
-  BookController.addSlokOrMantraToChapter
-);
+// router.put(
+//   "/:bookId/chapters/:chapterIndex/slokOrMantra",
+//   BookController.addSlokOrMantraToChapter
+// );
 
 
 // Delete a book (protected)
