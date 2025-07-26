@@ -86,10 +86,9 @@ const updateBook = async (id: string, payload: Partial<TBook>, file: any) => {
     imageUrl = secure_url;
   }
 
-  // Prepare the update payload
   const updatePayload: Partial<TBook> = {
     ...payload,
-    ...(imageUrl && { imageUrl }), // Only add imageUrl if it exists
+    ...(imageUrl && { imageUrl }),
   };
 
   const result = await Book.findByIdAndUpdate(id, updatePayload, {

@@ -48,8 +48,9 @@ const authorizeRoute = () => {
     // 👇️ Construct and normalize current route
     let currentRoute = req.baseUrl + (req.route?.path ?? "");
 
-    currentRoute = currentRoute.replace(/^\/api\/v[0-9]+/, "").replace(/\/$/, "");
-
+    currentRoute = currentRoute
+      .replace(/^\/api\/v[0-9]+/, "")
+      .replace(/\/$/, "");
 
     // Flatten allowed backend routes from assigned frontend pages
     const allowedRoutes = user!

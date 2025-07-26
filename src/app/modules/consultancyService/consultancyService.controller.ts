@@ -48,10 +48,13 @@ const getSingleConsultancyServiceById = catchAsync(async (req, res) => {
 
 // Update consultancy service
 const updateConsultancyService = catchAsync(async (req, res) => {
+  console.log("object");
+  const file = req.file;
   const { consultancyServiceId } = req.params;
   const result = await ConsultancyServiceServices.updateConsultancyService(
     consultancyServiceId,
-    req.body
+    req.body,
+    file
   );
 
   sendResponse(res, {

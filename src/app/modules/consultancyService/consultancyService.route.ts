@@ -12,13 +12,20 @@ router.post(
   "/add-consultancy-service",
   multerUpload.single("file"),
   auth(UserRole.admin, UserRole.moderator, UserRole["super-admin"]),
+  authorizeRoute(),
   ConsultancyServiceControllers.addConsultancyService
 );
 
 router.get("/", ConsultancyServiceControllers.getAllConsultancyServices);
 router.get("/:consultancyServiceId", ConsultancyServiceControllers.getSingleConsultancyServiceById);
 
-router.put("/:consultancyServiceId", auth(UserRole.admin, UserRole.moderator, UserRole["super-admin"]), authorizeRoute(), ConsultancyServiceControllers.updateConsultancyService);
+router.put(
+  "/:consultancyServiceId",
+  multerUpload.single("file"),
+  auth(UserRole.admin, UserRole.moderator, UserRole["super-admin"]),
+  authorizeRoute(),
+  ConsultancyServiceControllers.updateConsultancyService
+);
 
 router.delete("/:consultancyServiceId", auth(UserRole.admin, UserRole.moderator, UserRole["super-admin"]), authorizeRoute(), ConsultancyServiceControllers.deleteConsultancyService);
 

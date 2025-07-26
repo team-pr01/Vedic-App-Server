@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
 import { TConsultancyService } from "./consultancyService.interface";
@@ -46,7 +47,8 @@ const getSingleConsultancyServiceById = async (id: string) => {
 // Update consultancy service
 const updateConsultancyService = async (
   id: string,
-  payload: Partial<TConsultancyService>
+  payload: Partial<TConsultancyService>,
+  file: any
 ) => {
   const existing = await ConsultancyService.findById(id);
 
@@ -54,7 +56,22 @@ const updateConsultancyService = async (
     throw new AppError(httpStatus.NOT_FOUND, "Consultancy service not found");
   }
 
-  const result = await ConsultancyService.findByIdAndUpdate(id, payload, {
+  let imageUrl: string | undefined;
+
+  if (file) {
+    const imageName = `${payload?.name || existing.name}-${Date.now()}`;
+    const path = file.path;
+
+    const { secure_url } = await sendImageToCloudinary(imageName, path);
+    imageUrl = secure_url;
+  }
+
+  const updatePayload: Partial<TConsultancyService> = {
+    ...payload,
+    ...(imageUrl && { imageUrl }),
+  };
+
+  const result = await ConsultancyService.findByIdAndUpdate(id, updatePayload, {
     new: true,
     runValidators: true,
   });
