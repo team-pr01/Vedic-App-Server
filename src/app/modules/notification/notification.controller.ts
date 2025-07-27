@@ -6,7 +6,6 @@ import { io } from "../../../server";
 
 const addNotification = catchAsync(async (req, res) => {
   const result = await NotificationServices.addNotification(req.body);
-  console.log(result);
 
   // Emit to all connected clients
   io.emit('new-notification', result);

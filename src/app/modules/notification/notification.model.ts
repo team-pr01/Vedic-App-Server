@@ -11,14 +11,6 @@ const NotificationSchema = new Schema<TNotification>(
       type: String,
       required: true,
     },
-    targetedAudience: {
-      type: [String],
-      required: true,
-    },
-    endDate: {
-      type: Date,
-      required: true,
-    },
   },
   {
     timestamps: true,

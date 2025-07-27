@@ -3,6 +3,7 @@ import httpStatus from "http-status";
 import catchAsync from "../../utils/catchAsync";
 import { EmergencyServices } from "./emergency.services";
 import { io } from "../../../server";
+import Notification from "../notification/notification.model";
 
 // Send emergency message by admin
 const sendEmergencyMessageAdmin = catchAsync(async (req, res) => {
@@ -11,7 +12,7 @@ const sendEmergencyMessageAdmin = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Message sent successfully",
+    message: "Message forwarded successfully",
     data: result,
   });
 });
@@ -20,6 +21,12 @@ const sendEmergencyMessageAdmin = catchAsync(async (req, res) => {
 const postEmergency = catchAsync(async (req, res) => {
   // const files = Array.isArray(req.files) ? req.files : [];
   const result = await EmergencyServices.postEmergency(req.body);
+
+  await Notification.create({
+    title: "Emergency Message",
+    message: result.message,
+    createdAt: result.createdAt,
+  });
 
   io.emit("new-notification", {
     title: "Emergency Message",

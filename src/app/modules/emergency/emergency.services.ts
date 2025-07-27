@@ -10,20 +10,18 @@ type TQuery = {
   status?: string;
 };
 
-
-// Send emergency message by admin
+// Send emergency message by admin to particular groups
 const sendEmergencyMessageAdmin = async (payload: TEmergencyMessageAdmin) => {
-  const { title, message, severity, targetGroups } = payload;
+  const { emergencyMessageId, title, adminMessage, targetGroups } = payload;
 
-  console.log(title);
   const payloadData = {
+    emergencyMessageId,
     title,
-    message,
-    severity,
-    targetGroups
+    adminMessage,
+    targetGroups,
   };
 
-  const result = await EmergencyMessageAdmin.create(payloadData);  
+  const result = await EmergencyMessageAdmin.create(payloadData);
 
   return result;
 };
@@ -47,10 +45,10 @@ const postEmergency = async (payload: TEmergency) => {
   const payloadData = {
     user,
     message,
-    location
+    location,
   };
 
-  const result = await Emergency.create(payloadData);  
+  const result = await Emergency.create(payloadData);
 
   return result;
 };
@@ -73,7 +71,6 @@ const getAllEmergencyPosts = async (query: TQuery) => {
   return result;
 };
 
-
 // Get single emergency post by id
 const getSingleEmergencyPostById = async (emergencyId: string) => {
   const result = await Emergency.findById(emergencyId).populate("user");
@@ -85,21 +82,21 @@ const getSingleEmergencyPostById = async (emergencyId: string) => {
 
 // Change emergency post status
 const changeEmergencyPostStatus = async (
-  emergencyId: string, 
+  emergencyId: string,
   status: "pending" | "processing" | "resolved"
 ) => {
   const emergencyPost = await Emergency.findById(emergencyId);
   if (!emergencyPost) {
-    throw new Error('Emergency post not found');
+    throw new Error("Emergency post not found");
   }
 
   // Update status
   emergencyPost.status = status;
-  
+
   if (status === "resolved") {
     emergencyPost.resolvedAt = new Date();
   }
-  
+
   await emergencyPost.save();
   return emergencyPost;
 };
@@ -131,7 +128,6 @@ const deleteEmergencyPost = async (emergencyId: string) => {
   }
   return result;
 };
-
 
 export const EmergencyServices = {
   sendEmergencyMessageAdmin,

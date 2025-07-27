@@ -43,29 +43,26 @@ export default Emergency;
 
 const EmergencyMessageAdminSchema = new Schema<TEmergencyMessageAdmin>(
   {
+    emergencyMessageId : {
+      type: Schema.Types.ObjectId,
+      ref: "Emergency",
+      required: true
+    },
     title: {
       type: String,
-      required: true,
+      required: false,
+      default: ""
     },
-    message: {
+    adminMessage: {
       type: String,
-      required: true,
-    },
-    severity: {
-      type: String,
-      enum: ["low", "moderate", "high", "critical"],
-      default: "moderate",
+      required: false,
+      default: "Emergency message from admin"
     },
     targetGroups: {
       type: [String],
       enum: ["all", "staff", "volunteers", "members"],
       required: true,
     },
-    // sentBy: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: "User",
-    //   required: true,
-    // },
   },
   {
     timestamps: true,

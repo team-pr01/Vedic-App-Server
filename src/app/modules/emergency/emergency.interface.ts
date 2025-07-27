@@ -12,9 +12,8 @@ export type TEmergency = {
 };
 
 export type TEmergencyMessageAdmin = {
-  title: string;
-  message: string;
-  severity: "low" | "moderate" | "high" | "critical";
+  emergencyMessageId : Types.ObjectId;
+  title?: string;
+  adminMessage?: string;
   targetGroups: ("all" | "moderators" | "admins")[];
-  // sentBy: Types.ObjectId;
 };
