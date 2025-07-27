@@ -15,6 +15,7 @@ type TQuery = {
 const sendEmergencyMessageAdmin = async (payload: TEmergencyMessageAdmin) => {
   const { title, message, severity, targetGroups } = payload;
 
+  console.log(title);
   const payloadData = {
     title,
     message,

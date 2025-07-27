@@ -2,18 +2,23 @@ import httpStatus from "http-status";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import { NotificationServices } from "./notification.services";
+import { io } from "../../../server";
 
-// Add
 const addNotification = catchAsync(async (req, res) => {
   const result = await NotificationServices.addNotification(req.body);
+  console.log(result);
+
+  // Emit to all connected clients
+  io.emit('new-notification', result);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Notification added successfully",
+    message: 'Notification added successfully',
     data: result,
   });
 });
+
 
 // Get All
 const getAllNotifications = catchAsync(async (_req, res) => {
