@@ -19,6 +19,7 @@ const chapter_route_1 = require("../modules/religiousTextsNew/chapter/chapter.ro
 const slokOrMantra_route_1 = require("../modules/religiousTextsNew/slokOrMantra/slokOrMantra.route");
 const consultancyService_route_1 = require("../modules/consultancyService/consultancyService.route");
 const categories_route_1 = require("../modules/categories/reelCategory/categories.route");
+const apiKeys_route_1 = require("../modules/apiKeys/apiKeys.route");
 const router = (0, express_1.Router)();
 const moduleRoutes = [
     {
@@ -92,6 +93,10 @@ const moduleRoutes = [
     {
         path: "/consultancyService",
         route: consultancyService_route_1.ConsultancyServiceRoutes,
+    },
+    {
+        path: "/apiKeys",
+        route: apiKeys_route_1.ApiKeyRoutes,
     },
 ];
 moduleRoutes.forEach((route) => router.use(route.path, route.route));

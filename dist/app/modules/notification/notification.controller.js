@@ -17,13 +17,15 @@ const http_status_1 = __importDefault(require("http-status"));
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const notification_services_1 = require("./notification.services");
-// Add
+const server_1 = require("../../../server");
 const addNotification = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield notification_services_1.NotificationServices.addNotification(req.body);
+    // Emit to all connected clients
+    server_1.io.emit('new-notification', result);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: "Notification added successfully",
+        message: 'Notification added successfully',
         data: result,
     });
 }));

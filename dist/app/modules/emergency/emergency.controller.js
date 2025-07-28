@@ -17,13 +17,15 @@ const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const http_status_1 = __importDefault(require("http-status"));
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const emergency_services_1 = require("./emergency.services");
+const server_1 = require("../../../server");
+const notification_model_1 = __importDefault(require("../notification/notification.model"));
 // Send emergency message by admin
 const sendEmergencyMessageAdmin = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield emergency_services_1.EmergencyServices.sendEmergencyMessageAdmin(req.body);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'Message sent successfully',
+        message: "Message forwarded successfully",
         data: result,
     });
 }));
@@ -31,10 +33,23 @@ const sendEmergencyMessageAdmin = (0, catchAsync_1.default)((req, res) => __awai
 const postEmergency = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // const files = Array.isArray(req.files) ? req.files : [];
     const result = yield emergency_services_1.EmergencyServices.postEmergency(req.body);
+    yield notification_model_1.default.create({
+        title: "Emergency Message",
+        message: result.message,
+        createdAt: result.createdAt,
+    });
+    server_1.io.emit("new-notification", {
+        title: "Emergency Message",
+        message: result.message,
+        createdAt: result.createdAt,
+        severity: result.severity,
+        location: result.location,
+        status: result.status,
+    });
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'We have received your request and will get back to you soon.',
+        message: "We have received your request and will get back to you soon.",
         data: result,
     });
 }));
@@ -59,7 +74,7 @@ const getSingleEmergencyPostById = (0, catchAsync_1.default)((req, res) => __awa
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'Post fetched successfully.',
+        message: "Post fetched successfully.",
         data: result,
     });
 }));
@@ -70,7 +85,7 @@ const updateEmergencyPost = (0, catchAsync_1.default)((req, res) => __awaiter(vo
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'Emergency post updated successfully',
+        message: "Emergency post updated successfully",
         data: result,
     });
 }));
@@ -82,7 +97,7 @@ const changeEmergencyPostStatus = (0, catchAsync_1.default)((req, res) => __awai
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'User role updated to admin successfully',
+        message: "User role updated to admin successfully",
         data: result,
     });
 }));
@@ -93,7 +108,7 @@ const deleteEmergencyPost = (0, catchAsync_1.default)((req, res) => __awaiter(vo
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'Emergency post deleted successfully',
+        message: "Emergency post deleted successfully",
         data: result,
     });
 }));

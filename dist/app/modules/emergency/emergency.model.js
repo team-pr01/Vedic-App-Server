@@ -35,29 +35,26 @@ const EmergencySchema = new mongoose_1.Schema({
 const Emergency = (0, mongoose_1.model)("Emergency", EmergencySchema);
 exports.default = Emergency;
 const EmergencyMessageAdminSchema = new mongoose_1.Schema({
+    emergencyMessageId: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: "Emergency",
+        required: true
+    },
     title: {
         type: String,
-        required: true,
+        required: false,
+        default: ""
     },
-    message: {
+    adminMessage: {
         type: String,
-        required: true,
-    },
-    severity: {
-        type: String,
-        enum: ["low", "moderate", "high", "critical"],
-        default: "moderate",
+        required: false,
+        default: "Emergency message from admin"
     },
     targetGroups: {
         type: [String],
         enum: ["all", "staff", "volunteers", "members"],
         required: true,
     },
-    // sentBy: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: "User",
-    //   required: true,
-    // },
 }, {
     timestamps: true,
 });

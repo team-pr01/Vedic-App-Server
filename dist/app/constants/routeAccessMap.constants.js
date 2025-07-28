@@ -106,4 +106,10 @@ exports.routeAccessMap = {
         "/consultancyService/:consultancyServiceId", // PUT
         "/consultancyService/:consultancyServiceId", // DELETE
     ],
+    //   Api Keys
+    "/dashboard/api-keys": [
+        "/apiKeys/add", // POST
+        "/apiKeys", // GET all
+        "/apiKeys/:apiKeyId", // DELETE
+    ],
 };

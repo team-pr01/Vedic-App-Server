@@ -10,14 +10,6 @@ const NotificationSchema = new mongoose_1.Schema({
         type: String,
         required: true,
     },
-    targetedAudience: {
-        type: [String],
-        required: true,
-    },
-    endDate: {
-        type: Date,
-        required: true,
-    },
 }, {
     timestamps: true,
 });

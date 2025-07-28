@@ -41,14 +41,14 @@ const http_status_1 = __importDefault(require("http-status"));
 const AppError_1 = __importDefault(require("../../errors/AppError"));
 const emergency_model_1 = __importStar(require("./emergency.model"));
 const emergency_model_2 = __importDefault(require("./emergency.model"));
-// Send emergency message by admin
+// Send emergency message by admin to particular groups
 const sendEmergencyMessageAdmin = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const { title, message, severity, targetGroups } = payload;
+    const { emergencyMessageId, title, adminMessage, targetGroups } = payload;
     const payloadData = {
+        emergencyMessageId,
         title,
-        message,
-        severity,
-        targetGroups
+        adminMessage,
+        targetGroups,
     };
     const result = yield emergency_model_1.EmergencyMessageAdmin.create(payloadData);
     return result;
@@ -68,7 +68,7 @@ const postEmergency = (payload) => __awaiter(void 0, void 0, void 0, function* (
     const payloadData = {
         user,
         message,
-        location
+        location,
     };
     const result = yield emergency_model_1.default.create(payloadData);
     return result;
@@ -98,7 +98,7 @@ const getSingleEmergencyPostById = (emergencyId) => __awaiter(void 0, void 0, vo
 const changeEmergencyPostStatus = (emergencyId, status) => __awaiter(void 0, void 0, void 0, function* () {
     const emergencyPost = yield emergency_model_1.default.findById(emergencyId);
     if (!emergencyPost) {
-        throw new Error('Emergency post not found');
+        throw new Error("Emergency post not found");
     }
     // Update status
     emergencyPost.status = status;
