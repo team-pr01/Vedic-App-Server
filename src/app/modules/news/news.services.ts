@@ -14,8 +14,7 @@ const getAllNews = async (keyword:any, category:any) => {
 
   if (keyword) {
     query.$or = [
-      { name: { $regex: keyword, $options: "i" } },
-      { specialty: { $regex: keyword, $options: "i" } },
+      { title: { $regex: keyword, $options: "i" } },
     ];
   }
 

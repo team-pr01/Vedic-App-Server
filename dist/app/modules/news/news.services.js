@@ -25,8 +25,7 @@ const getAllNews = (keyword, category) => __awaiter(void 0, void 0, void 0, func
     const query = {};
     if (keyword) {
         query.$or = [
-            { name: { $regex: keyword, $options: "i" } },
-            { specialty: { $regex: keyword, $options: "i" } },
+            { title: { $regex: keyword, $options: "i" } },
         ];
     }
     if (category) {
