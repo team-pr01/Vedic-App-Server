@@ -40,7 +40,7 @@ const addYoga = (payload, createdBy) => __awaiter(void 0, void 0, void 0, functi
 const getAllYogas = (keyword) => __awaiter(void 0, void 0, void 0, function* () {
     const filter = {};
     if (keyword) {
-        filter.title = { $regex: keyword, $options: "i" };
+        filter.name = { $regex: keyword, $options: "i" };
     }
     const result = yield yoga_model_1.default.find();
     return result;

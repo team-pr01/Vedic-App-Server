@@ -43,7 +43,7 @@ const getAllYogas = async (keyword: any) => {
   const filter: any = {};
 
   if (keyword) {
-    filter.title = { $regex: keyword, $options: "i" };
+    filter.name = { $regex: keyword, $options: "i" };
   }
 
   const result = await Yoga.find();
