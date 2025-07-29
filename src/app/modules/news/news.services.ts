@@ -9,16 +9,24 @@ const addNews = async (payload: TNews) => {
   return result;
 };
 
-const getAllNews = async (keyword:any) => {
-  const filter: any = {};
+const getAllNews = async (keyword:any, category:any) => {
+ const query: any = {};
 
   if (keyword) {
-    filter.title = { $regex: keyword, $options: "i" };
+    query.$or = [
+      { name: { $regex: keyword, $options: "i" } },
+      { specialty: { $regex: keyword, $options: "i" } },
+    ];
   }
 
-  const result = await News.find(filter);
+   if (category) {
+    query.category = { $regex: category, $options: "i" };
+  }
+
+  const result = await News.find(query);
   return result;
 };
+
 
 const getSingleNewsById = async (newsId: string) => {
   const result = await News.findById(newsId);

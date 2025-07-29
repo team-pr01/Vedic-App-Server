@@ -19,7 +19,8 @@ const addYoga = catchAsync(async (req, res) => {
 
 // Get all yogas
 const getAllYogas = catchAsync(async (req, res) => {
-  const result = await YogaServices.getAllYogas();
+  const { keyword } = req.query;
+  const result = await YogaServices.getAllYogas(keyword);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

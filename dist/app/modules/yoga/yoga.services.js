@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.YogaServices = void 0;
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const http_status_1 = __importDefault(require("http-status"));
 const AppError_1 = __importDefault(require("../../errors/AppError"));
 const yoga_model_1 = __importDefault(require("./yoga.model"));
@@ -36,7 +37,11 @@ const addYoga = (payload, createdBy) => __awaiter(void 0, void 0, void 0, functi
     return result;
 });
 // Get all yogas
-const getAllYogas = () => __awaiter(void 0, void 0, void 0, function* () {
+const getAllYogas = (keyword) => __awaiter(void 0, void 0, void 0, function* () {
+    const filter = {};
+    if (keyword) {
+        filter.title = { $regex: keyword, $options: "i" };
+    }
     const result = yield yoga_model_1.default.find();
     return result;
 });

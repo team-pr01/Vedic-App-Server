@@ -36,7 +36,6 @@ const getAllConsultancyServices = async (keyword:any, category:any) => {
   const query: any = {};
 
   if (keyword) {
-    // Case-insensitive regex search on name and specialty
     query.$or = [
       { name: { $regex: keyword, $options: "i" } },
       { specialty: { $regex: keyword, $options: "i" } },

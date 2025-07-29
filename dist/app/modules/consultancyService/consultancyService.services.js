@@ -36,7 +36,6 @@ const getAllConsultancyServices = (keyword, category) => __awaiter(void 0, void 
     // Build dynamic filter object
     const query = {};
     if (keyword) {
-        // Case-insensitive regex search on name and specialty
         query.$or = [
             { name: { $regex: keyword, $options: "i" } },
             { specialty: { $regex: keyword, $options: "i" } },

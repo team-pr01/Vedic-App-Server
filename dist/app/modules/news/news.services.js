@@ -21,12 +21,18 @@ const addNews = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield news_model_1.default.create(payload);
     return result;
 });
-const getAllNews = (keyword) => __awaiter(void 0, void 0, void 0, function* () {
-    const filter = {};
+const getAllNews = (keyword, category) => __awaiter(void 0, void 0, void 0, function* () {
+    const query = {};
     if (keyword) {
-        filter.title = { $regex: keyword, $options: "i" };
+        query.$or = [
+            { name: { $regex: keyword, $options: "i" } },
+            { specialty: { $regex: keyword, $options: "i" } },
+        ];
     }
-    const result = yield news_model_1.default.find(filter);
+    if (category) {
+        query.category = { $regex: category, $options: "i" };
+    }
+    const result = yield news_model_1.default.find(query);
     return result;
 });
 const getSingleNewsById = (newsId) => __awaiter(void 0, void 0, void 0, function* () {

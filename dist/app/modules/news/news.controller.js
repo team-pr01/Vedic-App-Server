@@ -29,8 +29,8 @@ const addNews = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0
 }));
 // Get All
 const getAllNews = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { keyword } = req.query;
-    const result = yield news_services_1.NewsServices.getAllNews(keyword);
+    const { keyword, category } = req.query;
+    const result = yield news_services_1.NewsServices.getAllNews(keyword, category);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
