@@ -18,6 +18,7 @@ import { SlokOrMantraRoutes } from "../modules/religiousTextsNew/slokOrMantra/sl
 import { ConsultancyServiceRoutes } from "../modules/consultancyService/consultancyService.route";
 import { CategoryRoutes } from "../modules/categories/reelCategory/categories.route";
 import { ApiKeyRoutes } from "../modules/apiKeys/apiKeys.route";
+import { CourseRoutes } from "../modules/course/course.route";
 
 const router = Router();
 
@@ -97,6 +98,10 @@ const moduleRoutes = [
   {
     path: "/apiKeys",
     route: ApiKeyRoutes,
+  },
+  {
+    path: "/course",
+    route: CourseRoutes,
   },
 ];
 

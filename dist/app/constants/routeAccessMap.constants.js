@@ -112,4 +112,12 @@ exports.routeAccessMap = {
         "/apiKeys", // GET all
         "/apiKeys/:apiKeyId", // DELETE
     ],
+    //   Course
+    "/dashboard/course": [
+        "/course/add-course", // POST
+        "/course", // GET all
+        "/course/:courseId", // GET one
+        "/course/:courseId", // PUT
+        "/course/:courseId", // DELETE
+    ],
 };
