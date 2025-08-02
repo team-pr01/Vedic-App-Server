@@ -6,34 +6,12 @@ const VastuSchema = new mongoose_1.Schema({
         type: String,
         required: true,
     },
-    description: {
-        type: String,
-        required: true,
-    },
     category: {
         type: String,
         required: true,
     },
-    direction: {
+    videoUrl: {
         type: String,
-        required: true,
-    },
-    imageUrl: {
-        type: String,
-        required: true,
-    },
-    importance: {
-        type: String,
-        enum: ["high", "medium", "low"],
-        required: true,
-    },
-    recommendations: {
-        type: [String],
-        default: [],
-    },
-    createdBy: {
-        type: mongoose_1.Schema.Types.ObjectId,
-        ref: "User",
         required: true,
     },
 }, {

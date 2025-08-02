@@ -17,17 +17,12 @@ const http_status_1 = __importDefault(require("http-status"));
 const AppError_1 = __importDefault(require("../../errors/AppError"));
 const vastu_model_1 = __importDefault(require("./vastu.model"));
 // Add vastu for (admin only)
-const addVastu = (payload, createdBy) => __awaiter(void 0, void 0, void 0, function* () {
-    const { title, description, category, direction, imageUrl, importance, recommendations, } = payload;
+const addVastu = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const { title, category, videoUrl } = payload;
     const payloadData = {
         title,
-        description,
         category,
-        direction,
-        imageUrl,
-        importance,
-        recommendations,
-        createdBy,
+        videoUrl,
     };
     const result = yield vastu_model_1.default.create(payloadData);
     return result;

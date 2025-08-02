@@ -19,9 +19,7 @@ const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const vastu_services_1 = require("./vastu.services");
 // Add vastu (For admin)
 const addVastu = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const createdBy = req.user.userId;
-    console.log(req.body);
-    const result = yield vastu_services_1.VastuServices.addVastu(req.body, createdBy);
+    const result = yield vastu_services_1.VastuServices.addVastu(req.body);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
