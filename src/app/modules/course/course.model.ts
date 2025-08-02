@@ -11,10 +11,6 @@ const CourseSchema = new Schema<TCourse>(
       type: String,
       required: true,
     },
-    description: {
-      type: String,
-      required: true,
-    },
     category: {
       type: String,
       required: true,
