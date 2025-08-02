@@ -27,6 +27,7 @@ const postEmergency = catchAsync(async (req, res) => {
     message: result.message,
     createdAt: result.createdAt,
   });
+  
 
   io.emit("new-notification", {
     title: "Emergency Message",

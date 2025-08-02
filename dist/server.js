@@ -24,47 +24,57 @@ function main() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             yield mongoose_1.default.connect(config_1.default.db_url);
-            // Step 2: Create HTTP server from app
             server = http_1.default.createServer(app_1.default);
-            // Step 3: Initialize Socket.IO with CORS settings
+            // Enhanced CORS configuration
             exports.io = new socket_io_1.Server(server, {
                 cors: {
-                    origin: 'http://localhost:5173', // your frontend domain
-                    methods: ['GET', 'POST'],
+                    origin: [
+                        "http://localhost:5173", // Your local frontend
+                        "http://192.168.0.102:5000", // Your local network IP
+                        "http://localhost:19000", // React Native default
+                        "http://localhost:19006", // Common React Native port
+                        "http://192.168.0.102:19000", // Your local network IP
+                        "http://192.168.0.102:19006",
+                    ],
+                    methods: ["GET", "POST", "PUT", "DELETE"],
+                    allowedHeaders: ["Content-Type", "Authorization"],
                     credentials: true,
                 },
+                pingInterval: 25000, // default 25000ms
+                pingTimeout: 60000, // increase from default 5000ms to 60000ms
+                transports: ["websocket", "polling"], // Explicitly set transports
             });
-            // Step 4: Handle connection event
-            exports.io.on('connection', (socket) => {
-                console.log('Socket connected:', socket.id);
-                socket.on('disconnect', () => {
-                    console.log('Socket disconnected:', socket.id);
+            // Connection handling with error logging
+            exports.io.on("connection", (socket) => {
+                console.log("Socket connected:", socket.id, socket.handshake.headers.origin);
+                socket.on("error", (err) => {
+                    console.error("Socket error:", err);
+                });
+                socket.on("disconnect", (reason) => {
+                    console.log("Socket disconnected:", socket.id, reason);
                 });
             });
-            // Start listening
             server.listen(config_1.default.port, () => {
-                console.log(`App listening on port ${config_1.default.port}`);
+                console.log(`Server running on port ${config_1.default.port}`);
+                console.log(`Socket.IO available at ws://localhost:${config_1.default.port}`);
+            });
+            // Additional debug info
+            exports.io.engine.on("connection_error", (err) => {
+                console.error("Socket.IO connection error:", err);
             });
         }
         catch (err) {
-            console.error(err);
+            console.error("Server startup error:", err);
         }
     });
 }
 main();
-// Step 5: Start scheduled job (optional, if needed)
 (0, cleanupExpiredNotifications_1.cleanupExpiredNotifications)();
-// Error handling
-process.on('unhandledRejection', () => {
-    if (server) {
-        server.close(() => {
-            process.exit(1);
-        });
-    }
-    else {
-        process.exit(1);
-    }
+process.on("unhandledRejection", (reason) => {
+    console.error("Unhandled Rejection at:", reason);
+    process.exit(1);
 });
-process.on('uncaughtException', () => {
+process.on("uncaughtException", (err) => {
+    console.error("Uncaught Exception:", err);
     process.exit(1);
 });

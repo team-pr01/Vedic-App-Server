@@ -7,7 +7,7 @@ import authorizeRoute from "../../middlewares/authorizeRoute";
 const router = express.Router();
 
 // For admin only
-router.post("/add-temple", auth(UserRole.admin, UserRole.moderator, UserRole["super-admin"]), authorizeRoute(), TempleControllers.addTemple);
+router.post("/add-temple", TempleControllers.addTemple);
 // temples.routes.ts (or in your main router config)
 router.post("/:templeId/events", auth(UserRole.admin, UserRole.moderator, UserRole["super-admin"]), authorizeRoute(), TempleControllers.addEventToTemple);
 router.delete("/:templeId/events/:eventId", auth(UserRole.admin, UserRole.moderator, UserRole["super-admin"]), authorizeRoute(), TempleControllers.deleteEventFromTemple);
