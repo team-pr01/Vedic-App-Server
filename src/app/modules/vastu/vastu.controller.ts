@@ -17,7 +17,8 @@ const addVastu = catchAsync(async (req, res) => {
 
 // Get all vastus
 const getAllVastus = catchAsync(async (req, res) => {
-  const result = await VastuServices.getAllVastus();
+  const { keyword, category } = req.query;
+  const result = await VastuServices.getAllVastus(category as string, keyword as string);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

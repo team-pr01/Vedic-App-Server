@@ -20,17 +20,17 @@ const addVastu = async (payload: TVastu) => {
 };
 
 // Get all vastus
-const getAllVastus = async (category?: string, search?: string) => {
+const getAllVastus = async (category: string, keyword: string) => {
   const query: any = {};
 
-  // Filter by category if provided
-  if (category) {
-    query.category = category;
+  if (keyword) {
+    query.$or = [
+      { title: { $regex: keyword, $options: "i" } },
+    ];
   }
 
-  // Search by keyword in title (case-insensitive)
-  if (search) {
-    query.title = { $regex: search, $options: "i" };
+   if (category) {
+    query.category = { $regex: category, $options: "i" };
   }
 
   const result = await Vastu.find(query);

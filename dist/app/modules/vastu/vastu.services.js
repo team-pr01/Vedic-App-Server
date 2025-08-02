@@ -29,15 +29,15 @@ const addVastu = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     return result;
 });
 // Get all vastus
-const getAllVastus = (category, search) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllVastus = (category, keyword) => __awaiter(void 0, void 0, void 0, function* () {
     const query = {};
-    // Filter by category if provided
-    if (category) {
-        query.category = category;
+    if (keyword) {
+        query.$or = [
+            { title: { $regex: keyword, $options: "i" } },
+        ];
     }
-    // Search by keyword in title (case-insensitive)
-    if (search) {
-        query.title = { $regex: search, $options: "i" };
+    if (category) {
+        query.category = { $regex: category, $options: "i" };
     }
     const result = yield vastu_model_1.default.find(query);
     return result;
