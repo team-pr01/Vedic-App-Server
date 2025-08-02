@@ -4,6 +4,7 @@ export type TCourse = {
   name: string;
   category: string;
   duration: string;
+  url: string;
   createdAt?: Date;
   updatedAt?: Date;
 };
