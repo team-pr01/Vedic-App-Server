@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
 import { TVastu } from "./vastu.interface";
@@ -19,8 +20,20 @@ const addVastu = async (payload: TVastu) => {
 };
 
 // Get all vastus
-const getAllVastus = async () => {
-  const result = await Vastu.find();
+const getAllVastus = async (category?: string, search?: string) => {
+  const query: any = {};
+
+  // Filter by category if provided
+  if (category) {
+    query.category = category;
+  }
+
+  // Search by keyword in title (case-insensitive)
+  if (search) {
+    query.title = { $regex: search, $options: "i" };
+  }
+
+  const result = await Vastu.find(query);
   return result;
 };
 
