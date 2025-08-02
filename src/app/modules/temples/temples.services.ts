@@ -5,7 +5,7 @@ import { TTemple } from "./temples.interface";
 import Temple from "./temples.model";
 
 // Add temple for admin only
-const addTemple = async (payload: TTemple, createdBy: string) => {
+const addTemple = async (payload: TTemple) => {
   const {
     name,
     mainDeity,
@@ -20,6 +20,7 @@ const addTemple = async (payload: TTemple, createdBy: string) => {
     imageUrl,
     mediaGallery,
     videoUrl,
+    createdBy,
   } = payload;
 
   const payloadData = {

@@ -18,8 +18,8 @@ const http_status_1 = __importDefault(require("http-status"));
 const AppError_1 = __importDefault(require("../../errors/AppError"));
 const temples_model_1 = __importDefault(require("./temples.model"));
 // Add temple for admin only
-const addTemple = (payload, createdBy) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, mainDeity, description, address, city, state, country, establishedYear, visitingHours, contactInfo, imageUrl, mediaGallery, videoUrl, } = payload;
+const addTemple = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const { name, mainDeity, description, address, city, state, country, establishedYear, visitingHours, contactInfo, imageUrl, mediaGallery, videoUrl, createdBy, } = payload;
     const payloadData = {
         name,
         mainDeity,

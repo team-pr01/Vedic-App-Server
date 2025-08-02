@@ -5,8 +5,7 @@ import { TempleServices } from "./temples.services";
 
 // Add temple (For admin)
 const addTemple = catchAsync(async (req, res) => {
-  const createdBy = req.user.userId;
-  const result = await TempleServices.addTemple(req.body, createdBy);
+  const result = await TempleServices.addTemple(req.body);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
