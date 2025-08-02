@@ -21,6 +21,7 @@ const consultancyService_route_1 = require("../modules/consultancyService/consul
 const categories_route_1 = require("../modules/categories/reelCategory/categories.route");
 const apiKeys_route_1 = require("../modules/apiKeys/apiKeys.route");
 const course_route_1 = require("../modules/course/course.route");
+const recipe_route_1 = require("../modules/recipe/recipe.route");
 const router = (0, express_1.Router)();
 const moduleRoutes = [
     {
@@ -102,6 +103,10 @@ const moduleRoutes = [
     {
         path: "/course",
         route: course_route_1.CourseRoutes,
+    },
+    {
+        path: "/recipe",
+        route: recipe_route_1.RecipeRoutes,
     },
 ];
 moduleRoutes.forEach((route) => router.use(route.path, route.route));

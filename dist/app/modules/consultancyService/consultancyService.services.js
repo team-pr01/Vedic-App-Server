@@ -33,7 +33,6 @@ const addConsultancyService = (payload, file) => __awaiter(void 0, void 0, void 
 });
 // Get all consultancy services
 const getAllConsultancyServices = (keyword, category) => __awaiter(void 0, void 0, void 0, function* () {
-    // Build dynamic filter object
     const query = {};
     if (keyword) {
         query.$or = [

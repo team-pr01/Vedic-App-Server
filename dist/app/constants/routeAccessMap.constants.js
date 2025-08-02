@@ -120,4 +120,12 @@ exports.routeAccessMap = {
         "/course/:courseId", // PUT
         "/course/:courseId", // DELETE
     ],
+    //   Recipe
+    "/dashboard/recipe": [
+        "/recipe/add-recipe", // POST
+        "/recipe", // GET all
+        "/recipe/:courseId", // GET one
+        "/recipe/:recipeId", // PUT
+        "/recipe/:recipeId", // DELETE
+    ],
 };
