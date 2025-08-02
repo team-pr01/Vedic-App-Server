@@ -19,7 +19,8 @@ const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const temples_services_1 = require("./temples.services");
 // Add temple (For admin)
 const addTemple = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield temples_services_1.TempleServices.addTemple(req.body);
+    const file = req.file;
+    const result = yield temples_services_1.TempleServices.addTemple(req.body, file);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
@@ -29,7 +30,8 @@ const addTemple = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void
 }));
 // Get all temples
 const getAllTemples = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield temples_services_1.TempleServices.getAllTemples();
+    const { keyword } = req.query;
+    const result = yield temples_services_1.TempleServices.getAllTemples(keyword);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
@@ -99,5 +101,5 @@ exports.TempleControllers = {
     updateTemple,
     deleteTemple,
     addEventToTemple,
-    deleteEventFromTemple
+    deleteEventFromTemple,
 };

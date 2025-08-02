@@ -38,27 +38,25 @@ const TempleSchema = new mongoose_1.Schema({
         type: String,
         required: true,
     },
-    contactInfo: {
-        phone: {
-            type: String,
-            required: true,
-        },
-        email: {
-            type: String,
-            required: true,
-        },
-        website: {
-            type: String,
-        },
+    phone: {
+        type: String,
+        required: true,
+    },
+    email: {
+        type: String,
+        required: true,
+    },
+    website: {
+        type: String,
     },
     imageUrl: {
         type: String,
         required: true,
     },
-    mediaGallery: {
-        type: [String],
-        required: true,
-    },
+    // mediaGallery: {
+    //   type: [String],
+    //   required: true,
+    // },
     videoUrl: {
         type: String,
     },

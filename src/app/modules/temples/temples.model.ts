@@ -39,7 +39,6 @@ const TempleSchema = new Schema<TTemple>(
       type: String,
       required: true,
     },
-    contactInfo: {
       phone: {
         type: String,
         required: true,
@@ -51,15 +50,14 @@ const TempleSchema = new Schema<TTemple>(
       website: {
         type: String,
       },
-    },
     imageUrl: {
       type: String,
       required: true,
     },
-    mediaGallery: {
-      type: [String],
-      required: true,
-    },
+    // mediaGallery: {
+    //   type: [String],
+    //   required: true,
+    // },
     videoUrl: {
       type: String,
     },

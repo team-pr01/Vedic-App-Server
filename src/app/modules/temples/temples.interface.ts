@@ -10,18 +10,17 @@ export type TTemple = {
   country: string;
   establishedYear: number;
   visitingHours: string;
-  contactInfo: {
-    phone: string;
-    email: string;
-    website?: string;
-  };
+  // contactInfo:
+  phone: string;
+  email: string;
+  website?: string;
   imageUrl: string;
-  mediaGallery: string[];
+  // mediaGallery: string[];
   videoUrl?: string;
-  events? : {
+  events?: {
     name: string;
     date: Date;
-    time : string;
+    time: string;
     description: string;
   }[];
   createdBy: Types.ObjectId;

@@ -17,9 +17,19 @@ exports.TempleServices = void 0;
 const http_status_1 = __importDefault(require("http-status"));
 const AppError_1 = __importDefault(require("../../errors/AppError"));
 const temples_model_1 = __importDefault(require("./temples.model"));
+const sendImageToCloudinary_1 = require("../../utils/sendImageToCloudinary");
 // Add temple for admin only
-const addTemple = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, mainDeity, description, address, city, state, country, establishedYear, visitingHours, contactInfo, imageUrl, mediaGallery, videoUrl, createdBy, } = payload;
+const addTemple = (payload, file) => __awaiter(void 0, void 0, void 0, function* () {
+    const { name, mainDeity, description, address, city, state, country, establishedYear, visitingHours, phone, email, website, 
+    // mediaGallery,
+    videoUrl, createdBy, } = payload;
+    let imageUrl = "";
+    if (file) {
+        const imageName = `${payload.name}-${Date.now()}`;
+        const path = file.path;
+        const { secure_url } = yield (0, sendImageToCloudinary_1.sendImageToCloudinary)(imageName, path);
+        imageUrl = secure_url;
+    }
     const payloadData = {
         name,
         mainDeity,
@@ -30,19 +40,27 @@ const addTemple = (payload) => __awaiter(void 0, void 0, void 0, function* () {
         country,
         establishedYear,
         visitingHours,
-        contactInfo,
+        phone,
+        email,
+        website,
         events: [],
-        imageUrl,
-        mediaGallery,
+        // mediaGallery,
         videoUrl,
         createdBy,
+        imageUrl,
     };
     const result = yield temples_model_1.default.create(payloadData);
     return result;
 });
 // Get all temples
-const getAllTemples = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield temples_model_1.default.find();
+const getAllTemples = (keyword) => __awaiter(void 0, void 0, void 0, function* () {
+    const query = {};
+    if (keyword) {
+        query.$or = [
+            { name: { $regex: keyword, $options: "i" } },
+        ];
+    }
+    const result = yield temples_model_1.default.find(query);
     return result;
 });
 // Get single temple post by id

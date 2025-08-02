@@ -3,9 +3,13 @@ import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
 import { TTemple } from "./temples.interface";
 import Temple from "./temples.model";
+import { sendImageToCloudinary } from "../../utils/sendImageToCloudinary";
 
 // Add temple for admin only
-const addTemple = async (payload: TTemple) => {
+const addTemple = async (
+  payload: TTemple,
+  file: Express.Multer.File | undefined
+) => {
   const {
     name,
     mainDeity,
@@ -16,12 +20,23 @@ const addTemple = async (payload: TTemple) => {
     country,
     establishedYear,
     visitingHours,
-    contactInfo,
-    imageUrl,
-    mediaGallery,
+    phone,
+    email,
+    website,
+    // mediaGallery,
     videoUrl,
     createdBy,
   } = payload;
+
+  let imageUrl = "";
+
+  if (file) {
+    const imageName = `${payload.name}-${Date.now()}`;
+    const path = file.path;
+
+    const { secure_url } = await sendImageToCloudinary(imageName, path);
+    imageUrl = secure_url;
+  }
 
   const payloadData = {
     name,
@@ -33,12 +48,14 @@ const addTemple = async (payload: TTemple) => {
     country,
     establishedYear,
     visitingHours,
-    contactInfo,
+    phone,
+    email,
+    website,
     events: [],
-    imageUrl,
-    mediaGallery,
+    // mediaGallery,
     videoUrl,
     createdBy,
+    imageUrl,
   };
 
   const result = await Temple.create(payloadData);
@@ -46,8 +63,15 @@ const addTemple = async (payload: TTemple) => {
 };
 
 // Get all temples
-const getAllTemples = async () => {
-  const result = await Temple.find();
+const getAllTemples = async (keyword:string) => {
+  const query: any = {};
+
+  if (keyword) {
+    query.$or = [
+      { name: { $regex: keyword, $options: "i" } },
+    ];
+  }
+  const result = await Temple.find(query);
   return result;
 };
 

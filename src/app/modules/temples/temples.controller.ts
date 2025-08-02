@@ -5,7 +5,8 @@ import { TempleServices } from "./temples.services";
 
 // Add temple (For admin)
 const addTemple = catchAsync(async (req, res) => {
-  const result = await TempleServices.addTemple(req.body);
+  const file = req.file;
+  const result = await TempleServices.addTemple(req.body, file);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -17,7 +18,8 @@ const addTemple = catchAsync(async (req, res) => {
 
 // Get all temples
 const getAllTemples = catchAsync(async (req, res) => {
-  const result = await TempleServices.getAllTemples();
+  const { keyword } = req.query; 
+  const result = await TempleServices.getAllTemples(keyword as string);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -66,7 +68,6 @@ const deleteTemple = catchAsync(async (req, res) => {
   });
 });
 
-
 // Add a new event to a specific temple
 const addEventToTemple = catchAsync(async (req, res) => {
   const { templeId } = req.params;
@@ -100,5 +101,5 @@ export const TempleControllers = {
   updateTemple,
   deleteTemple,
   addEventToTemple,
-  deleteEventFromTemple
+  deleteEventFromTemple,
 };
