@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.VastuServices = void 0;
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const http_status_1 = __importDefault(require("http-status"));
 const AppError_1 = __importDefault(require("../../errors/AppError"));
 const vastu_model_1 = __importDefault(require("./vastu.model"));
@@ -28,8 +29,17 @@ const addVastu = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     return result;
 });
 // Get all vastus
-const getAllVastus = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield vastu_model_1.default.find();
+const getAllVastus = (category, search) => __awaiter(void 0, void 0, void 0, function* () {
+    const query = {};
+    // Filter by category if provided
+    if (category) {
+        query.category = category;
+    }
+    // Search by keyword in title (case-insensitive)
+    if (search) {
+        query.title = { $regex: search, $options: "i" };
+    }
+    const result = yield vastu_model_1.default.find(query);
     return result;
 });
 // Get single vastu post by id
