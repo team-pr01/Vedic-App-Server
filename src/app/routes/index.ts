@@ -19,6 +19,7 @@ import { ConsultancyServiceRoutes } from "../modules/consultancyService/consulta
 import { CategoryRoutes } from "../modules/categories/reelCategory/categories.route";
 import { ApiKeyRoutes } from "../modules/apiKeys/apiKeys.route";
 import { CourseRoutes } from "../modules/course/course.route";
+import { RecipeRoutes } from "../modules/recipe/recipe.route";
 
 const router = Router();
 
@@ -102,6 +103,10 @@ const moduleRoutes = [
   {
     path: "/course",
     route: CourseRoutes,
+  },
+  {
+    path: "/recipe",
+    route: RecipeRoutes,
   },
 ];
 

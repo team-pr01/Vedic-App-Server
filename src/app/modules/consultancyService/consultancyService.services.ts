@@ -31,8 +31,6 @@ const addConsultancyService = async (
 
 // Get all consultancy services
 const getAllConsultancyServices = async (keyword:any, category:any) => {
-
-  // Build dynamic filter object
   const query: any = {};
 
   if (keyword) {
