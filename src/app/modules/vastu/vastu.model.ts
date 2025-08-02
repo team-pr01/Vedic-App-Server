@@ -7,34 +7,12 @@ const VastuSchema = new Schema<TVastu>(
       type: String,
       required: true,
     },
-    description: {
-      type: String,
-      required: true,
-    },
     category: {
       type: String,
       required: true,
     },
-    direction: {
+    videoUrl: {
       type: String,
-      required: true,
-    },
-    imageUrl: {
-      type: String,
-      required: true,
-    },
-    importance: {
-      type: String,
-      enum: ["high", "medium", "low"],
-      required: true,
-    },
-    recommendations: {
-      type: [String],
-      default: [],
-    },
-    createdBy: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
       required: true,
     },
   },

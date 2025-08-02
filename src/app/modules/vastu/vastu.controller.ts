@@ -5,9 +5,7 @@ import { VastuServices } from "./vastu.services";
 
 // Add vastu (For admin)
 const addVastu = catchAsync(async (req, res) => {
-  const createdBy = req.user.userId;
-  console.log(req.body);
-  const result = await VastuServices.addVastu(req.body, createdBy);
+  const result = await VastuServices.addVastu(req.body);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

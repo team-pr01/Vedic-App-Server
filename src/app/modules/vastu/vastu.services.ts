@@ -4,26 +4,13 @@ import { TVastu } from "./vastu.interface";
 import Vastu from "./vastu.model";
 
 // Add vastu for (admin only)
-const addVastu = async (payload: TVastu, createdBy: string) => {
-  const {
-    title,
-    description,
-    category,
-    direction,
-    imageUrl,
-    importance,
-    recommendations,
-  } = payload;
+const addVastu = async (payload: TVastu) => {
+  const { title, category, videoUrl } = payload;
 
   const payloadData = {
     title,
-    description,
     category,
-    direction,
-    imageUrl,
-    importance,
-    recommendations,
-    createdBy,
+    videoUrl,
   };
 
   const result = await Vastu.create(payloadData);
