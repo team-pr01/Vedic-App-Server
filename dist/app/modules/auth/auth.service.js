@@ -23,30 +23,22 @@ const auth_utils_1 = require("./auth.utils");
 const auth_model_1 = require("./auth.model");
 const sendEmail_1 = require("../../utils/sendEmail");
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const sendImageToCloudinary_1 = require("../../utils/sendImageToCloudinary");
 // Create user
-const signup = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, email, phoneNumber, password, role } = payload;
-    // if (file && file.path) {
-    //   const imageName = `${name}-${email}`;
-    //   const path = file.path;
-    //   const { secure_url } = await sendImageToCloudinary(imageName, path);
-    //   payload.avatar = secure_url;
-    // }
-    const payloadData = {
-        name,
-        email,
-        password,
-        phoneNumber: phoneNumber || "",
-        role: role || "user",
-        isDeleted: false,
-        isSuspended: false,
-        isVerified: false,
-    };
+const signup = (payload, file) => __awaiter(void 0, void 0, void 0, function* () {
     // Checking if user already exists
-    const isUserExists = yield auth_model_1.User.findOne({ email: payloadData.email });
+    const isUserExists = yield auth_model_1.User.findOne({ email: payload.email });
     if (isUserExists) {
         throw new AppError_1.default(http_status_1.default.CONFLICT, "User already exists.");
     }
+    let imageUrl = "";
+    if (file) {
+        const imageName = `${payload.name}-${Date.now()}`;
+        const path = file.path;
+        const { secure_url } = yield (0, sendImageToCloudinary_1.sendImageToCloudinary)(imageName, path);
+        imageUrl = secure_url;
+    }
+    const payloadData = Object.assign(Object.assign({}, payload), { avatar: imageUrl, role: "user", isDeleted: false, isSuspended: false, isVerified: false });
     // Create user in the database
     const result = yield auth_model_1.User.create(payloadData);
     return result;

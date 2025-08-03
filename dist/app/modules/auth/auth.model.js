@@ -17,6 +17,10 @@ const mongoose_1 = require("mongoose");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const config_1 = __importDefault(require("../../config"));
 const userSchema = new mongoose_1.Schema({
+    avatar: {
+        type: String,
+        required: false,
+    },
     name: {
         type: String,
         required: true,
@@ -29,6 +33,35 @@ const userSchema = new mongoose_1.Schema({
         unique: true,
         trim: true,
         lowercase: true,
+    },
+    phoneNumber: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    dob: {
+        type: Date,
+        required: true,
+    },
+    area: {
+        type: String,
+        required: false,
+        trim: true,
+    },
+    city: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    state: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    country: {
+        type: String,
+        required: true,
+        trim: true,
     },
     password: {
         type: String,
@@ -43,34 +76,40 @@ const userSchema = new mongoose_1.Schema({
     assignedPages: {
         type: [String],
         default: [],
-        required: false
     },
     isVerified: {
         type: Boolean,
         default: false,
     },
-    isDeleted: { type: Boolean, default: false },
-    isSuspended: { type: Boolean, default: false },
-    phoneNumber: {
-        type: String,
-        trim: true,
+    isDeleted: {
+        type: Boolean,
+        default: false,
+    },
+    isSuspended: {
+        type: Boolean,
+        default: false,
     },
 }, {
     timestamps: true,
 });
+// Hash password before saving
 userSchema.pre("save", function (next) {
     return __awaiter(this, void 0, void 0, function* () {
-        this.password = yield bcrypt_1.default.hash(this.password, Number(config_1.default.bcrypt_salt_round));
+        if (this.isModified("password")) {
+            this.password = yield bcrypt_1.default.hash(this.password, Number(config_1.default.bcrypt_salt_round));
+        }
         next();
     });
 });
+// Hide password after saving
 userSchema.post("save", function (doc, next) {
     doc.password = "";
     next();
 });
+// Static methods
 userSchema.statics.isUserExists = function (email) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield this.findOne({ email }).select('+password');
+        return yield this.findOne({ email }).select("+password");
     });
 };
 userSchema.statics.isPasswordMatched = function (plainTextPassword, hashedPassword) {
@@ -78,4 +117,5 @@ userSchema.statics.isPasswordMatched = function (plainTextPassword, hashedPasswo
         return yield bcrypt_1.default.compare(plainTextPassword, hashedPassword);
     });
 };
+// Export the model
 exports.User = (0, mongoose_1.model)("User", userSchema);
