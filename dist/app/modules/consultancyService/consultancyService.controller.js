@@ -52,7 +52,6 @@ const getSingleConsultancyServiceById = (0, catchAsync_1.default)((req, res) => 
 }));
 // Update consultancy service
 const updateConsultancyService = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("object");
     const file = req.file;
     const { consultancyServiceId } = req.params;
     const result = yield consultancyService_services_1.ConsultancyServiceServices.updateConsultancyService(consultancyServiceId, req.body, file);

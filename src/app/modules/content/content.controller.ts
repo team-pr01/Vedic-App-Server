@@ -3,10 +3,10 @@ import httpStatus from "http-status";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import { ContentService } from "./content.services";
-import AppError from "../../errors/AppError";
 
 const createContent = catchAsync(async (req: Request, res: Response) => {
-  const result = await ContentService.createContent(req.body);
+  const file = req.file;
+  const result = await ContentService.createContent(req.body, file);
   sendResponse(res, {
     statusCode: httpStatus.CREATED,
     success: true,
@@ -36,7 +36,12 @@ const getSingleContent = catchAsync(async (req: Request, res: Response) => {
 });
 
 const updateContent = catchAsync(async (req: Request, res: Response) => {
-  const result = await ContentService.updateContent(req.params.contentId, req.body);
+  const file = req.file;
+  const result = await ContentService.updateContent(
+    req.params.contentId,
+    req.body,
+    file
+  );
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -46,27 +51,16 @@ const updateContent = catchAsync(async (req: Request, res: Response) => {
 });
 
 const deleteContent = catchAsync(async (req: Request, res: Response) => {
-  const { contentId, type, url } = req.params;
-
-  // Validate type
-  if (!['image', 'video'].includes(type)) {
-    throw new AppError(httpStatus.BAD_REQUEST, "Invalid media type");
-  }
-
-  if (!url) {
-    throw new AppError(httpStatus.BAD_REQUEST, "URL is required");
-  }
-
-  const result = await ContentService.deleteContent(contentId, type, url);
+  const { contentId } = req.params;
+  const result = await ContentService.deleteContent(contentId);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: `${type} URL removed successfully`,
+    message: "Content deleted successfully",
     data: result,
   });
 });
-
 
 export const ContentController = {
   createContent,

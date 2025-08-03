@@ -3,13 +3,21 @@ import { TContent } from "./content.interface";
 
 const ContentSchema = new Schema<TContent>(
   {
-    imageUrl: {
-      type: [String],
-      default: [],
+    title: {
+      type: String,
+      required: true,
     },
-    videoUrl: {
-      type: [String],
-      default: [],
+    subtitle: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    imageUrl: {
+      type: String,
+      required: true,
     },
   },
   { timestamps: true }

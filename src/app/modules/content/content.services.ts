@@ -3,9 +3,27 @@ import Content from "./content.model";
 import { TContent } from "./content.interface";
 import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
+import { sendImageToCloudinary } from "../../utils/sendImageToCloudinary";
 
-const createContent = async (payload: TContent) => {
-  const result = await Content.create(payload);
+const createContent = async (
+  payload: TContent,
+  file: Express.Multer.File | undefined
+) => {
+  let imageUrl = "";
+
+  if (file) {
+    const imageName = `${payload.title}-${Date.now()}`;
+    const path = file.path;
+
+    const { secure_url } = await sendImageToCloudinary(imageName, path);
+    imageUrl = secure_url;
+  }
+
+  const payloadData = {
+    ...payload,
+    imageUrl,
+  };
+  const result = await Content.create(payloadData);
   return result;
 };
 
@@ -21,33 +39,47 @@ const getSingleContent = async (contentId: string) => {
   return content;
 };
 
-const updateContent = async (contentId: string, payload: Partial<TContent>) => {
-  const content = await Content.findByIdAndUpdate(contentId, payload, {
+const updateContent = async (
+  contentId: string,
+  payload: Partial<TContent>,
+  file: any
+) => {
+  const existing = await Content.findById(contentId);
+
+  if (!existing) {
+    throw new AppError(httpStatus.NOT_FOUND, "Consultancy service not found");
+  }
+
+  let imageUrl: string | undefined;
+
+  if (file) {
+    const imageName = `${payload?.title || existing.title}-${Date.now()}`;
+    const path = file.path;
+
+    const { secure_url } = await sendImageToCloudinary(imageName, path);
+    imageUrl = secure_url;
+  }
+
+  const updatePayload: Partial<TContent> = {
+    ...payload,
+    ...(imageUrl && { imageUrl }),
+  };
+
+  const result = await Content.findByIdAndUpdate(contentId, updatePayload, {
     new: true,
     runValidators: true,
   });
-  if (!content) {
-    throw new AppError(httpStatus.NOT_FOUND, "Content not found");
-  }
-  return content;
+
+  return result;
 };
 
-const deleteContent = async (contentId: string, type: any, url: string) => {
-  const updateField = type === 'image' ? 'imageUrl' : 'videoUrl';
-
-  const content = await Content.findByIdAndUpdate(
-    contentId,
-    { $pull: { [updateField]: url } }, // MongoDB `$pull` removes matching value from array
-    { new: true }
-  );
-
-  if (!content) {
+const deleteContent = async (contentId: string) => {
+  const result = await Content.findByIdAndDelete(contentId);
+  if (!result) {
     throw new AppError(httpStatus.NOT_FOUND, "Content not found");
   }
-
-  return content;
+  return result;
 };
-
 
 export const ContentService = {
   createContent,

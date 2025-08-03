@@ -17,9 +17,9 @@ const http_status_1 = __importDefault(require("http-status"));
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const content_services_1 = require("./content.services");
-const AppError_1 = __importDefault(require("../../errors/AppError"));
 const createContent = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield content_services_1.ContentService.createContent(req.body);
+    const file = req.file;
+    const result = yield content_services_1.ContentService.createContent(req.body, file);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.CREATED,
         success: true,
@@ -46,7 +46,8 @@ const getSingleContent = (0, catchAsync_1.default)((req, res) => __awaiter(void 
     });
 }));
 const updateContent = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield content_services_1.ContentService.updateContent(req.params.contentId, req.body);
+    const file = req.file;
+    const result = yield content_services_1.ContentService.updateContent(req.params.contentId, req.body, file);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
@@ -55,19 +56,12 @@ const updateContent = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, 
     });
 }));
 const deleteContent = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { contentId, type, url } = req.params;
-    // Validate type
-    if (!['image', 'video'].includes(type)) {
-        throw new AppError_1.default(http_status_1.default.BAD_REQUEST, "Invalid media type");
-    }
-    if (!url) {
-        throw new AppError_1.default(http_status_1.default.BAD_REQUEST, "URL is required");
-    }
-    const result = yield content_services_1.ContentService.deleteContent(contentId, type, url);
+    const { contentId } = req.params;
+    const result = yield content_services_1.ContentService.deleteContent(contentId);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: `${type} URL removed successfully`,
+        message: "Content deleted successfully",
         data: result,
     });
 }));

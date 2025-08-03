@@ -17,8 +17,17 @@ exports.ContentService = void 0;
 const content_model_1 = __importDefault(require("./content.model"));
 const http_status_1 = __importDefault(require("http-status"));
 const AppError_1 = __importDefault(require("../../errors/AppError"));
-const createContent = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield content_model_1.default.create(payload);
+const sendImageToCloudinary_1 = require("../../utils/sendImageToCloudinary");
+const createContent = (payload, file) => __awaiter(void 0, void 0, void 0, function* () {
+    let imageUrl = "";
+    if (file) {
+        const imageName = `${payload.title}-${Date.now()}`;
+        const path = file.path;
+        const { secure_url } = yield (0, sendImageToCloudinary_1.sendImageToCloudinary)(imageName, path);
+        imageUrl = secure_url;
+    }
+    const payloadData = Object.assign(Object.assign({}, payload), { imageUrl });
+    const result = yield content_model_1.default.create(payloadData);
     return result;
 });
 const getAllContents = () => __awaiter(void 0, void 0, void 0, function* () {
@@ -31,24 +40,31 @@ const getSingleContent = (contentId) => __awaiter(void 0, void 0, void 0, functi
     }
     return content;
 });
-const updateContent = (contentId, payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const content = yield content_model_1.default.findByIdAndUpdate(contentId, payload, {
+const updateContent = (contentId, payload, file) => __awaiter(void 0, void 0, void 0, function* () {
+    const existing = yield content_model_1.default.findById(contentId);
+    if (!existing) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Consultancy service not found");
+    }
+    let imageUrl;
+    if (file) {
+        const imageName = `${(payload === null || payload === void 0 ? void 0 : payload.title) || existing.title}-${Date.now()}`;
+        const path = file.path;
+        const { secure_url } = yield (0, sendImageToCloudinary_1.sendImageToCloudinary)(imageName, path);
+        imageUrl = secure_url;
+    }
+    const updatePayload = Object.assign(Object.assign({}, payload), (imageUrl && { imageUrl }));
+    const result = yield content_model_1.default.findByIdAndUpdate(contentId, updatePayload, {
         new: true,
         runValidators: true,
     });
-    if (!content) {
-        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Content not found");
-    }
-    return content;
+    return result;
 });
-const deleteContent = (contentId, type, url) => __awaiter(void 0, void 0, void 0, function* () {
-    const updateField = type === 'image' ? 'imageUrl' : 'videoUrl';
-    const content = yield content_model_1.default.findByIdAndUpdate(contentId, { $pull: { [updateField]: url } }, // MongoDB `$pull` removes matching value from array
-    { new: true });
-    if (!content) {
+const deleteContent = (contentId) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield content_model_1.default.findByIdAndDelete(contentId);
+    if (!result) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Content not found");
     }
-    return content;
+    return result;
 });
 exports.ContentService = {
     createContent,
