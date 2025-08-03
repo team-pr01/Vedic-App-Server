@@ -80,6 +80,11 @@ const TempleSchema = new mongoose_1.Schema({
             },
         },
     ],
+    status: {
+        type: String,
+        enum: ['pending', 'approved', 'rejected'],
+        default: 'draft',
+    },
     createdBy: {
         type: mongoose_1.Schema.Types.ObjectId,
         ref: "User",

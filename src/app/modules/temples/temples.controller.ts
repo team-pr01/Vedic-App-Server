@@ -55,6 +55,19 @@ const updateTemple = catchAsync(async (req, res) => {
   });
 });
 
+
+const updateTempleStatus = catchAsync(async (req, res) => {
+  const { templeId } = req.params;
+  const result = await TempleServices.updateTempleStatus(templeId, req.body);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Temple status updated successfully",
+    data: result,
+  });
+});
+
 // Delete temple by id
 const deleteTemple = catchAsync(async (req, res) => {
   const { templeId } = req.params;
@@ -99,6 +112,7 @@ export const TempleControllers = {
   getAllTemples,
   getSingleTempleById,
   updateTemple,
+  updateTempleStatus,
   deleteTemple,
   addEventToTemple,
   deleteEventFromTemple,

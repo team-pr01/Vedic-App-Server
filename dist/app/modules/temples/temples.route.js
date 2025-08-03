@@ -19,6 +19,7 @@ router.post("/:templeId/events", (0, auth_1.default)(auth_constannts_1.UserRole.
 router.delete("/:templeId/events/:eventId", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), (0, authorizeRoute_1.default)(), temples_controller_1.TempleControllers.deleteEventFromTemple);
 router.get("/", temples_controller_1.TempleControllers.getAllTemples);
 router.get("/:templeId", temples_controller_1.TempleControllers.getSingleTempleById);
-router.put("/:templeId", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), (0, authorizeRoute_1.default)(), temples_controller_1.TempleControllers.updateTemple);
+router.put("/:templeId", temples_controller_1.TempleControllers.updateTemple);
+router.put("/update-status/:templeId", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), (0, authorizeRoute_1.default)(), temples_controller_1.TempleControllers.updateTempleStatus);
 router.delete("/:templeId", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), (0, authorizeRoute_1.default)(), temples_controller_1.TempleControllers.deleteTemple);
 exports.TempleRoutes = router;

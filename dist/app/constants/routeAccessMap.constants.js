@@ -80,6 +80,7 @@ exports.routeAccessMap = {
         "/temple", // GET all
         "/temple/:templeId", // GET one
         "/temple/:templeId", // PUT
+        "/temple/update-status/:templeId", // PUT (Update status)
         "/temple/:templeId", // DELETE
     ],
     // Vastu

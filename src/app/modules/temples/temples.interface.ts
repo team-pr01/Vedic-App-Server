@@ -10,7 +10,6 @@ export type TTemple = {
   country: string;
   establishedYear: number;
   visitingHours: string;
-  // contactInfo:
   phone: string;
   email: string;
   website?: string;
@@ -23,6 +22,7 @@ export type TTemple = {
     time: string;
     description: string;
   }[];
+  status : string;
   createdBy: Types.ObjectId;
   createdAt?: Date;
   updatedAt?: Date;

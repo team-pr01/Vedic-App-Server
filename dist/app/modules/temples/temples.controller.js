@@ -61,6 +61,16 @@ const updateTemple = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, v
         data: result,
     });
 }));
+const updateTempleStatus = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { templeId } = req.params;
+    const result = yield temples_services_1.TempleServices.updateTempleStatus(templeId, req.body);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "Temple status updated successfully",
+        data: result,
+    });
+}));
 // Delete temple by id
 const deleteTemple = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { templeId } = req.params;
@@ -99,6 +109,7 @@ exports.TempleControllers = {
     getAllTemples,
     getSingleTempleById,
     updateTemple,
+    updateTempleStatus,
     deleteTemple,
     addEventToTemple,
     deleteEventFromTemple,

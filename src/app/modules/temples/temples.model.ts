@@ -81,6 +81,11 @@ const TempleSchema = new Schema<TTemple>(
         },
       },
     ],
+    status : {
+      type: String,
+      enum: ['pending', 'approved', 'rejected'],
+      default: 'draft',
+    },
     createdBy: {
       type: Schema.Types.ObjectId,
       ref: "User",

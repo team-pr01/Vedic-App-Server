@@ -4,6 +4,7 @@ import AppError from "../../errors/AppError";
 import { TTemple } from "./temples.interface";
 import Temple from "./temples.model";
 import { sendImageToCloudinary } from "../../utils/sendImageToCloudinary";
+import { User } from "../auth/auth.model";
 
 // Add temple for admin only
 const addTemple = async (
@@ -27,6 +28,11 @@ const addTemple = async (
     videoUrl,
     createdBy,
   } = payload;
+
+  const user = await User.findOne({ _id: createdBy });
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, "User not found.");
+  }
 
   let imageUrl = "";
 
@@ -54,6 +60,7 @@ const addTemple = async (
     events: [],
     // mediaGallery,
     videoUrl,
+    status: user?.role === "admin" ? "approved" : "pending",
     createdBy,
     imageUrl,
   };
@@ -63,13 +70,11 @@ const addTemple = async (
 };
 
 // Get all temples
-const getAllTemples = async (keyword:string) => {
+const getAllTemples = async (keyword: string) => {
   const query: any = {};
 
   if (keyword) {
-    query.$or = [
-      { name: { $regex: keyword, $options: "i" } },
-    ];
+    query.$or = [{ name: { $regex: keyword, $options: "i" } }];
   }
   const result = await Temple.find(query);
   return result;
@@ -96,6 +101,31 @@ const updateTemple = async (templeId: string, payload: Partial<TTemple>) => {
     new: true,
     runValidators: true,
   });
+
+  return result;
+};
+
+// Update temple
+const updateTempleStatus = async (
+  templeId: string,
+  payload: Partial<TTemple>
+) => {
+  const { status } = payload;
+  const existingTemple = await Temple.findById(templeId);
+
+  if (!existingTemple) {
+    throw new AppError(httpStatus.NOT_FOUND, "Temple not found");
+  }
+
+  if (!status) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Status is required");
+  }
+
+  const result = await Temple.findByIdAndUpdate(
+    templeId,
+    { status },
+    { new: true, runValidators: true }
+  );
 
   return result;
 };
@@ -143,6 +173,7 @@ export const TempleServices = {
   getAllTemples,
   getSingleTempleById,
   updateTemple,
+  updateTempleStatus,
   deleteTemple,
   addEventToTemple,
   deleteEventFromTemple,

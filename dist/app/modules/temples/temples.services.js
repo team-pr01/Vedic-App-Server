@@ -18,11 +18,16 @@ const http_status_1 = __importDefault(require("http-status"));
 const AppError_1 = __importDefault(require("../../errors/AppError"));
 const temples_model_1 = __importDefault(require("./temples.model"));
 const sendImageToCloudinary_1 = require("../../utils/sendImageToCloudinary");
+const auth_model_1 = require("../auth/auth.model");
 // Add temple for admin only
 const addTemple = (payload, file) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, mainDeity, description, address, city, state, country, establishedYear, visitingHours, phone, email, website, 
     // mediaGallery,
     videoUrl, createdBy, } = payload;
+    const user = yield auth_model_1.User.findOne({ _id: createdBy });
+    if (!user) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "User not found.");
+    }
     let imageUrl = "";
     if (file) {
         const imageName = `${payload.name}-${Date.now()}`;
@@ -46,6 +51,7 @@ const addTemple = (payload, file) => __awaiter(void 0, void 0, void 0, function*
         events: [],
         // mediaGallery,
         videoUrl,
+        status: (user === null || user === void 0 ? void 0 : user.role) === "admin" ? "approved" : "pending",
         createdBy,
         imageUrl,
     };
@@ -56,9 +62,7 @@ const addTemple = (payload, file) => __awaiter(void 0, void 0, void 0, function*
 const getAllTemples = (keyword) => __awaiter(void 0, void 0, void 0, function* () {
     const query = {};
     if (keyword) {
-        query.$or = [
-            { name: { $regex: keyword, $options: "i" } },
-        ];
+        query.$or = [{ name: { $regex: keyword, $options: "i" } }];
     }
     const result = yield temples_model_1.default.find(query);
     return result;
@@ -81,6 +85,19 @@ const updateTemple = (templeId, payload) => __awaiter(void 0, void 0, void 0, fu
         new: true,
         runValidators: true,
     });
+    return result;
+});
+// Update temple
+const updateTempleStatus = (templeId, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const { status } = payload;
+    const existingTemple = yield temples_model_1.default.findById(templeId);
+    if (!existingTemple) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Temple not found");
+    }
+    if (!status) {
+        throw new AppError_1.default(http_status_1.default.BAD_REQUEST, "Status is required");
+    }
+    const result = yield temples_model_1.default.findByIdAndUpdate(templeId, { status }, { new: true, runValidators: true });
     return result;
 });
 // Delete temple by id
@@ -118,6 +135,7 @@ exports.TempleServices = {
     getAllTemples,
     getSingleTempleById,
     updateTemple,
+    updateTempleStatus,
     deleteTemple,
     addEventToTemple,
     deleteEventFromTemple,
