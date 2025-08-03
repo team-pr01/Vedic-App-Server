@@ -73,10 +73,20 @@ const deleteYoga = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
         data: result,
     });
 }));
+const getStats = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield yoga_services_1.YogaServices.getAdminStats();
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: 'Stats fetched successfully.',
+        data: result,
+    });
+}));
 exports.YogaControllers = {
     addYoga,
     getAllYogas,
     getSingleYogaById,
     updateYoga,
     deleteYoga,
+    getStats,
 };

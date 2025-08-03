@@ -69,10 +69,25 @@ const deleteYoga = catchAsync(async (req, res) => {
   });
 });
 
+
+ const getStats = catchAsync(async (req, res) => {
+  const result = await YogaServices.getAdminStats();
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Stats fetched successfully.',
+    data: result,
+  });
+});
+
+
+
 export const YogaControllers = {
   addYoga,
   getAllYogas,
   getSingleYogaById,
   updateYoga,
   deleteYoga,
+  getStats,
 };

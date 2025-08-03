@@ -3,6 +3,17 @@ import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
 import { TYoga } from "./yoga.interface";
 import Yoga from "./yoga.model";
+import Emergency from "../emergency/emergency.model";
+import { User } from "../auth/auth.model";
+import Book from "../religiousTextsNew/book/book.model";
+import Organization from "../organizations/organizations.model";
+import Course from "../course/course.model";
+import Reels from "../reels/reels.model";
+import Vastu from "../vastu/vastu.model";
+import Temple from "../temples/temples.model";
+import ConsultancyService from "../consultancyService/consultancyService.model";
+import Recipe from "../recipe/recipe.model";
+import ApiKeys from "../apiKeys/apiKeys.model";
 
 // Add yoga for admin only
 const addYoga = async (payload: TYoga, createdBy: string) => {
@@ -50,6 +61,53 @@ const getAllYogas = async (keyword: any) => {
   return result;
 };
 
+// Get admin stats
+const getAdminStats = async () => {
+
+    const [
+      pendingEmergencies,
+      totalUsers,
+      totalBooks,
+      totalOrganizations,
+      totalCourses,
+      totalReels,
+      totalYogas,
+      totalVastus,
+      totalTemples,
+      totalConsultancies,
+      totalRecipes,
+      totalApiKeys,
+    ] = await Promise.all([
+      Emergency.countDocuments({ status: 'pending' }),
+      User.countDocuments(),
+      Book.countDocuments(),
+      Organization.countDocuments(),
+      Course.countDocuments(),
+      Reels.countDocuments(),
+      Yoga.countDocuments(),
+      Vastu.countDocuments(),
+      Temple.countDocuments(),
+      ConsultancyService.countDocuments(),
+      Recipe.countDocuments(),
+      ApiKeys.countDocuments(),
+    ]);
+
+    return {
+      pendingEmergencies,
+      totalUsers,
+      totalBooks,
+      totalOrganizations,
+      totalCourses,
+      totalReels,
+      totalYogas,
+      totalVastus,
+      totalTemples,
+      totalConsultancies,
+      totalRecipes,
+      totalApiKeys,
+    };
+};
+
 // Get single yoga post by id
 const getSingleYogaById = async (yogaId: string) => {
   const result = await Yoga.findById(yogaId);
@@ -84,4 +142,5 @@ export const YogaServices = {
   getSingleYogaById,
   updateYoga,
   deleteYoga,
+  getAdminStats,
 };
