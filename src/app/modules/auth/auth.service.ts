@@ -9,34 +9,37 @@ import { createToekn } from "./auth.utils";
 import { User } from "./auth.model";
 import { sendEmail } from "../../utils/sendEmail";
 import bcrypt from "bcrypt";
+import { sendImageToCloudinary } from "../../utils/sendImageToCloudinary";
 
 // Create user
-const signup = async (payload: Partial<TUser>) => {
-  const { name, email, phoneNumber, password, role } = payload;
+const signup = async (
+  payload: Partial<TUser>,
+  file: Express.Multer.File | undefined
+) => {
+  // Checking if user already exists
+  const isUserExists = await User.findOne({ email: payload.email });
+  if (isUserExists) {
+    throw new AppError(httpStatus.CONFLICT, "User already exists.");
+  }
 
-  // if (file && file.path) {
-  //   const imageName = `${name}-${email}`;
-  //   const path = file.path;
-  //   const { secure_url } = await sendImageToCloudinary(imageName, path);
-  //   payload.avatar = secure_url;
-  // }
+  let imageUrl = "";
+
+  if (file) {
+    const imageName = `${payload.name}-${Date.now()}`;
+    const path = file.path;
+
+    const { secure_url } = await sendImageToCloudinary(imageName, path);
+    imageUrl = secure_url;
+  }
 
   const payloadData = {
-    name,
-    email,
-    password,
-    phoneNumber: phoneNumber || "",
-    role: role || "user",
+    ...payload,
+    avatar: imageUrl,
+    role: "user",
     isDeleted: false,
     isSuspended: false,
     isVerified: false,
   };
-
-  // Checking if user already exists
-  const isUserExists = await User.findOne({ email: payloadData.email });
-  if (isUserExists) {
-    throw new AppError(httpStatus.CONFLICT, "User already exists.");
-  }
 
   // Create user in the database
   const result = await User.create(payloadData);
@@ -102,7 +105,7 @@ const loginUser = async (payload: TLoginAuth) => {
       name: user.name,
       email: user.email,
       role: user.role,
-      assignedPages : user.assignedPages || [],
+      assignedPages: user.assignedPages || [],
     },
   };
 };

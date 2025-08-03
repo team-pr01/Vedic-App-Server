@@ -4,10 +4,11 @@ import { AuthValidations } from "./auth.validation";
 import { AuthControllers } from "./auth.controller";
 import auth from "../../middlewares/auth";
 import { UserRole } from "./auth.constannts";
+import { multerUpload } from "../../config/multer.config";
 // import { upload } from "../../utils/sendImageToCloudinary";
 const router = express.Router();
 
-router.post("/signup", AuthControllers.signup);
+router.post("/signup", multerUpload.single("file"), AuthControllers.signup);
 
 router.post(
   "/login",

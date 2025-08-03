@@ -8,9 +8,15 @@ import { UserRole } from "./auth.constannts";
 
 export type TUser= {
   _id:string;
+  avatar?: string;
   name: string;
   email: string;
-  phoneNumber?: string;
+  phoneNumber: string;
+  dob : Date;
+  area? : string;
+  city : string;
+  state : string;
+  country : string;
   password: string;
   role: "user" | "admin" | "moderator" | "super-admin";
   assignedPages? : string[];
@@ -30,3 +36,15 @@ export interface UserModel extends Model<TUser> {
 }
 
 export type TUserRole = keyof typeof UserRole;
+
+
+
+// name,
+// email,
+// phoneNumber,
+// dob,
+// password,
+// country,
+// state,
+// city,
+// village/area (optional),
