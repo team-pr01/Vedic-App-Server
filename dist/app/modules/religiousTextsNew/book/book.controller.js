@@ -81,7 +81,6 @@ const updateBook = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
 // ✅ Delete book by ID
 const deleteBook = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { bookId } = req.params;
-    console.log(bookId);
     const result = yield book_services_1.BookService.deleteBook(bookId);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,

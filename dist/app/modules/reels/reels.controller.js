@@ -20,7 +20,6 @@ const reels_services_1 = require("./reels.services");
 // Add reel (For admin)
 const addReel = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const createdBy = req.user.userId;
-    console.log(req.body);
     const result = yield reels_services_1.ReelServices.addReel(req.body, createdBy);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,

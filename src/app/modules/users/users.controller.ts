@@ -28,7 +28,6 @@ const getMe = catchAsync(async (req, res) => {
 const getMyOrders = catchAsync(async (req, res) => {
   // const userId = req.user.userId;
   const {userId} = req.params;
-  console.log(userId);
   const result = await UserServices.getMyOrders(userId);
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -107,7 +106,6 @@ const followUser = catchAsync(async (req, res) => {
   
   const currentUserId = req.user.userId;
   const { userId } = req.params;
-  console.log(userId);
 
   const result = await UserServices.followUser(currentUserId, userId);
   sendResponse(res, {

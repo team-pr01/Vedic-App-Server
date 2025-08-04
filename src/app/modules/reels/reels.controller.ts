@@ -6,7 +6,6 @@ import { ReelServices } from "./reels.services";
 // Add reel (For admin)
 const addReel = catchAsync(async (req, res) => {
     const createdBy = req.user.userId;
-    console.log(req.body);
   const result = await ReelServices.addReel(req.body, createdBy);
 
   sendResponse(res, {

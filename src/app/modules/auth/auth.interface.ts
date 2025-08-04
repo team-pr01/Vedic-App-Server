@@ -20,6 +20,8 @@ export type TUser= {
   role: "user" | "admin" | "moderator" | "super-admin";
   assignedPages? : string[];
   isVerified: boolean;
+  resetPasswordToken: string | null;
+  resetPasswordExpires: Date | null;
   createdAt: Date;
   updatedAt: Date;
   isDeleted : boolean;

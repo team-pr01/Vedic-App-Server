@@ -40,7 +40,6 @@ const getMe = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, 
 const getMyOrders = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // const userId = req.user.userId;
     const { userId } = req.params;
-    console.log(userId);
     const result = yield users_services_1.UserServices.getMyOrders(userId);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
@@ -103,7 +102,6 @@ const getSingleUserById = (0, catchAsync_1.default)((req, res) => __awaiter(void
 const followUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const currentUserId = req.user.userId;
     const { userId } = req.params;
-    console.log(userId);
     const result = yield users_services_1.UserServices.followUser(currentUserId, userId);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,

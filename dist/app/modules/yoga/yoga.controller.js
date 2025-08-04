@@ -20,7 +20,6 @@ const yoga_services_1 = require("./yoga.services");
 // Add yoga (For admin)
 const addYoga = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const createdBy = req.user.userId;
-    console.log(req.body);
     const result = yield yoga_services_1.YogaServices.addYoga(req.body, createdBy);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,

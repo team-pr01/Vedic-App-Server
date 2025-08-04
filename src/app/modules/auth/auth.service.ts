@@ -11,6 +11,10 @@ import { sendEmail } from "../../utils/sendEmail";
 import bcrypt from "bcrypt";
 import { sendImageToCloudinary } from "../../utils/sendImageToCloudinary";
 
+const generateOTP = () => {
+  return Math.floor(100000 + Math.random() * 900000).toString(); // Ensures a 6-digit number
+};
+
 // Create user
 const signup = async (
   payload: Partial<TUser>,
@@ -71,8 +75,6 @@ const loginUser = async (payload: TLoginAuth) => {
   if (!(await User.isPasswordMatched(payload?.password, user?.password))) {
     throw new AppError(httpStatus.FORBIDDEN, "Password is not correct.");
   }
-
-  console.log(user);
 
   // Create token and send to client/user
 
@@ -157,85 +159,87 @@ const refreshToken = async (token: string) => {
 };
 
 const forgetPassword = async (email: string) => {
-  const user = await User.isUserExists(email);
+  const user = await User.findOne({ email });
 
-  // Checking if the user exists or not
   if (!user) {
-    throw new AppError(httpStatus.NOT_FOUND, "User not found!");
+    throw new AppError(httpStatus.NOT_FOUND, "User not found.");
   }
 
-  const jwtpayload = {
-    userId: user._id,
-    email: user.email,
-    role: user.role,
-  };
+  const otp = generateOTP();
 
-  const resetToken = createToekn(
-    jwtpayload,
-    config.jwt_access_secret as string,
-    "10m"
+  await User.updateOne(
+    { email },
+    {
+      resetPasswordToken: otp,
+      resetPasswordExpires: new Date(Date.now() + 10 * 60 * 1000), // 10 min
+    }
   );
 
   const htmlBody = `
-  <p>Hello <strong>${user?.name || "User"}</strong>,</p>
-  <p>We received a request to reset your password.</p>
-  <p>👉 <strong>Your reset token:</strong> <code>${resetToken}</code></p>
-  <p>Please follow these steps:</p>
-  <ol>
-    <li>Open the app.</li>
-    <li>Go to the <strong>"Reset Password"</strong> screen.</li>
-    <li>Paste the above token in the token input field.</li>
-    <li>Enter your new password.</li>
-    <li>Submit the form to complete the reset.</li>
-  </ol>
-  <p>If you didn’t request this, you can ignore this email.</p>
-  <p>Thanks,<br/>AKF Team</p>
-`;
+    <p>Hello <strong>${user?.name || "User"}</strong>,</p>
+    <p>We received a request to reset your password.</p>
+    <p>👉 <strong>Your reset OTP: ${otp}</strong></p>
+    <p>Please follow these steps:</p>
+    <ol>
+      <li>Open the app.</li>
+      <li>Go to the <strong>"Reset Password"</strong> screen.</li>
+      <li>Paste the above OTP in the token input field.</li>
+      <li>Enter your new password.</li>
+      <li>Submit the form to complete the reset.</li>
+    </ol>
+    <p>If you didn’t request this, you can ignore this email.</p>
+    <p>Thanks,<br/>AKF Team</p>
+  `;
 
   await sendEmail(user?.email, htmlBody);
+
+  return {};
 };
 
-const resetPassword = async (
-  payload: { email: string; newPassword: string },
-  token: string
-) => {
-  const user = await User.isUserExists(payload?.email);
+const resetPassword = async (payload: {
+  email: string;
+  otp: string;
+  newPassword: string;
+}) => {
+  const { email, otp, newPassword } = payload;
 
-  // Checking if the user exists or not
-  if (!user) {
-    throw new AppError(httpStatus.NOT_FOUND, "User not found!");
+  const user = await User.findOne({ email });
+
+  if (
+    !user ||
+    !user.resetPasswordToken ||
+    !user.resetPasswordExpires ||
+    user.resetPasswordToken !== otp ||
+    new Date(user.resetPasswordExpires) < new Date()
+  ) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Invalid or expired OTP.");
   }
 
-  // Check if the token is valid or not.
-  const decoded = jwt.verify(
-    token,
-    config.jwt_access_secret as string
-  ) as JwtPayload;
-
-  if (payload?.email !== decoded?.email) {
-    throw new AppError(httpStatus.FORBIDDEN, "You are forbidden");
-  }
-
-  const newHashedPassword = await bcrypt.hash(
-    payload.newPassword,
+  const hashedPassword = await bcrypt.hash(
+    newPassword,
     Number(config.bcrypt_salt_round)
   );
 
-  await User.findOneAndUpdate(
+  // Use updateOne to update password and clear OTP fields
+  await User.updateOne(
+    { email },
     {
-      email: decoded.email,
-      role: decoded.role,
-    },
-    {
-      password: newHashedPassword,
-      passwordChangedAt: new Date(),
+      $set: {
+        password: hashedPassword,
+        passwordChangedAt: new Date(),
+      },
+      $unset: {
+        resetPasswordToken: null,
+        resetPasswordExpires: null,
+      },
     }
   );
+
+  return {};
 };
 
 // Change user role (For admin)
 const changeUserRole = async (payload: { userId: string; role: any }) => {
-  console.log(payload);
   const user = await User.findById(payload?.userId);
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, "User not found");

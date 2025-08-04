@@ -16,7 +16,7 @@ const router = express_1.default.Router();
 router.post("/signup", multer_config_1.multerUpload.single("file"), auth_controller_1.AuthControllers.signup);
 router.post("/login", (0, validateRequest_1.default)(auth_validation_1.AuthValidations.LoginValidationSchema), auth_controller_1.AuthControllers.loginUser);
 router.post("/refresh-token", (0, validateRequest_1.default)(auth_validation_1.AuthValidations.refreshTokenValidationSchema), auth_controller_1.AuthControllers.refreshToken);
-router.post("/forgot-password", (0, validateRequest_1.default)(auth_validation_1.AuthValidations.forgetPasswordValidationSchema), auth_controller_1.AuthControllers.forgetPassword);
+router.post("/forgot-password", auth_controller_1.AuthControllers.forgetPassword);
 router.post("/reset-password", (0, validateRequest_1.default)(auth_validation_1.AuthValidations.resetPasswordValidationSchema), auth_controller_1.AuthControllers.resetPassword);
 router.put("/change-role", (0, auth_1.default)(auth_constannts_1.UserRole.admin), auth_controller_1.AuthControllers.changeUserRole);
 router.put("/assign-pages", (0, auth_1.default)(auth_constannts_1.UserRole.admin), auth_controller_1.AuthControllers.assignPagesToUser);

@@ -6,7 +6,6 @@ import { YogaServices } from "./yoga.services";
 // Add yoga (For admin)
 const addYoga = catchAsync(async (req, res) => {
   const createdBy = req.user.userId;
-  console.log(req.body);
   const result = await YogaServices.addYoga(req.body, createdBy);
 
   sendResponse(res, {
