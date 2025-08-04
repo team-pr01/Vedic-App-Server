@@ -39,10 +39,6 @@ const userSchema = new mongoose_1.Schema({
         required: true,
         trim: true,
     },
-    dob: {
-        type: Date,
-        required: true,
-    },
     area: {
         type: String,
         required: false,

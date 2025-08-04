@@ -27,10 +27,6 @@ const userSchema = new Schema<TUser, UserModel>(
       required: true,
       trim: true,
     },
-    dob: {
-      type: Date,
-      required: true,
-    },
     area: {
       type: String,
       required: false,

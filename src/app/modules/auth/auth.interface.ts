@@ -12,7 +12,6 @@ export type TUser= {
   name: string;
   email: string;
   phoneNumber: string;
-  dob : Date;
   area? : string;
   city : string;
   state : string;
