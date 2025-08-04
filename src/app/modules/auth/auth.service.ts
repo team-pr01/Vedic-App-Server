@@ -81,6 +81,7 @@ const loginUser = async (payload: TLoginAuth) => {
     email: user.email,
     role: user.role,
     assignedPages: user.assignedPages || [],
+    avatar: user.avatar || [],
   };
 
   const accessToken = createToekn(
@@ -106,6 +107,7 @@ const loginUser = async (payload: TLoginAuth) => {
       email: user.email,
       role: user.role,
       assignedPages: user.assignedPages || [],
+      avatar: user.avatar || "",
     },
   };
 };
