@@ -60,7 +60,7 @@ const forgetPassword = (0, catchAsync_1.default)((req, res) => __awaiter(void 0,
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: "Reset link sent to your email.Please check.",
+        message: "Reset instruction sent to your email.Please check.",
         data: result,
     });
 }));

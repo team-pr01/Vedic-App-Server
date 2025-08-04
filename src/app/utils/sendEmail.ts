@@ -20,8 +20,6 @@ export const sendEmail = async (to: string, html: string) => {
       text: "Reset your password within 10 minutes",
       html,
     });
-
-    console.log(`Email sent to ${to}`);
   } catch (error) {
     console.error("Failed to send email:", error);
     throw new Error("Failed to send email");

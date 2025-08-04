@@ -32,7 +32,6 @@ const sendEmail = (to, html) => __awaiter(void 0, void 0, void 0, function* () {
             text: "Reset your password within 10 minutes",
             html,
         });
-        console.log(`Email sent to ${to}`);
     }
     catch (error) {
         console.error("Failed to send email:", error);

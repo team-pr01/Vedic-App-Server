@@ -126,8 +126,22 @@ const forgetPassword = (email) => __awaiter(void 0, void 0, void 0, function* ()
         role: user.role,
     };
     const resetToken = (0, auth_utils_1.createToekn)(jwtpayload, config_1.default.jwt_access_secret, "10m");
-    const resetLink = `${config_1.default.reset_password_ui_url}/reset-password?email=${user === null || user === void 0 ? void 0 : user.email}&token=${resetToken}`;
-    yield (0, sendEmail_1.sendEmail)(user === null || user === void 0 ? void 0 : user.email, resetLink);
+    const htmlBody = `
+  <p>Hello <strong>${(user === null || user === void 0 ? void 0 : user.name) || "User"}</strong>,</p>
+  <p>We received a request to reset your password.</p>
+  <p>👉 <strong>Your reset token:</strong> <code>${resetToken}</code></p>
+  <p>Please follow these steps:</p>
+  <ol>
+    <li>Open the app.</li>
+    <li>Go to the <strong>"Reset Password"</strong> screen.</li>
+    <li>Paste the above token in the token input field.</li>
+    <li>Enter your new password.</li>
+    <li>Submit the form to complete the reset.</li>
+  </ol>
+  <p>If you didn’t request this, you can ignore this email.</p>
+  <p>Thanks,<br/>AKF Team</p>
+`;
+    yield (0, sendEmail_1.sendEmail)(user === null || user === void 0 ? void 0 : user.email, htmlBody);
 });
 const resetPassword = (payload, token) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield auth_model_1.User.isUserExists(payload === null || payload === void 0 ? void 0 : payload.email);

@@ -176,9 +176,23 @@ const forgetPassword = async (email: string) => {
     "10m"
   );
 
-  const resetLink = `${config.reset_password_ui_url}/reset-password?email=${user?.email}&token=${resetToken}`;
+  const htmlBody = `
+  <p>Hello <strong>${user?.name || "User"}</strong>,</p>
+  <p>We received a request to reset your password.</p>
+  <p>👉 <strong>Your reset token:</strong> <code>${resetToken}</code></p>
+  <p>Please follow these steps:</p>
+  <ol>
+    <li>Open the app.</li>
+    <li>Go to the <strong>"Reset Password"</strong> screen.</li>
+    <li>Paste the above token in the token input field.</li>
+    <li>Enter your new password.</li>
+    <li>Submit the form to complete the reset.</li>
+  </ol>
+  <p>If you didn’t request this, you can ignore this email.</p>
+  <p>Thanks,<br/>AKF Team</p>
+`;
 
-  await sendEmail(user?.email, resetLink);
+  await sendEmail(user?.email, htmlBody);
 };
 
 const resetPassword = async (
