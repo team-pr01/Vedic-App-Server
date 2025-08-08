@@ -4,7 +4,6 @@ import catchAsync from "../../utils/catchAsync";
 import { EmergencyServices } from "./emergency.services";
 import { io } from "../../../server";
 import Notification from "../notification/notification.model";
-// import { SocketManager } from "../../../socket/socketManager";
 
 // Send emergency message by admin
 const sendEmergencyMessageAdmin = catchAsync(async (req, res) => {
@@ -13,7 +12,7 @@ const sendEmergencyMessageAdmin = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Message forwarded.",
+    message: "Message forwarded successfully",
     data: result,
   });
 });
@@ -28,6 +27,7 @@ const postEmergency = catchAsync(async (req, res) => {
     message: result.message,
     createdAt: result.createdAt,
   });
+  
 
   io.emit("new-notification", {
     title: "Emergency Message",
