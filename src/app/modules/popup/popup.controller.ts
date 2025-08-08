@@ -6,7 +6,8 @@ import { PopupServices } from "./popup.services";
 // Create Popup
 const createPopup = catchAsync(async (req, res) => {
   const popupData = req.body;
-  const result = await PopupServices.createPopup(popupData);
+  const file = req.file;
+  const result = await PopupServices.createPopup(popupData, file);
 
   sendResponse(res, {
     statusCode: httpStatus.CREATED,
@@ -46,7 +47,8 @@ const getPopupById = catchAsync(async (req, res) => {
 const updatePopup = catchAsync(async (req, res) => {
   const popupId = req.params.popupId;
   const updatedData = req.body;
-  const result = await PopupServices.updatePopup(popupId, updatedData);
+  const file = req.file;
+  const result = await PopupServices.updatePopup(popupId, updatedData, file);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

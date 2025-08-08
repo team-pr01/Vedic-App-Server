@@ -3,10 +3,28 @@ import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
 import { TPopup } from "./popup.interface";
 import Popup from "./popup.model";
+import { sendImageToCloudinary } from "../../utils/sendImageToCloudinary";
 
 // Create Popup
-const createPopup = async (payload: TPopup) => {
-  const result = await Popup.create(payload);
+const createPopup = async (
+  payload: TPopup,
+  file: Express.Multer.File | undefined
+) => {
+  let imageUrl = "";
+
+  if (file) {
+    const imageName = `${payload.title}-${Date.now()}`;
+    const path = file.path;
+
+    const { secure_url } = await sendImageToCloudinary(imageName, path);
+    imageUrl = secure_url;
+  }
+
+  const payloadData = {
+    ...payload,
+    imageUrl,
+  };
+  const result = await Popup.create(payloadData);
   return result;
 };
 
@@ -32,13 +50,32 @@ const getPopupById = async (popupId: string) => {
 };
 
 // Update Popup
-const updatePopup = async (popupId: string, payload: Partial<TPopup>) => {
+const updatePopup = async (
+  popupId: string,
+  payload: Partial<TPopup>,
+  file: any
+) => {
   const existing = await Popup.findById(popupId);
   if (!existing) {
     throw new AppError(httpStatus.NOT_FOUND, "Popup not found");
   }
 
-  const result = await Popup.findByIdAndUpdate(popupId, payload, {
+  let imageUrl: string | undefined;
+
+  if (file) {
+    const imageName = `${payload?.title || existing.title}-${Date.now()}`;
+    const path = file.path;
+
+    const { secure_url } = await sendImageToCloudinary(imageName, path);
+    imageUrl = secure_url;
+  }
+
+  const updatePayload: Partial<TPopup> = {
+    ...payload,
+    ...(imageUrl && { imageUrl }),
+  };
+
+  const result = await Popup.findByIdAndUpdate(popupId, updatePayload, {
     new: true,
     runValidators: true,
   });

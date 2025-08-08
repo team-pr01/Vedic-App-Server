@@ -23,14 +23,6 @@ const PopupSchema = new Schema<TPopup>(
       type: String,
       required: true,
     },
-    startDate: {
-      type: String,
-      required: true,
-    },
-    endDate: {
-      type: String,
-      required: true,
-    },
     displayFrequency: {
       type: String,
       required: true,
