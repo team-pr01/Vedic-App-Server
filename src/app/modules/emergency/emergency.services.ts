@@ -10,18 +10,44 @@ type TQuery = {
   status?: string;
 };
 
-// Send emergency message by admin to particular groups
+// src/app/modules/emergency/emergency.service.ts
+import SocketManager from '../../socketManager';
+
 const sendEmergencyMessageAdmin = async (payload: TEmergencyMessageAdmin) => {
-  const { emergencyMessageId, title, adminMessage, targetGroups } = payload;
+  const { emergencyMessageId, title, userName, location, phoneNumber, adminMessage, status, userIds } = payload;
 
   const payloadData = {
     emergencyMessageId,
     title,
+    userName,
     adminMessage,
-    targetGroups,
+    location,
+    phoneNumber,
+    status
   };
 
   const result = await EmergencyMessageAdmin.create(payloadData);
+
+  // Emit to specific users if userIds are provided
+  if (userIds && userIds.length > 0) {
+    const io = SocketManager.getIoInstance();
+    const connectedUsers = SocketManager.getConnectedUsers();
+    
+    if (io) {
+      userIds.forEach((userId: string) => {
+        const socketId = connectedUsers[userId];
+        if (socketId) {
+          io.to(socketId).emit('emergency-notification', {
+            title,
+            message: adminMessage,
+            data: payloadData
+          });
+        } else {
+          console.log(`User ${userId} is not currently connected`);
+        }
+      });
+    }
+  }
 
   return result;
 };

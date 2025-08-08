@@ -140,4 +140,13 @@ export const routeAccessMap: Record<string, string[]> = {
     "/recipe/:recipeId", // PUT
     "/recipe/:recipeId", // DELETE
   ],
+
+  //   Donation Programs
+  "/dashboard/donation-programs": [
+    "/donations", // POST
+    "/donations", // GET all
+    "/donations/:donationProgramId", // GET one
+    "/donations/:donationProgramId", // PUT
+    "/donations/:donationProgramId", // DELETE
+  ],
 };

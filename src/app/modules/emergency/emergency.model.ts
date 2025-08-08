@@ -50,18 +50,32 @@ const EmergencyMessageAdminSchema = new Schema<TEmergencyMessageAdmin>(
     },
     title: {
       type: String,
-      required: false,
-      default: ""
+      required: true
+    },
+    userName: {
+      type: String,
+      required: true
+    },
+    location: {
+      type: String,
+      required: true
+    },
+    phoneNumber: {
+      type: String,
+      required: true
+    },
+    status: {
+      type: String,
+      required: true
+    },
+    userIds : {
+      type: [String],
+      required: true
     },
     adminMessage: {
       type: String,
       required: false,
       default: "Emergency message from admin"
-    },
-    targetGroups: {
-      type: [String],
-      enum: ["all", "staff", "volunteers", "members"],
-      required: true,
     },
   },
   {

@@ -13,7 +13,11 @@ export type TEmergency = {
 
 export type TEmergencyMessageAdmin = {
   emergencyMessageId : Types.ObjectId;
-  title?: string;
+  title: string;
+  userName: string;
+  location: string;
+  phoneNumber: string;
   adminMessage?: string;
-  targetGroups: ("all" | "moderators" | "admins")[];
+  userIds: string[];
+  status: string;
 };

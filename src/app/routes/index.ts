@@ -20,6 +20,7 @@ import { CategoryRoutes } from "../modules/categories/reelCategory/categories.ro
 import { ApiKeyRoutes } from "../modules/apiKeys/apiKeys.route";
 import { CourseRoutes } from "../modules/course/course.route";
 import { RecipeRoutes } from "../modules/recipe/recipe.route";
+import { DonationProgramRoutes } from './../modules/donationPrograms/donationPrograms.route';
 
 const router = Router();
 
@@ -107,6 +108,10 @@ const moduleRoutes = [
   {
     path: "/recipe",
     route: RecipeRoutes,
+  },
+  {
+    path: "/donations",
+    route: DonationProgramRoutes,
   },
 ];
 
