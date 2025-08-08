@@ -6,11 +6,7 @@ const OrganizationSchema = new mongoose_1.Schema({
         type: String,
         required: true,
     },
-    imageUrl: {
-        type: String,
-        required: true
-    },
-    type: {
+    category: {
         type: String,
         enum: ["gurukul", "vedic_institution", "ashram"],
         required: true,

@@ -30,12 +30,11 @@ const recipe_model_1 = __importDefault(require("../recipe/recipe.model"));
 const apiKeys_model_1 = __importDefault(require("../apiKeys/apiKeys.model"));
 // Add yoga for admin only
 const addYoga = (payload, createdBy) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, sanskritName, description, imageUrl, videoUrl, difficulty, duration, benefits, contraindications, categories, } = payload;
+    const { name, sanskritName, description, videoUrl, difficulty, duration, benefits, contraindications, categories, } = payload;
     const payloadData = {
         name,
         sanskritName,
         description,
-        imageUrl,
         videoUrl,
         difficulty,
         duration,

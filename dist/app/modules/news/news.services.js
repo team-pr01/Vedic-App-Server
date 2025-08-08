@@ -17,16 +17,23 @@ exports.NewsServices = void 0;
 const http_status_1 = __importDefault(require("http-status"));
 const AppError_1 = __importDefault(require("../../errors/AppError"));
 const news_model_1 = __importDefault(require("./news.model"));
-const addNews = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield news_model_1.default.create(payload);
+const sendImageToCloudinary_1 = require("../../utils/sendImageToCloudinary");
+const addNews = (payload, file) => __awaiter(void 0, void 0, void 0, function* () {
+    let imageUrl = "";
+    if (file) {
+        const imageName = `${payload.title}-${Date.now()}`;
+        const path = file.path;
+        const { secure_url } = yield (0, sendImageToCloudinary_1.sendImageToCloudinary)(imageName, path);
+        imageUrl = secure_url;
+    }
+    const payloadData = Object.assign(Object.assign({}, payload), { imageUrl });
+    const result = yield news_model_1.default.create(payloadData);
     return result;
 });
 const getAllNews = (keyword, category) => __awaiter(void 0, void 0, void 0, function* () {
     const query = {};
     if (keyword) {
-        query.$or = [
-            { title: { $regex: keyword, $options: "i" } },
-        ];
+        query.$or = [{ title: { $regex: keyword, $options: "i" } }];
     }
     if (category) {
         query.category = { $regex: category, $options: "i" };
@@ -41,12 +48,20 @@ const getSingleNewsById = (newsId) => __awaiter(void 0, void 0, void 0, function
     }
     return result;
 });
-const updateNews = (newsId, payload) => __awaiter(void 0, void 0, void 0, function* () {
+const updateNews = (newsId, payload, file) => __awaiter(void 0, void 0, void 0, function* () {
     const existing = yield news_model_1.default.findById(newsId);
     if (!existing) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, "News not found");
     }
-    const result = yield news_model_1.default.findByIdAndUpdate(newsId, payload, {
+    let imageUrl;
+    if (file) {
+        const imageName = `${(payload === null || payload === void 0 ? void 0 : payload.title) || existing.title}-${Date.now()}`;
+        const path = file.path;
+        const { secure_url } = yield (0, sendImageToCloudinary_1.sendImageToCloudinary)(imageName, path);
+        imageUrl = secure_url;
+    }
+    const updatePayload = Object.assign(Object.assign({}, payload), (imageUrl && { imageUrl }));
+    const result = yield news_model_1.default.findByIdAndUpdate(newsId, updatePayload, {
         new: true,
         runValidators: true,
     });

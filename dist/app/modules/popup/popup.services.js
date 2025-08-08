@@ -17,9 +17,18 @@ exports.PopupServices = void 0;
 const http_status_1 = __importDefault(require("http-status"));
 const AppError_1 = __importDefault(require("../../errors/AppError"));
 const popup_model_1 = __importDefault(require("./popup.model"));
+const sendImageToCloudinary_1 = require("../../utils/sendImageToCloudinary");
 // Create Popup
-const createPopup = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield popup_model_1.default.create(payload);
+const createPopup = (payload, file) => __awaiter(void 0, void 0, void 0, function* () {
+    let imageUrl = "";
+    if (file) {
+        const imageName = `${payload.title}-${Date.now()}`;
+        const path = file.path;
+        const { secure_url } = yield (0, sendImageToCloudinary_1.sendImageToCloudinary)(imageName, path);
+        imageUrl = secure_url;
+    }
+    const payloadData = Object.assign(Object.assign({}, payload), { imageUrl });
+    const result = yield popup_model_1.default.create(payloadData);
     return result;
 });
 // Get All Popups (with optional title search)
@@ -40,12 +49,20 @@ const getPopupById = (popupId) => __awaiter(void 0, void 0, void 0, function* ()
     return result;
 });
 // Update Popup
-const updatePopup = (popupId, payload) => __awaiter(void 0, void 0, void 0, function* () {
+const updatePopup = (popupId, payload, file) => __awaiter(void 0, void 0, void 0, function* () {
     const existing = yield popup_model_1.default.findById(popupId);
     if (!existing) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Popup not found");
     }
-    const result = yield popup_model_1.default.findByIdAndUpdate(popupId, payload, {
+    let imageUrl;
+    if (file) {
+        const imageName = `${(payload === null || payload === void 0 ? void 0 : payload.title) || existing.title}-${Date.now()}`;
+        const path = file.path;
+        const { secure_url } = yield (0, sendImageToCloudinary_1.sendImageToCloudinary)(imageName, path);
+        imageUrl = secure_url;
+    }
+    const updatePayload = Object.assign(Object.assign({}, payload), (imageUrl && { imageUrl }));
+    const result = yield popup_model_1.default.findByIdAndUpdate(popupId, updatePayload, {
         new: true,
         runValidators: true,
     });

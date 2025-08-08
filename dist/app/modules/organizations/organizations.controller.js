@@ -29,7 +29,8 @@ const addOrganization = (0, catchAsync_1.default)((req, res) => __awaiter(void 0
 }));
 // Get All
 const getAllOrganizations = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield organizations_services_1.OrganizationServices.getAllOrganizations();
+    const { keyword, category } = req.query;
+    const result = yield organizations_services_1.OrganizationServices.getAllOrganizations(keyword, category);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,

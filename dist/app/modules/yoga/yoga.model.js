@@ -13,9 +13,6 @@ const YogaSchema = new mongoose_1.Schema({
         type: String,
         required: true,
     },
-    imageUrl: {
-        type: String,
-    },
     videoUrl: {
         type: String,
     },
@@ -25,7 +22,7 @@ const YogaSchema = new mongoose_1.Schema({
         default: "Beginner",
     },
     duration: {
-        type: Number,
+        type: String,
         required: true,
     },
     benefits: {

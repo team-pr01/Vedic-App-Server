@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrganizationServices = void 0;
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const http_status_1 = __importDefault(require("http-status"));
 const AppError_1 = __importDefault(require("../../errors/AppError"));
 const organizations_model_1 = __importDefault(require("./organizations.model"));
@@ -20,8 +21,15 @@ const addOrganization = (payload) => __awaiter(void 0, void 0, void 0, function*
     const result = yield organizations_model_1.default.create(payload);
     return result;
 });
-const getAllOrganizations = () => __awaiter(void 0, void 0, void 0, function* () {
-    return yield organizations_model_1.default.find();
+const getAllOrganizations = (keyword, category) => __awaiter(void 0, void 0, void 0, function* () {
+    const query = {};
+    if (keyword) {
+        query.$or = [{ name: { $regex: keyword, $options: "i" } }];
+    }
+    if (category) {
+        query.category = { $regex: category, $options: "i" };
+    }
+    return yield organizations_model_1.default.find(query);
 });
 const getSingleOrganizationById = (orgId) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield organizations_model_1.default.findById(orgId);

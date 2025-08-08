@@ -21,7 +21,7 @@ const sendImageToCloudinary_1 = require("../../utils/sendImageToCloudinary");
 const createContent = (payload, file) => __awaiter(void 0, void 0, void 0, function* () {
     let imageUrl = "";
     if (file) {
-        const imageName = `${payload.title}-${Date.now()}`;
+        const imageName = `Content-${Date.now()}`;
         const path = file.path;
         const { secure_url } = yield (0, sendImageToCloudinary_1.sendImageToCloudinary)(imageName, path);
         imageUrl = secure_url;
@@ -47,7 +47,7 @@ const updateContent = (contentId, payload, file) => __awaiter(void 0, void 0, vo
     }
     let imageUrl;
     if (file) {
-        const imageName = `${(payload === null || payload === void 0 ? void 0 : payload.title) || existing.title}-${Date.now()}`;
+        const imageName = `Content-${Date.now()}`;
         const path = file.path;
         const { secure_url } = yield (0, sendImageToCloudinary_1.sendImageToCloudinary)(imageName, path);
         imageUrl = secure_url;

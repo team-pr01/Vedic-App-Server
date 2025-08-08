@@ -20,7 +20,8 @@ const popup_services_1 = require("./popup.services");
 // Create Popup
 const createPopup = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const popupData = req.body;
-    const result = yield popup_services_1.PopupServices.createPopup(popupData);
+    const file = req.file;
+    const result = yield popup_services_1.PopupServices.createPopup(popupData, file);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.CREATED,
         success: true,
@@ -54,7 +55,8 @@ const getPopupById = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, v
 const updatePopup = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const popupId = req.params.popupId;
     const updatedData = req.body;
-    const result = yield popup_services_1.PopupServices.updatePopup(popupId, updatedData);
+    const file = req.file;
+    const result = yield popup_services_1.PopupServices.updatePopup(popupId, updatedData, file);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,

@@ -2,21 +2,15 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const ContentSchema = new mongoose_1.Schema({
-    title: {
+    videoUrl: {
         type: String,
-        required: true,
-    },
-    subtitle: {
-        type: String,
-        required: true,
-    },
-    description: {
-        type: String,
-        required: true,
+        required: false,
+        default: "",
     },
     imageUrl: {
         type: String,
-        required: true,
+        required: false,
+        default: "",
     },
 }, { timestamps: true });
 const Content = (0, mongoose_1.model)("Content", ContentSchema);

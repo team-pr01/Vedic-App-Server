@@ -22,14 +22,6 @@ const PopupSchema = new mongoose_1.Schema({
         type: String,
         required: true,
     },
-    startDate: {
-        type: String,
-        required: true,
-    },
-    endDate: {
-        type: String,
-        required: true,
-    },
     displayFrequency: {
         type: String,
         required: true,

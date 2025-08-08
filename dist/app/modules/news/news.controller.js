@@ -19,7 +19,8 @@ const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const news_services_1 = require("./news.services");
 // Add News
 const addNews = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield news_services_1.NewsServices.addNews(req.body);
+    const file = req.file;
+    const result = yield news_services_1.NewsServices.addNews(req.body, file);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
@@ -52,7 +53,8 @@ const getSingleNewsById = (0, catchAsync_1.default)((req, res) => __awaiter(void
 // Update
 const updateNews = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { newsId } = req.params;
-    const result = yield news_services_1.NewsServices.updateNews(newsId, req.body);
+    const file = req.file;
+    const result = yield news_services_1.NewsServices.updateNews(newsId, req.body, file);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,

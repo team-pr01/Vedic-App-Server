@@ -36,7 +36,7 @@ exports.routeAccessMap = {
         "/notification/:notificationId", // DELETE
     ],
     // Organization
-    "/dashboard/organization": [
+    "/dashboard/organizations": [
         "/organization/add-organization", // POST
         "/organization", // GET all
         "/organization/:orgId", // GET one
