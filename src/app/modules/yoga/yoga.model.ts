@@ -14,9 +14,6 @@ const YogaSchema = new Schema<TYoga>(
       type: String,
       required: true,
     },
-    imageUrl: {
-      type: String,
-    },
     videoUrl: {
       type: String,
     },
@@ -26,7 +23,7 @@ const YogaSchema = new Schema<TYoga>(
       default: "Beginner",
     },
     duration: {
-      type: Number,
+      type: String,
       required: true,
     },
     benefits: {

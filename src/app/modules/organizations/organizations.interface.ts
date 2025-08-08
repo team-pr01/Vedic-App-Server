@@ -1,7 +1,6 @@
 export type TOrganization = { 
   name: string;
-  imageUrl: string;
-  type: "gurukul" | "vedic_institution" | "ashram";
+  category: "gurukul" | "vedic_institution" | "ashram";
   description: string;
   headTeacher: string;
   studentCapacity: number;

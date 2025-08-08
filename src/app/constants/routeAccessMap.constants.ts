@@ -37,7 +37,7 @@ export const routeAccessMap: Record<string, string[]> = {
   ],
 
   // Organization
-  "/dashboard/organization": [
+  "/dashboard/organizations": [
     "/organization/add-organization", // POST
     "/organization", // GET all
     "/organization/:orgId", // GET one

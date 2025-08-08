@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
 import { TOrganization } from "./organizations.interface";
@@ -8,8 +9,17 @@ const addOrganization = async (payload: TOrganization) => {
   return result;
 };
 
-const getAllOrganizations = async () => {
-  return await Organization.find();
+const getAllOrganizations = async (keyword: any, category: any) => {
+  const query: any = {};
+
+  if (keyword) {
+    query.$or = [{ name: { $regex: keyword, $options: "i" } }];
+  }
+
+  if (category) {
+    query.category = { $regex: category, $options: "i" };
+  }
+  return await Organization.find(query);
 };
 
 const getSingleOrganizationById = async (orgId: string) => {
@@ -20,7 +30,10 @@ const getSingleOrganizationById = async (orgId: string) => {
   return result;
 };
 
-const updateOrganization = async (orgId: string, payload: Partial<TOrganization>) => {
+const updateOrganization = async (
+  orgId: string,
+  payload: Partial<TOrganization>
+) => {
   const existing = await Organization.findById(orgId);
   if (!existing) {
     throw new AppError(httpStatus.NOT_FOUND, "Organization not found");

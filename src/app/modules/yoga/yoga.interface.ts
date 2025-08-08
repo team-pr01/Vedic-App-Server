@@ -4,10 +4,9 @@ export type TYoga = {
   name: string;
   sanskritName?: string;
   description: string;
-  imageUrl?: string;
   videoUrl?: string;
   difficulty: "Beginner" | "Intermediate" | "Advanced";
-  duration: number; // in seconds
+  duration: string;
   benefits: string[];
   contraindications: string[];
   categories: string[];

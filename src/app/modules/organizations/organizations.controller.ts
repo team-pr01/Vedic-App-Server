@@ -17,7 +17,8 @@ const addOrganization = catchAsync(async (req, res) => {
 
 // Get All
 const getAllOrganizations = catchAsync(async (req, res) => {
-  const result = await OrganizationServices.getAllOrganizations();
+  const { keyword, category } = req.query;
+  const result = await OrganizationServices.getAllOrganizations(keyword, category);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
