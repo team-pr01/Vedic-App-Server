@@ -19,13 +19,14 @@ const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const emergency_services_1 = require("./emergency.services");
 const server_1 = require("../../../server");
 const notification_model_1 = __importDefault(require("../notification/notification.model"));
+// import { SocketManager } from "../../../socket/socketManager";
 // Send emergency message by admin
 const sendEmergencyMessageAdmin = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield emergency_services_1.EmergencyServices.sendEmergencyMessageAdmin(req.body);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: "Message forwarded successfully",
+        message: "Message forwarded.",
         data: result,
     });
 }));

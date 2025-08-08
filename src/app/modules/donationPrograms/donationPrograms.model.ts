@@ -16,7 +16,7 @@ const DonationProgramSchema = new Schema<TDonationPrograms>(
       required: true,
     },
     amountNeeded: {
-      type: Number,
+      type: String,
       required: true,
     },
     amountRaised: {

@@ -3,7 +3,7 @@ export type TDonationPrograms = {
   imageUrl?: string;
   title: string;
   description: string;
-  amountNeeded: number;
+  amountNeeded: string;
   amountRaised?: string;
   createdAt?: Date;
   updatedAt?: Date;

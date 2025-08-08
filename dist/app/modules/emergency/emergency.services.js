@@ -41,16 +41,40 @@ const http_status_1 = __importDefault(require("http-status"));
 const AppError_1 = __importDefault(require("../../errors/AppError"));
 const emergency_model_1 = __importStar(require("./emergency.model"));
 const emergency_model_2 = __importDefault(require("./emergency.model"));
-// Send emergency message by admin to particular groups
+// src/app/modules/emergency/emergency.service.ts
+const socketManager_1 = __importDefault(require("../../socketManager"));
 const sendEmergencyMessageAdmin = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const { emergencyMessageId, title, adminMessage, targetGroups } = payload;
+    const { emergencyMessageId, title, userName, location, phoneNumber, adminMessage, status, userIds } = payload;
     const payloadData = {
         emergencyMessageId,
         title,
+        userName,
         adminMessage,
-        targetGroups,
+        location,
+        phoneNumber,
+        status
     };
     const result = yield emergency_model_1.EmergencyMessageAdmin.create(payloadData);
+    // Emit to specific users if userIds are provided
+    if (userIds && userIds.length > 0) {
+        const io = socketManager_1.default.getIoInstance();
+        const connectedUsers = socketManager_1.default.getConnectedUsers();
+        if (io) {
+            userIds.forEach((userId) => {
+                const socketId = connectedUsers[userId];
+                if (socketId) {
+                    io.to(socketId).emit('emergency-notification', {
+                        title,
+                        message: adminMessage,
+                        data: payloadData
+                    });
+                }
+                else {
+                    console.log(`User ${userId} is not currently connected`);
+                }
+            });
+        }
+    }
     return result;
 });
 // Create emergency post (For user)
