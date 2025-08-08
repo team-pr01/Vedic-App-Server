@@ -52,7 +52,8 @@ const sendEmergencyMessageAdmin = (payload) => __awaiter(void 0, void 0, void 0,
         adminMessage,
         location,
         phoneNumber,
-        status
+        status,
+        userIds
     };
     const result = yield emergency_model_1.EmergencyMessageAdmin.create(payloadData);
     // Emit to specific users if userIds are provided
