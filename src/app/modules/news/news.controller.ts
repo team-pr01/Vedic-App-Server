@@ -5,7 +5,8 @@ import { NewsServices } from "./news.services";
 
 // Add News
 const addNews = catchAsync(async (req, res) => {
-  const result = await NewsServices.addNews(req.body);
+  const file = req.file;
+  const result = await NewsServices.addNews(req.body, file);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -44,7 +45,8 @@ const getSingleNewsById = catchAsync(async (req, res) => {
 // Update
 const updateNews = catchAsync(async (req, res) => {
   const { newsId } = req.params;
-  const result = await NewsServices.updateNews(newsId, req.body);
+  const file = req.file;
+  const result = await NewsServices.updateNews(newsId, req.body, file);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
