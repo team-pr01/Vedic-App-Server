@@ -23,7 +23,8 @@ const sendEmergencyMessageAdmin = async (payload: TEmergencyMessageAdmin) => {
     adminMessage,
     location,
     phoneNumber,
-    status
+    status,
+    userIds
   };
 
   const result = await EmergencyMessageAdmin.create(payloadData);
