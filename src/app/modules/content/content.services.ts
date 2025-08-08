@@ -12,7 +12,7 @@ const createContent = async (
   let imageUrl = "";
 
   if (file) {
-    const imageName = `${payload.title}-${Date.now()}`;
+    const imageName = `Content-${Date.now()}`;
     const path = file.path;
 
     const { secure_url } = await sendImageToCloudinary(imageName, path);
@@ -53,7 +53,7 @@ const updateContent = async (
   let imageUrl: string | undefined;
 
   if (file) {
-    const imageName = `${payload?.title || existing.title}-${Date.now()}`;
+    const imageName = `Content-${Date.now()}`;
     const path = file.path;
 
     const { secure_url } = await sendImageToCloudinary(imageName, path);
