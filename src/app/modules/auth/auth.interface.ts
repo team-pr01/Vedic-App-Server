@@ -20,6 +20,7 @@ export type TUser= {
   role: "user" | "admin" | "moderator" | "super-admin";
   assignedPages? : string[];
   isVerified: boolean;
+  expoPushToken: string,
   resetPasswordToken: string | null;
   resetPasswordExpires: Date | null;
   createdAt: Date;

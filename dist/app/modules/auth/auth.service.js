@@ -27,6 +27,18 @@ const sendImageToCloudinary_1 = require("../../utils/sendImageToCloudinary");
 const generateOTP = () => {
     return Math.floor(100000 + Math.random() * 900000).toString(); // Ensures a 6-digit number
 };
+// Change user role (For admin)
+const saveUserPushToken = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield auth_model_1.User.findById(payload === null || payload === void 0 ? void 0 : payload.userId);
+    if (!user) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "User not found");
+    }
+    const result = yield auth_model_1.User.findByIdAndUpdate(payload.userId, { expoPushToken: payload.expoPushToken }, {
+        new: true,
+        runValidators: true,
+    });
+    return result;
+});
 // Create user
 const signup = (payload, file) => __awaiter(void 0, void 0, void 0, function* () {
     // Checking if user already exists
@@ -189,6 +201,7 @@ const assignPagesToUser = (payload) => __awaiter(void 0, void 0, void 0, functio
     return result;
 });
 exports.AuthServices = {
+    saveUserPushToken,
     signup,
     loginUser,
     refreshToken,

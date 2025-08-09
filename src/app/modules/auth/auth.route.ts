@@ -32,6 +32,11 @@ router.post(
   AuthControllers.resetPassword
 );
 
+router.post(
+  "/save-push-notification-token",
+  AuthControllers.savePushToken
+);
+
 router.put(
   "/change-role",
   auth(UserRole.admin),

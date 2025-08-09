@@ -77,6 +77,10 @@ const userSchema = new mongoose_1.Schema({
         type: Boolean,
         default: false,
     },
+    expoPushToken: {
+        type: String,
+        default: null,
+    },
     isDeleted: {
         type: Boolean,
         default: false,

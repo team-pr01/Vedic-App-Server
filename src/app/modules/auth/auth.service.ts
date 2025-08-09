@@ -15,6 +15,25 @@ const generateOTP = () => {
   return Math.floor(100000 + Math.random() * 900000).toString(); // Ensures a 6-digit number
 };
 
+// Change user role (For admin)
+const saveUserPushToken = async (payload: any) => {
+  const user = await User.findById(payload?.userId);
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, "User not found");
+  }
+
+  const result = await User.findByIdAndUpdate(
+    payload.userId,
+    { expoPushToken: payload.expoPushToken },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  return result;
+};
+
 // Create user
 const signup = async (
   payload: Partial<TUser>,
@@ -276,6 +295,7 @@ const assignPagesToUser = async (payload: {
 };
 
 export const AuthServices = {
+  saveUserPushToken,
   signup,
   loginUser,
   refreshToken,

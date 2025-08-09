@@ -4,6 +4,23 @@ import sendResponse from "../../utils/sendResponse";
 import catchAsync from "../../utils/catchAsync";
 import config from "../../config";
 
+
+
+
+// savePushToken
+const savePushToken = catchAsync(async (req, res) => {
+  const result = await AuthServices.saveUserPushToken(req.body);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Push token saved successfully",
+    data: result,
+  });
+});
+
+
+
 // User Signup
 const signup = catchAsync(async (req, res) => {
   const file = req.file;
@@ -95,6 +112,7 @@ const assignPagesToUser = catchAsync(async (req, res) => {
 });
 
 export const AuthControllers = {
+  savePushToken,
   signup,
   loginUser,
   refreshToken,

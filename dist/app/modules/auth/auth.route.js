@@ -18,6 +18,7 @@ router.post("/login", (0, validateRequest_1.default)(auth_validation_1.AuthValid
 router.post("/refresh-token", (0, validateRequest_1.default)(auth_validation_1.AuthValidations.refreshTokenValidationSchema), auth_controller_1.AuthControllers.refreshToken);
 router.post("/forgot-password", auth_controller_1.AuthControllers.forgetPassword);
 router.post("/reset-password", (0, validateRequest_1.default)(auth_validation_1.AuthValidations.resetPasswordValidationSchema), auth_controller_1.AuthControllers.resetPassword);
+router.post("/save-push-notification-token", auth_controller_1.AuthControllers.savePushToken);
 router.put("/change-role", (0, auth_1.default)(auth_constannts_1.UserRole.admin), auth_controller_1.AuthControllers.changeUserRole);
 router.put("/assign-pages", (0, auth_1.default)(auth_constannts_1.UserRole.admin), auth_controller_1.AuthControllers.assignPagesToUser);
 exports.AuthRoute = router;
