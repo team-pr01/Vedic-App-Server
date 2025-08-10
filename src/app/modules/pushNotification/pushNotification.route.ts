@@ -8,4 +8,6 @@ router.post(
   PushNotificationControllers.sendPushNotificationToUsers
 );
 
+router.get('/:userId', PushNotificationControllers.getAllPushNotificationForUser);
+
 export const PushNotificationRoutes = router;

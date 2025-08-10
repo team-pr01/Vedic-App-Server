@@ -73,7 +73,7 @@ const sendPushNotificationToUsers = async (payload: any) => {
         const notificationId = mapping[mapIndex]?.notificationId;
         if (!notificationId) continue;
 
-        const status = ticket && ticket.id ? 'sent' : 'failed';
+        const status = (ticket as any).id ? 'sent' : 'failed';
         await PushNotification.updateOne(
           { _id: notificationId },
           { $set: { deliveryStatus: status, expoTicket: ticket } }
@@ -106,6 +106,15 @@ const sendPushNotificationToUsers = async (payload: any) => {
 };
 
 
+// Get All Popups (with optional title search)
+const getAllPushNotificationForUser = async (userId: any) => {
+
+  const result = await PushNotification.find({ user: userId });
+  return result;
+};
+
+
 export const PushNotificationServices = {
-  sendPushNotificationToUsers
+  sendPushNotificationToUsers,
+  getAllPushNotificationForUser,
 };

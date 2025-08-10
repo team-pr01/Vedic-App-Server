@@ -23,6 +23,7 @@ const apiKeys_route_1 = require("../modules/apiKeys/apiKeys.route");
 const course_route_1 = require("../modules/course/course.route");
 const recipe_route_1 = require("../modules/recipe/recipe.route");
 const donationPrograms_route_1 = require("./../modules/donationPrograms/donationPrograms.route");
+const pushNotification_route_1 = require("../modules/pushNotification/pushNotification.route");
 const router = (0, express_1.Router)();
 const moduleRoutes = [
     {
@@ -112,6 +113,10 @@ const moduleRoutes = [
     {
         path: "/donations",
         route: donationPrograms_route_1.DonationProgramRoutes,
+    },
+    {
+        path: "/pushNotification",
+        route: pushNotification_route_1.PushNotificationRoutes,
     },
 ];
 moduleRoutes.forEach((route) => router.use(route.path, route.route));
