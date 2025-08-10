@@ -21,6 +21,7 @@ import { ApiKeyRoutes } from "../modules/apiKeys/apiKeys.route";
 import { CourseRoutes } from "../modules/course/course.route";
 import { RecipeRoutes } from "../modules/recipe/recipe.route";
 import { DonationProgramRoutes } from './../modules/donationPrograms/donationPrograms.route';
+import { PushNotificationRoutes } from "../modules/pushNotification/pushNotification.route";
 
 const router = Router();
 
@@ -112,6 +113,10 @@ const moduleRoutes = [
   {
     path: "/donations",
     route: DonationProgramRoutes,
+  },
+  {
+    path: "/pushNotification",
+    route: PushNotificationRoutes,
   },
 ];
 

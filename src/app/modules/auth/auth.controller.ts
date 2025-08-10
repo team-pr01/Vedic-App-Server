@@ -4,10 +4,7 @@ import sendResponse from "../../utils/sendResponse";
 import catchAsync from "../../utils/catchAsync";
 import config from "../../config";
 
-
-
-
-// savePushToken
+// Save Push Token
 const savePushToken = catchAsync(async (req, res) => {
   const result = await AuthServices.saveUserPushToken(req.body);
 
@@ -18,7 +15,6 @@ const savePushToken = catchAsync(async (req, res) => {
     data: result,
   });
 });
-
 
 
 // User Signup
