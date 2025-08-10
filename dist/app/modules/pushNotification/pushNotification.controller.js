@@ -20,11 +20,12 @@ const pushNotification_services_1 = require("./pushNotification.services");
 const server_1 = require("../../../server");
 // Send push notification
 const sendPushNotificationToUsers = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { userIds, title, message } = req.body;
+    const { userIds, title, message, data } = req.body;
     const result = yield pushNotification_services_1.PushNotificationServices.sendPushNotificationToUsers({
         userIds,
         title,
         message,
+        data,
     });
     server_1.io.emit("new-push-notification", {
         title: "Emergency Message",

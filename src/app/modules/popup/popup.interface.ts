@@ -4,5 +4,4 @@ export type TPopup = {
   imageUrl: string;
   btnText : string;
   btnLink : string;
-  displayFrequency: string;
 };

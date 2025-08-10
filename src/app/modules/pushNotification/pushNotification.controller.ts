@@ -6,12 +6,13 @@ import { io } from "../../../server";
 
 // Send push notification
 const sendPushNotificationToUsers = catchAsync(async (req, res) => {
-  const { userIds, title, message } = req.body;
+  const { userIds, title, message, data } = req.body;
 
   const result = await PushNotificationServices.sendPushNotificationToUsers({
     userIds,
     title,
     message,
+    data,
   });
 
   io.emit("new-push-notification", {
@@ -28,11 +29,11 @@ const sendPushNotificationToUsers = catchAsync(async (req, res) => {
   });
 });
 
-
 // Get All Notifications
 const getAllPushNotificationForUser = catchAsync(async (req, res) => {
-  const { userId } = req.params
-  const result = await PushNotificationServices.getAllPushNotificationForUser(userId);
+  const { userId } = req.params;
+  const result =
+    await PushNotificationServices.getAllPushNotificationForUser(userId);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

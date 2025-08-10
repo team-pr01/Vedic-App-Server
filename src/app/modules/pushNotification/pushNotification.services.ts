@@ -8,7 +8,7 @@ import PushNotification from "./pushNotification.model";
 const expo = new Expo();
 
 const sendPushNotificationToUsers = async (payload: any) => {
-  const { userIds, title, message, data = {} } = payload;
+  const { userIds, title, message, data } = payload;
 
   // 1) Fetch users
   const users = await User.find({ _id: { $in: userIds } }).select('_id expoPushToken');
@@ -50,7 +50,7 @@ const sendPushNotificationToUsers = async (payload: any) => {
       sound: 'default',
       title,
       body: message,
-      data: { notificationId: notif._id.toString(), userId: user._id.toString() },
+      data,
     });
 
     mapping.push({ notificationId: notif._id });

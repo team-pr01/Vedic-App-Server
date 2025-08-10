@@ -22,7 +22,7 @@ const pushNotification_model_1 = __importDefault(require("./pushNotification.mod
 const expo = new expo_server_sdk_1.default();
 const sendPushNotificationToUsers = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
-    const { userIds, title, message, data = {} } = payload;
+    const { userIds, title, message, data } = payload;
     // 1) Fetch users
     const users = yield auth_model_1.User.find({ _id: { $in: userIds } }).select('_id expoPushToken');
     if (!users || users.length === 0) {
@@ -53,7 +53,7 @@ const sendPushNotificationToUsers = (payload) => __awaiter(void 0, void 0, void 
             sound: 'default',
             title,
             body: message,
-            data: { notificationId: notif._id.toString(), userId: user._id.toString() },
+            data,
         });
         mapping.push({ notificationId: notif._id });
     }
