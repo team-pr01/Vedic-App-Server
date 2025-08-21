@@ -8,9 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AiServices = void 0;
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const openai_1 = require("../../utils/openai");
+const quiz_model_1 = __importDefault(require("../quiz/quiz.model"));
 const aiChat = (message) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const completion = yield openai_1.openai.chat.completions.create({
@@ -59,22 +64,50 @@ const generateRecipe = (query) => __awaiter(void 0, void 0, void 0, function* ()
     });
     return ((_b = (_a = response.choices[0]) === null || _a === void 0 ? void 0 : _a.message) === null || _b === void 0 ? void 0 : _b.content) || "Could not generate recipe";
 });
-const generateQuiz = (topic, count) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
+const generateQuiz = (title) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
     const response = yield openai_1.openai.chat.completions.create({
         model: "gpt-4o-mini",
         messages: [
             {
                 role: "system",
-                content: "You are a quiz master. Generate multiple choice questions with 4 options and correct answers.",
+                content: `You are an expert quiz generator. 
+                  Respond ONLY with valid JSON.
+                  Generate BETWEEN 10 and 15 questions for the given topic.
+                  Format:
+                  [
+                    {
+                      "question": "string",
+                      "options": ["string","string","string","string"],
+                      "correctAnswer": number (1-4)
+                    }
+                  ]`,
             },
-            {
-                role: "user",
-                content: `Create ${count} quiz questions about ${topic}.`,
-            },
+            { role: "user", content: `Generate a quiz on the topic: ${title}` },
         ],
+        temperature: 0.7,
+        max_tokens: 1000,
     });
-    return (_a = response.choices[0].message) === null || _a === void 0 ? void 0 : _a.content;
+    let content = ((_b = (_a = response.choices[0]) === null || _a === void 0 ? void 0 : _a.message) === null || _b === void 0 ? void 0 : _b.content) || "[]";
+    // strip ```json ... ```
+    content = content
+        .replace(/```json/gi, "")
+        .replace(/```/g, "")
+        .trim();
+    let questions = [];
+    try {
+        questions = JSON.parse(content);
+    }
+    catch (error) {
+        console.error("Failed to parse AI response:", content, error);
+        return null;
+    }
+    if (!questions || questions.length === 0) {
+        return null;
+    }
+    // 🛠 Save to DB inside service
+    const newQuiz = yield quiz_model_1.default.create({ title, questions });
+    return newQuiz;
 });
 exports.AiServices = {
     aiChat,

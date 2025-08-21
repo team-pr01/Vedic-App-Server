@@ -47,7 +47,7 @@ const participateInQuiz = (quizId, userId, answers) => __awaiter(void 0, void 0,
     let score = 0;
     quiz.questions.forEach((q, index) => {
         var _a;
-        if (((_a = answers[index]) === null || _a === void 0 ? void 0 : _a.selectedAnswer) === q.correctAnswer)
+        if (((_a = answers[index]) === null || _a === void 0 ? void 0 : _a.selectedAnswer) === String(q.correctAnswer))
             score++;
     });
     const result = {

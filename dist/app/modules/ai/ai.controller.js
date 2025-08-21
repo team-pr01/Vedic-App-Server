@@ -53,13 +53,19 @@ const generateRecipe = (0, catchAsync_1.default)((req, res) => __awaiter(void 0,
     });
 }));
 const generateQuiz = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { topic, count } = req.body;
-    const result = yield ai_service_1.AiServices.generateQuiz(topic, count);
+    const { title } = req.body;
+    if (!title) {
+        throw new AppError_1.default(http_status_1.default.BAD_REQUEST, "Title is required");
+    }
+    const newQuiz = yield ai_service_1.AiServices.generateQuiz(title);
+    if (!newQuiz) {
+        throw new AppError_1.default(http_status_1.default.INTERNAL_SERVER_ERROR, "Failed to generate quiz");
+    }
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: "Quiz generated successfully",
-        data: result,
+        message: "Quiz generated and saved successfully",
+        data: newQuiz,
     });
 }));
 exports.AiControllers = {

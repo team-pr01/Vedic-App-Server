@@ -43,7 +43,7 @@ const participateInQuiz = async (
 
   let score = 0;
   quiz.questions.forEach((q, index) => {
-    if (answers[index]?.selectedAnswer === q.correctAnswer) score++;
+    if (answers[index]?.selectedAnswer === String(q.correctAnswer)) score++;
   });
 
   const result = {
