@@ -1,10 +1,11 @@
+export interface IQuestion {
+  question: string;
+  options: string[];
+  correctAnswer: number;
+}
 
-export type TCourse = {
-  imageUrl?: string;
-  name: string;
-  category: string;
-  duration: string;
-  url: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-};
+export interface IQuiz {
+  title: string;
+  description?: string;
+  questions: IQuestion[];
+}

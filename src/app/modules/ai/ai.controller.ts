@@ -48,14 +48,26 @@ const generateRecipe = catchAsync(async (req, res) => {
 });
 
 const generateQuiz = catchAsync(async (req, res) => {
-  const { topic, count } = req.body;
-  const result = await AiServices.generateQuiz(topic, count);
+  const { title } = req.body;
+
+  if (!title) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Title is required");
+  }
+
+  const newQuiz = await AiServices.generateQuiz(title);
+
+  if (!newQuiz) {
+    throw new AppError(
+      httpStatus.INTERNAL_SERVER_ERROR,
+      "Failed to generate quiz"
+    );
+  }
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Quiz generated successfully",
-    data: result,
+    message: "Quiz generated and saved successfully",
+    data: newQuiz,
   });
 });
 

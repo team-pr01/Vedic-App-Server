@@ -1,4 +1,5 @@
-import Quiz, { IQuiz } from "./quiz.model";
+import { IQuiz } from "./quiz.interface";
+import Quiz from "./quiz.model";
 
 // Add Quiz (Admin)
 const addQuiz = async (payload: IQuiz) => {
