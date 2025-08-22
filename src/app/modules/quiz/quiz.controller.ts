@@ -70,8 +70,8 @@ const getQuiz = catchAsync(async (req, res) => {
 // Participate in Quiz
 const participateQuiz = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const answers = req.body.answers; // [{questionId, selectedAnswer}]
-  const result = await QuizService.participateInQuiz(id, req.user.id, answers);
+  const { answers, userId } = req.body;
+  const result = await QuizService.participateInQuiz(id, userId, answers);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

@@ -74,8 +74,8 @@ const getQuiz = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0
 // Participate in Quiz
 const participateQuiz = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const answers = req.body.answers; // [{questionId, selectedAnswer}]
-    const result = yield quiz_services_1.QuizService.participateInQuiz(id, req.user.id, answers);
+    const { answers, userId } = req.body;
+    const result = yield quiz_services_1.QuizService.participateInQuiz(id, userId, answers);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,

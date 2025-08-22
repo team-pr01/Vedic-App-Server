@@ -55,8 +55,12 @@ const participateInQuiz = async (
   };
 
   // Update user's totalQuizTaken
-  await User.findOneAndUpdate({ _id: userId }, { $inc: { totalQuizTaken: 1 } });
-
+  const updatedUser = await User.findOneAndUpdate(
+  { _id: userId },
+  { $inc: { totalQuizTaken: 1 } },
+  { new: true } // returns the updated document
+);
+console.log(updatedUser?.totalQuizTaken);
   return result;
 };
 
