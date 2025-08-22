@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.QuizService = void 0;
+const auth_model_1 = require("../auth/auth.model");
 const quiz_model_1 = __importDefault(require("./quiz.model"));
 // Add Quiz (Admin)
 const addQuiz = (payload) => __awaiter(void 0, void 0, void 0, function* () {
@@ -57,6 +58,10 @@ const participateInQuiz = (quizId, userId, answers) => __awaiter(void 0, void 0,
         score,
         percentage: (score / quiz.questions.length) * 100,
     };
+    // Update user's totalQuizTaken
+    yield auth_model_1.User.findByIdAndUpdate(userId, {
+        $inc: { totalQuizTaken: 1 },
+    });
     return result;
 });
 exports.QuizService = {

@@ -19,6 +19,7 @@ export type TUser= {
   password: string;
   role: "user" | "admin" | "moderator" | "super-admin";
   assignedPages? : string[];
+  totalQuizTaken?: number;
   isVerified: boolean;
   expoPushToken: string,
   resetPasswordToken: string | null;

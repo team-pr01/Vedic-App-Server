@@ -61,6 +61,11 @@ const userSchema = new Schema<TUser, UserModel>(
       type: [String],
       default: [],
     },
+    totalQuizTaken: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
     isVerified: {
       type: Boolean,
       default: false,
@@ -78,15 +83,13 @@ const userSchema = new Schema<TUser, UserModel>(
       default: false,
     },
     resetPasswordToken: {
-  type: String,
-  default: null,
-},
-resetPasswordExpires: {
-  type: Date,
-  default: null,
-},
-
-    
+      type: String,
+      default: null,
+    },
+    resetPasswordExpires: {
+      type: Date,
+      default: null,
+    },
   },
   {
     timestamps: true,

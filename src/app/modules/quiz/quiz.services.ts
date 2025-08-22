@@ -1,3 +1,4 @@
+import { User } from "../auth/auth.model";
 import { IQuiz } from "./quiz.interface";
 import Quiz from "./quiz.model";
 
@@ -6,7 +7,6 @@ const addQuiz = async (payload: IQuiz) => {
   const result = await Quiz.create(payload);
   return result;
 };
-
 
 // Update Quiz (Admin)
 const updateQuiz = async (quizId: string, payload: Partial<IQuiz>) => {
@@ -53,6 +53,11 @@ const participateInQuiz = async (
     score,
     percentage: (score / quiz.questions.length) * 100,
   };
+
+  // Update user's totalQuizTaken
+  await User.findByIdAndUpdate(userId, {
+    $inc: { totalQuizTaken: 1 },
+  });
 
   return result;
 };

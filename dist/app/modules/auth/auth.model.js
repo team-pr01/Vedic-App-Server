@@ -73,6 +73,11 @@ const userSchema = new mongoose_1.Schema({
         type: [String],
         default: [],
     },
+    totalQuizTaken: {
+        type: Number,
+        required: false,
+        default: 0,
+    },
     isVerified: {
         type: Boolean,
         default: false,
