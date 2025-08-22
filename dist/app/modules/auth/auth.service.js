@@ -135,6 +135,7 @@ const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
             role: user.role,
             assignedPages: user.assignedPages || [],
             avatar: user.avatar || "",
+            totalQuizTaken: user.totalQuizTaken || 0,
         },
     };
 });
