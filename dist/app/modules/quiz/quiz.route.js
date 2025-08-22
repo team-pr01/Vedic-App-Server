@@ -17,5 +17,5 @@ router.patch("/update/:id", (0, auth_1.default)(auth_constannts_1.UserRole.admin
 router.delete("/delete/:id", (0, auth_1.default)(auth_constannts_1.UserRole.admin), quiz_controller_1.QuizController.deleteQuiz);
 // User Routes
 router.get("/:id", quiz_controller_1.QuizController.getQuiz);
-router.post("/participate/:id", (0, auth_1.default)(), quiz_controller_1.QuizController.participateQuiz);
+router.post("/participate/:id", (0, auth_1.default)(auth_constannts_1.UserRole.user, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"], auth_constannts_1.UserRole.admin), quiz_controller_1.QuizController.participateQuiz);
 exports.QuizRoutes = router;
