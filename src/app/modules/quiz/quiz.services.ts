@@ -55,9 +55,7 @@ const participateInQuiz = async (
   };
 
   // Update user's totalQuizTaken
-  await User.findByIdAndUpdate(userId, {
-    $inc: { totalQuizTaken: 1 },
-  });
+  await User.findOneAndUpdate({ _id: userId }, { $inc: { totalQuizTaken: 1 } });
 
   return result;
 };

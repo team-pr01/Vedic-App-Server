@@ -59,9 +59,7 @@ const participateInQuiz = (quizId, userId, answers) => __awaiter(void 0, void 0,
         percentage: (score / quiz.questions.length) * 100,
     };
     // Update user's totalQuizTaken
-    yield auth_model_1.User.findByIdAndUpdate(userId, {
-        $inc: { totalQuizTaken: 1 },
-    });
+    yield auth_model_1.User.findOneAndUpdate({ _id: userId }, { $inc: { totalQuizTaken: 1 } });
     return result;
 });
 exports.QuizService = {
