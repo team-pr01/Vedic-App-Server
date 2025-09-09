@@ -5,7 +5,8 @@ const AyurvedaSchema = new Schema<TAyurveda>(
   {
     imageUrl: {
       type: String,
-      required: true,
+      required: false,
+      default: "",
     },
     videoUrl: {
       type: String,

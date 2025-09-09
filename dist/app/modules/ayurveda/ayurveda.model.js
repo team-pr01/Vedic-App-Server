@@ -4,7 +4,8 @@ const mongoose_1 = require("mongoose");
 const AyurvedaSchema = new mongoose_1.Schema({
     imageUrl: {
         type: String,
-        required: true,
+        required: false,
+        default: "",
     },
     videoUrl: {
         type: String,

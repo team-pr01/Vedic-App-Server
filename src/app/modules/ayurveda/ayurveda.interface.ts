@@ -1,6 +1,6 @@
 
 export type TAyurveda = {
-  imageUrl: string;
+  imageUrl?: string;
   videoUrl?: string;
   category: string;
   expertName: string;

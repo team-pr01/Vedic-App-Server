@@ -23,7 +23,7 @@ const addAyurveda = async (
   }
 
   const payloadData = {
-    imageUrl,
+    imageUrl : imageUrl ? imageUrl : "",
     videoUrl,
     expertName,
     duration,

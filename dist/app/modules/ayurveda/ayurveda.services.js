@@ -29,7 +29,7 @@ const addAyurveda = (payload, file) => __awaiter(void 0, void 0, void 0, functio
         imageUrl = secure_url;
     }
     const payloadData = {
-        imageUrl,
+        imageUrl: imageUrl ? imageUrl : "",
         videoUrl,
         expertName,
         duration,
