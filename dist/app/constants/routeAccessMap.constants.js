@@ -145,4 +145,12 @@ exports.routeAccessMap = {
         "/quiz/update/:id", // PUT
         "/quiz/delete/:id", // DELETE
     ],
+    //   Donation Programs
+    "/dashboard/ayurveda": [
+        "/ayurveda/add", // POST
+        "/ayurveda", // GET all
+        "/ayurveda/:ayurvedaId", // GET one
+        "/ayurveda/update/:ayurvedaId", // PUT
+        "/ayurveda/delete/:ayurvedaId", // DELETE
+    ],
 };
