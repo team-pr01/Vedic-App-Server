@@ -24,6 +24,7 @@ import { DonationProgramRoutes } from './../modules/donationPrograms/donationPro
 import { PushNotificationRoutes } from "../modules/pushNotification/pushNotification.route";
 import { AiRoutes } from "../modules/ai/ai.route";
 import { QuizRoutes } from "../modules/quiz/quiz.route";
+import { AyurvedaRoutes } from "../modules/ayurveda/ayurveda.route";
 
 const router = Router();
 
@@ -127,6 +128,10 @@ const moduleRoutes = [
   {
     path: "/quiz",
     route: QuizRoutes,
+  },
+  {
+    path: "/ayurveda",
+    route: AyurvedaRoutes,
   },
 ];
 
