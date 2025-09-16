@@ -27,6 +27,7 @@ const pushNotification_route_1 = require("../modules/pushNotification/pushNotifi
 const ai_route_1 = require("../modules/ai/ai.route");
 const quiz_route_1 = require("../modules/quiz/quiz.route");
 const ayurveda_route_1 = require("../modules/ayurveda/ayurveda.route");
+const product_route_1 = require("../modules/product/product.route");
 const router = (0, express_1.Router)();
 const moduleRoutes = [
     {
@@ -132,6 +133,10 @@ const moduleRoutes = [
     {
         path: "/ayurveda",
         route: ayurveda_route_1.AyurvedaRoutes,
+    },
+    {
+        path: "/product",
+        route: product_route_1.ProductRoutes,
     },
 ];
 moduleRoutes.forEach((route) => router.use(route.path, route.route));
