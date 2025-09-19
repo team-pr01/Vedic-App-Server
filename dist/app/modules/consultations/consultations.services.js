@@ -29,7 +29,7 @@ const bookConsultation = (payload, userId) => __awaiter(void 0, void 0, void 0, 
     return result;
 });
 // Get all consultations (admin)
-const getAllConsultations = (keyword, status) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllConsultations = (keyword, status, category) => __awaiter(void 0, void 0, void 0, function* () {
     const query = {};
     if (keyword) {
         query.$or = [
@@ -44,6 +44,9 @@ const getAllConsultations = (keyword, status) => __awaiter(void 0, void 0, void 
     }
     if (status) {
         query.status = status;
+    }
+    if (category) {
+        query.category = category;
     }
     const result = yield consultations_model_1.default.find(query);
     return result;

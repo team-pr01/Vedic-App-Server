@@ -29,8 +29,8 @@ const bookConsultation = (0, catchAsync_1.default)((req, res) => __awaiter(void 
 }));
 // Get all consultations (admin)
 const getAllConsultations = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { keyword, status } = req.query;
-    const result = yield consultations_services_1.ConsultationServices.getAllConsultations(keyword, status);
+    const { keyword, status, category } = req.query;
+    const result = yield consultations_services_1.ConsultationServices.getAllConsultations(keyword, status, category);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,

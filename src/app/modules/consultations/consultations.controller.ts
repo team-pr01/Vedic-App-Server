@@ -17,10 +17,11 @@ const bookConsultation = catchAsync(async (req, res) => {
 
 // Get all consultations (admin)
 const getAllConsultations = catchAsync(async (req, res) => {
-  const { keyword, status } = req.query;
+  const { keyword, status, category } = req.query;
   const result = await ConsultationServices.getAllConsultations(
     keyword as string,
-    status as string
+    status as string,
+    category as string
   );
 
   sendResponse(res, {

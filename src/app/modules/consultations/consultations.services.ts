@@ -28,7 +28,11 @@ const bookConsultation = async (payload: TConsultation, userId: string) => {
 };
 
 // Get all consultations (admin)
-const getAllConsultations = async (keyword?: string, status?: string) => {
+const getAllConsultations = async (
+  keyword?: string,
+  status?: string,
+  category?: string
+) => {
   const query: any = {};
 
   if (keyword) {
@@ -47,11 +51,14 @@ const getAllConsultations = async (keyword?: string, status?: string) => {
     query.status = status;
   }
 
-  const result = await Consultation.find(query)
+  if (category) {
+    query.category = category;
+  }
+
+  const result = await Consultation.find(query);
 
   return result;
 };
-
 
 // Get single consultation by id
 const getSingleConsultationById = async (consultationId: string) => {
@@ -68,7 +75,10 @@ const getMyConsultations = async (userId: string) => {
   return result;
 };
 
-const scheduleConsultation = async (consultationId: string, scheduledAt: Date | string) => {
+const scheduleConsultation = async (
+  consultationId: string,
+  scheduledAt: Date | string
+) => {
   const existing = await Consultation.findById(consultationId);
   if (!existing) {
     throw new AppError(httpStatus.NOT_FOUND, "Consultation not found");
@@ -86,7 +96,10 @@ const scheduleConsultation = async (consultationId: string, scheduledAt: Date | 
 };
 
 // Update consultation status (admin)
-const updateConsultationStatus = async (consultationId: string, status: string) => {
+const updateConsultationStatus = async (
+  consultationId: string,
+  status: string
+) => {
   const existing = await Consultation.findById(consultationId);
   if (!existing) {
     throw new AppError(httpStatus.NOT_FOUND, "Consultation not found");
