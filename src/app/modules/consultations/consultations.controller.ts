@@ -56,6 +56,23 @@ const getMyConsultations = catchAsync(async (req, res) => {
   });
 });
 
+// Schedule a consultation (update scheduledAt)
+const scheduleConsultation = catchAsync(async (req, res) => {
+  const { consultationId } = req.params;
+  const { scheduledAt } = req.body;
+
+  const result = await ConsultationServices.scheduleConsultation(consultationId, scheduledAt);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Consultation scheduled successfully",
+    data: result,
+  });
+});
+
+
+
 // Update consultation status (admin)
 const updateConsultationStatus = catchAsync(async (req, res) => {
   const { consultationId } = req.params;
@@ -79,7 +96,7 @@ const deleteConsultation = catchAsync(async (req, res) => {
     statusCode: httpStatus.OK,
     success: true,
     message: "Consultation deleted successfully",
-    data: result,
+    data: result,  
   });
 });
 
@@ -88,6 +105,7 @@ export const ConsultationControllers = {
   getAllConsultations,
   getSingleConsultationById,
   getMyConsultations,
+  scheduleConsultation,
   updateConsultationStatus,
   deleteConsultation,
 };

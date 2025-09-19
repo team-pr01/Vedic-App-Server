@@ -182,6 +182,7 @@ export const routeAccessMap: Record<string, string[]> = {
     "/consultation/book", // POST
     "/consultation", // GET all
     "/consultation/:consultationId", // GET one
+    "/consultation/schedule/:consultationId", // GET one
     "/consultation/update-status/:consultationId", // PUT
     "/consultation/delete/:consultationId", // DELETE
   ],

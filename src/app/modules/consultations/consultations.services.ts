@@ -54,6 +54,23 @@ const getMyConsultations = async (userId: string) => {
   return result;
 };
 
+const scheduleConsultation = async (consultationId: string, scheduledAt: Date | string) => {
+  const existing = await Consultation.findById(consultationId);
+  if (!existing) {
+    throw new AppError(httpStatus.NOT_FOUND, "Consultation not found");
+  }
+
+  existing.scheduledAt = new Date(scheduledAt);
+  await existing.save();
+
+  // Populate user and consultant for consistency
+  const result = await Consultation.findById(consultationId)
+    .populate("userId", "name email phoneNumber")
+    .populate("consultantId", "name email phoneNumber");
+
+  return result;
+};
+
 // Update consultation status (admin)
 const updateConsultationStatus = async (consultationId: string, status: string) => {
   const existing = await Consultation.findById(consultationId);
@@ -84,6 +101,7 @@ export const ConsultationServices = {
   getAllConsultations,
   getSingleConsultationById,
   getMyConsultations,
+  scheduleConsultation,
   updateConsultationStatus,
   deleteConsultation,
 };

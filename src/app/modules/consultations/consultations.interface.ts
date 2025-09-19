@@ -5,6 +5,7 @@ export type TConsultation = {
   consultantId: ObjectId;
   concern ?: string;
   fees: string;
+  scheduledAt?: Date;
   status?: "pending" | "completed";
   createdAt?: Date;
   updatedAt?: Date;

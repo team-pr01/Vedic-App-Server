@@ -53,6 +53,19 @@ const getMyConsultations = (userId) => __awaiter(void 0, void 0, void 0, functio
     const result = yield consultations_model_1.default.find({ user: userId });
     return result;
 });
+const scheduleConsultation = (consultationId, scheduledAt) => __awaiter(void 0, void 0, void 0, function* () {
+    const existing = yield consultations_model_1.default.findById(consultationId);
+    if (!existing) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Consultation not found");
+    }
+    existing.scheduledAt = new Date(scheduledAt);
+    yield existing.save();
+    // Populate user and consultant for consistency
+    const result = yield consultations_model_1.default.findById(consultationId)
+        .populate("userId", "name email phoneNumber")
+        .populate("consultantId", "name email phoneNumber");
+    return result;
+});
 // Update consultation status (admin)
 const updateConsultationStatus = (consultationId, status) => __awaiter(void 0, void 0, void 0, function* () {
     const existing = yield consultations_model_1.default.findById(consultationId);
@@ -75,6 +88,7 @@ exports.ConsultationServices = {
     getAllConsultations,
     getSingleConsultationById,
     getMyConsultations,
+    scheduleConsultation,
     updateConsultationStatus,
     deleteConsultation,
 };

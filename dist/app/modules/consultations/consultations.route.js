@@ -18,6 +18,8 @@ router.get("/", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_const
 router.get("/:consultationId", (0, auth_1.default)(auth_constannts_1.UserRole.user, auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), (0, authorizeRoute_1.default)(), consultations_controller_1.ConsultationControllers.getSingleConsultationById);
 // Get my consultations (logged-in user)
 router.get("/my-consultations", (0, auth_1.default)(auth_constannts_1.UserRole.user), (0, authorizeRoute_1.default)(), consultations_controller_1.ConsultationControllers.getMyConsultations);
+// Schedule consultation route
+router.put("/schedule/:consultationId", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), (0, authorizeRoute_1.default)(), consultations_controller_1.ConsultationControllers.scheduleConsultation);
 // Update consultation status (admin)
 router.put("/update-status/:consultationId", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), (0, authorizeRoute_1.default)(), consultations_controller_1.ConsultationControllers.updateConsultationStatus);
 // Delete consultation (admin)
