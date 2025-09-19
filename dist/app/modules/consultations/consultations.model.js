@@ -7,10 +7,34 @@ const ConsultationSchema = new mongoose_1.Schema({
         ref: "User",
         required: true,
     },
+    userName: {
+        type: String,
+        required: true
+    },
+    userPhoneNumber: {
+        type: String,
+        required: true
+    },
+    userEmail: {
+        type: String,
+        required: false
+    },
     consultantId: {
         type: mongoose_1.Schema.Types.ObjectId,
         ref: "ConsultancyService",
         required: true,
+    },
+    consultantName: {
+        type: String,
+        required: true
+    },
+    consultantPhoneNumber: {
+        type: String,
+        required: true
+    },
+    consultantEmail: {
+        type: String,
+        required: false
     },
     concern: {
         type: String,

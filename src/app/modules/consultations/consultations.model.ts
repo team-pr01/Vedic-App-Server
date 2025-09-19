@@ -8,10 +8,35 @@ const ConsultationSchema = new Schema<TConsultation>(
     ref: "User",
     required: true,
    },
+   userName : {
+    type: String,
+    required: true
+   },
+   userPhoneNumber : {
+    type: String,
+    required: true
+   },
+   userEmail : {
+    type: String,
+    required: false
+   },
+
    consultantId: {
     type: Schema.Types.ObjectId,
     ref: "ConsultancyService",
     required: true,
+   },
+      consultantName : {
+    type: String,
+    required: true
+   },
+   consultantPhoneNumber : {
+    type: String,
+    required: true
+   },
+   consultantEmail : {
+    type: String,
+    required: false
    },
    concern: {
     type: String,

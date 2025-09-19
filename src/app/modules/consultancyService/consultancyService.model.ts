@@ -11,6 +11,14 @@ const ConsultancyServiceSchema = new Schema<TConsultancyService>(
       type: String,
       required: true,
     },
+    email: {
+      type: String,
+      required: false,
+    },
+    phoneNumber: {
+      type: String,
+      required: true,
+    },
     specialty: {
       type: String,
       required: true,

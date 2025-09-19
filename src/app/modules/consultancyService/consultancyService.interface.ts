@@ -2,6 +2,8 @@
 export type TConsultancyService = {
   imageUrl?: string;
   name: string;
+  email?:string;
+  phoneNumber:string;
   specialty: string;
   experience: string;
   category: string;

@@ -17,9 +17,14 @@ exports.ConsultationServices = void 0;
 const http_status_1 = __importDefault(require("http-status"));
 const AppError_1 = __importDefault(require("../../errors/AppError"));
 const consultations_model_1 = __importDefault(require("./consultations.model"));
+const auth_model_1 = require("../auth/auth.model");
+const consultancyService_model_1 = __importDefault(require("../consultancyService/consultancyService.model"));
 // Book a consultation
 const bookConsultation = (payload, userId) => __awaiter(void 0, void 0, void 0, function* () {
-    const payloadData = Object.assign(Object.assign({}, payload), { userId, status: "pending" });
+    const consultantId = payload.consultantId;
+    const userData = yield auth_model_1.User.findById(userId);
+    const consultantData = yield consultancyService_model_1.default.findById(consultantId);
+    const payloadData = Object.assign(Object.assign({}, payload), { userId, userName: userData === null || userData === void 0 ? void 0 : userData.name, userPhoneNumber: userData === null || userData === void 0 ? void 0 : userData.phoneNumber, userEmail: userData === null || userData === void 0 ? void 0 : userData.email, consultantName: consultantData === null || consultantData === void 0 ? void 0 : consultantData.name, consultantPhoneNumber: consultantData === null || consultantData === void 0 ? void 0 : consultantData.phoneNumber, consultantEmail: consultantData === null || consultantData === void 0 ? void 0 : consultantData.email, status: "pending" });
     const result = yield consultations_model_1.default.create(payloadData);
     return result;
 });
@@ -28,21 +33,24 @@ const getAllConsultations = (keyword, status) => __awaiter(void 0, void 0, void 
     const query = {};
     if (keyword) {
         query.$or = [
-            { expertName: { $regex: keyword, $options: "i" } },
-            { content: { $regex: keyword, $options: "i" } },
+            { userName: { $regex: keyword, $options: "i" } },
+            { userEmail: { $regex: keyword, $options: "i" } },
+            { userPhoneNumber: { $regex: keyword, $options: "i" } },
+            { consultantName: { $regex: keyword, $options: "i" } },
+            { consultantEmail: { $regex: keyword, $options: "i" } },
+            { consultantPhoneNumber: { $regex: keyword, $options: "i" } },
+            { concern: { $regex: keyword, $options: "i" } },
         ];
     }
     if (status) {
         query.status = status;
     }
-    const result = yield consultations_model_1.default.find(query)
-        .populate("userId", "name email phoneNumber") // populate user
-        .populate("consultantId", "name email phoneNumber"); // populate consultant
+    const result = yield consultations_model_1.default.find(query);
     return result;
 });
 // Get single consultation by id
 const getSingleConsultationById = (consultationId) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield consultations_model_1.default.findById(consultationId).populate("userId", "name email phoneNumber").populate("consultantId", "name email phoneNumber");
+    const result = yield consultations_model_1.default.findById(consultationId);
     if (!result) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Consultation not found");
     }

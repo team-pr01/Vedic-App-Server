@@ -3,12 +3,23 @@ import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
 import Consultation from "./consultations.model";
 import { TConsultation } from "./consultations.interface";
+import { User } from "../auth/auth.model";
+import ConsultancyService from "../consultancyService/consultancyService.model";
 
 // Book a consultation
 const bookConsultation = async (payload: TConsultation, userId: string) => {
+  const consultantId = payload.consultantId;
+  const userData = await User.findById(userId);
+  const consultantData = await ConsultancyService.findById(consultantId);
   const payloadData = {
     ...payload,
     userId,
+    userName: userData?.name,
+    userPhoneNumber: userData?.phoneNumber,
+    userEmail: userData?.email,
+    consultantName: consultantData?.name,
+    consultantPhoneNumber: consultantData?.phoneNumber,
+    consultantEmail: consultantData?.email,
     status: "pending",
   };
 
@@ -22,8 +33,13 @@ const getAllConsultations = async (keyword?: string, status?: string) => {
 
   if (keyword) {
     query.$or = [
-      { expertName: { $regex: keyword, $options: "i" } },
-      { content: { $regex: keyword, $options: "i" } },
+      { userName: { $regex: keyword, $options: "i" } },
+      { userEmail: { $regex: keyword, $options: "i" } },
+      { userPhoneNumber: { $regex: keyword, $options: "i" } },
+      { consultantName: { $regex: keyword, $options: "i" } },
+      { consultantEmail: { $regex: keyword, $options: "i" } },
+      { consultantPhoneNumber: { $regex: keyword, $options: "i" } },
+      { concern: { $regex: keyword, $options: "i" } },
     ];
   }
 
@@ -32,8 +48,6 @@ const getAllConsultations = async (keyword?: string, status?: string) => {
   }
 
   const result = await Consultation.find(query)
-    .populate("userId", "name email phoneNumber")       // populate user
-    .populate("consultantId", "name email phoneNumber"); // populate consultant
 
   return result;
 };
@@ -41,7 +55,7 @@ const getAllConsultations = async (keyword?: string, status?: string) => {
 
 // Get single consultation by id
 const getSingleConsultationById = async (consultationId: string) => {
-  const result = await Consultation.findById(consultationId).populate("userId", "name email phoneNumber").populate("consultantId", "name email phoneNumber");
+  const result = await Consultation.findById(consultationId);
   if (!result) {
     throw new AppError(httpStatus.NOT_FOUND, "Consultation not found");
   }

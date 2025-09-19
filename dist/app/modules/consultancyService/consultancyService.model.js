@@ -10,6 +10,14 @@ const ConsultancyServiceSchema = new mongoose_1.Schema({
         type: String,
         required: true,
     },
+    email: {
+        type: String,
+        required: false,
+    },
+    phoneNumber: {
+        type: String,
+        required: true,
+    },
     specialty: {
         type: String,
         required: true,
