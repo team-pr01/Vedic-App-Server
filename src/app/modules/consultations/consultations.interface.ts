@@ -11,6 +11,7 @@ export type TConsultation = {
   consultantEmail?: string;
   concern ?: string;
   fees: string;
+  category : string;
   scheduledAt?: Date;
   status?: "pending" | "completed" | "cancelled";
   createdAt?: Date;

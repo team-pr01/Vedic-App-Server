@@ -46,6 +46,10 @@ const ConsultationSchema = new Schema<TConsultation>(
     type: String,
     required: true,
    },
+   category : {
+    type: String,
+    required: true,
+   },
    scheduledAt: {
     type: Date,
     required: false,
