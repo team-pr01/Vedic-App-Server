@@ -28,6 +28,7 @@ const ai_route_1 = require("../modules/ai/ai.route");
 const quiz_route_1 = require("../modules/quiz/quiz.route");
 const ayurveda_route_1 = require("../modules/ayurveda/ayurveda.route");
 const product_route_1 = require("../modules/product/product.route");
+const consultations_route_1 = require("../modules/consultations/consultations.route");
 const router = (0, express_1.Router)();
 const moduleRoutes = [
     {
@@ -137,6 +138,10 @@ const moduleRoutes = [
     {
         path: "/product",
         route: product_route_1.ProductRoutes,
+    },
+    {
+        path: "/consultation",
+        route: consultations_route_1.ConsultationRoutes,
     },
 ];
 moduleRoutes.forEach((route) => router.use(route.path, route.route));
