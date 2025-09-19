@@ -50,7 +50,7 @@ const ConsultationSchema = new mongoose_1.Schema({
     },
     status: {
         type: String,
-        enum: ['pending', 'completed'],
+        enum: ['pending', 'completed', 'cancelled'],
         default: 'pending',
     }
 }, {

@@ -12,7 +12,7 @@ export type TConsultation = {
   concern ?: string;
   fees: string;
   scheduledAt?: Date;
-  status?: "pending" | "completed";
+  status?: "pending" | "completed" | "cancelled";
   createdAt?: Date;
   updatedAt?: Date;
 };
