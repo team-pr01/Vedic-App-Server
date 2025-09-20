@@ -3,7 +3,7 @@ import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
 import { sendImageToCloudinary } from "../../utils/sendImageToCloudinary";
 import { TDonationPrograms } from "./donationPrograms.interface";
-import DonationPrograms from './donationPrograms.model';
+import DonationPrograms from "./donationPrograms.model";
 
 // Create donation program (admin only)
 const createDonationProgram = async (
@@ -22,6 +22,8 @@ const createDonationProgram = async (
 
   const payloadData = {
     ...payload,
+    amountNeeded: Number(payload.amountNeeded),
+    //
     imageUrl,
   };
 

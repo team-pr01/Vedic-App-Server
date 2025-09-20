@@ -29,6 +29,7 @@ const quiz_route_1 = require("../modules/quiz/quiz.route");
 const ayurveda_route_1 = require("../modules/ayurveda/ayurveda.route");
 const product_route_1 = require("../modules/product/product.route");
 const consultations_route_1 = require("../modules/consultations/consultations.route");
+const donation_route_1 = require("../modules/donation/donation.route");
 const router = (0, express_1.Router)();
 const moduleRoutes = [
     {
@@ -142,6 +143,10 @@ const moduleRoutes = [
     {
         path: "/consultation",
         route: consultations_route_1.ConsultationRoutes,
+    },
+    {
+        path: "/donation",
+        route: donation_route_1.DonationRoutes,
     },
 ];
 moduleRoutes.forEach((route) => router.use(route.path, route.route));

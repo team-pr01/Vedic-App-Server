@@ -117,7 +117,9 @@ const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     // Create token and send to client/user
     const jwtPayload = {
         userId: user._id.toString(),
-        email: user.email,
+        name: user.name,
+        email: user.email || "",
+        phoneNumber: user.phoneNumber,
         role: user.role,
         assignedPages: user.assignedPages || [],
         avatar: user.avatar || [],
@@ -132,6 +134,7 @@ const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
             _id: user._id,
             name: user.name,
             email: user.email,
+            phoneNumber: user.phoneNumber,
             role: user.role,
             assignedPages: user.assignedPages || [],
             avatar: user.avatar || "",
@@ -154,12 +157,16 @@ const refreshToken = (token) => __awaiter(void 0, void 0, void 0, function* () {
     }
     // Checking if the user is deleted or not
     // Have to check if the user is suspended or not
-    const jwtpayload = {
-        userId: user._id,
-        email: user.email,
+    const jwtPayload = {
+        userId: user._id.toString(),
+        name: user.name,
+        email: user.email || "",
+        phoneNumber: user.phoneNumber,
         role: user.role,
+        assignedPages: user.assignedPages || [],
+        avatar: user.avatar || [],
     };
-    const accessToken = (0, auth_utils_1.createToekn)(jwtpayload, config_1.default.jwt_access_secret, config_1.default.jwt_access_expires_in);
+    const accessToken = (0, auth_utils_1.createToekn)(jwtPayload, config_1.default.jwt_access_secret, config_1.default.jwt_access_expires_in);
     return {
         accessToken,
     };

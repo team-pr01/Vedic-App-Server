@@ -27,6 +27,7 @@ import { QuizRoutes } from "../modules/quiz/quiz.route";
 import { AyurvedaRoutes } from "../modules/ayurveda/ayurveda.route";
 import { ProductRoutes } from "../modules/product/product.route";
 import { ConsultationRoutes } from "../modules/consultations/consultations.route";
+import { DonationRoutes } from "../modules/donation/donation.route";
 
 const router = Router();
 
@@ -142,6 +143,10 @@ const moduleRoutes = [
   {
     path: "/consultation",
     route: ConsultationRoutes,
+  },
+  {
+    path: "/donation",
+    route: DonationRoutes,
   },
 ];
 

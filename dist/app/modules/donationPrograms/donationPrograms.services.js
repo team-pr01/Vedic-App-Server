@@ -27,7 +27,9 @@ const createDonationProgram = (payload, file) => __awaiter(void 0, void 0, void 
         const { secure_url } = yield (0, sendImageToCloudinary_1.sendImageToCloudinary)(imageName, path);
         imageUrl = secure_url;
     }
-    const payloadData = Object.assign(Object.assign({}, payload), { imageUrl });
+    const payloadData = Object.assign(Object.assign({}, payload), { amountNeeded: Number(payload.amountNeeded), 
+        //
+        imageUrl });
     const result = yield donationPrograms_model_1.default.create(payloadData);
     return result;
 });

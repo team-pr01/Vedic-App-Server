@@ -145,7 +145,9 @@ const loginUser = async (payload: TLoginAuth) => {
 
   const jwtPayload = {
     userId: user._id.toString(),
-    email: user.email,
+    name : user.name,
+    email: user.email || "",
+    phoneNumber: user.phoneNumber,
     role: user.role,
     assignedPages: user.assignedPages || [],
     avatar: user.avatar || [],
@@ -172,6 +174,7 @@ const loginUser = async (payload: TLoginAuth) => {
       _id: user._id,
       name: user.name,
       email: user.email,
+      phoneNumber: user.phoneNumber,
       role: user.role,
       assignedPages: user.assignedPages || [],
       avatar: user.avatar || "",
@@ -208,13 +211,17 @@ const refreshToken = async (token: string) => {
 
   // Have to check if the user is suspended or not
 
-  const jwtpayload = {
-    userId: user._id,
-    email: user.email,
+  const jwtPayload = {
+    userId: user._id.toString(),
+    name : user.name,
+    email: user.email || "",
+    phoneNumber: user.phoneNumber,
     role: user.role,
+    assignedPages: user.assignedPages || [],
+    avatar: user.avatar || [],
   };
   const accessToken = createToekn(
-    jwtpayload,
+    jwtPayload,
     config.jwt_access_secret as string,
     config.jwt_access_expires_in as string
   );

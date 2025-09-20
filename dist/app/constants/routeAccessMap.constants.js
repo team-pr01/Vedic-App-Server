@@ -170,4 +170,11 @@ exports.routeAccessMap = {
         "/consultation/update-status/:consultationId", // PUT
         "/consultation/delete/:consultationId", // DELETE
     ],
+    //   Consultation
+    "/dashboard/donation": [
+        "/donation/donate", // POST
+        "/donation", // GET all
+        "/donation/:donationId", // GET one
+        "/donation/delete/:donationId", // DELETE
+    ],
 };
