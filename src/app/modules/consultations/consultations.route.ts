@@ -15,7 +15,6 @@ router.post(
     UserRole.moderator,
     UserRole["super-admin"]
   ),
-  authorizeRoute(),
   ConsultationControllers.bookConsultation
 );
 
@@ -36,7 +35,6 @@ router.get(
     UserRole.moderator,
     UserRole["super-admin"]
   ),
-  authorizeRoute(),
   ConsultationControllers.getSingleConsultationById
 );
 
@@ -44,7 +42,6 @@ router.get(
 router.get(
   "/my-consultations",
   auth(UserRole.user),
-  authorizeRoute(),
   ConsultationControllers.getMyConsultations
 );
 
