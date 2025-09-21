@@ -9,15 +9,15 @@ const ConsultationSchema = new mongoose_1.Schema({
     },
     userName: {
         type: String,
-        required: true
+        required: true,
     },
     userPhoneNumber: {
         type: String,
-        required: true
+        required: true,
     },
     userEmail: {
         type: String,
-        required: false
+        required: false,
     },
     consultantId: {
         type: mongoose_1.Schema.Types.ObjectId,
@@ -26,15 +26,15 @@ const ConsultationSchema = new mongoose_1.Schema({
     },
     consultantName: {
         type: String,
-        required: true
+        required: true,
     },
     consultantPhoneNumber: {
         type: String,
-        required: true
+        required: true,
     },
     consultantEmail: {
         type: String,
-        required: false
+        required: false,
     },
     concern: {
         type: String,
@@ -52,11 +52,15 @@ const ConsultationSchema = new mongoose_1.Schema({
         type: Date,
         required: false,
     },
+    meetingLink: {
+        type: String,
+        required: false,
+    },
     status: {
         type: String,
-        enum: ['pending', 'completed', 'cancelled'],
-        default: 'pending',
-    }
+        enum: ["pending", "completed", "cancelled"],
+        default: "pending",
+    },
 }, {
     timestamps: true,
 });

@@ -62,8 +62,7 @@ const getMyConsultations = (0, catchAsync_1.default)((req, res) => __awaiter(voi
 // Schedule a consultation (update scheduledAt)
 const scheduleConsultation = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { consultationId } = req.params;
-    const { scheduledAt } = req.body;
-    const result = yield consultations_services_1.ConsultationServices.scheduleConsultation(consultationId, scheduledAt);
+    const result = yield consultations_services_1.ConsultationServices.scheduleConsultation(consultationId, req.body);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,

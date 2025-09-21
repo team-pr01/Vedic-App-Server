@@ -75,16 +75,14 @@ const getMyConsultations = async (userId: string) => {
   return result;
 };
 
-const scheduleConsultation = async (
-  consultationId: string,
-  scheduledAt: Date | string
-) => {
+const scheduleConsultation = async (consultationId: string, payload: any) => {
   const existing = await Consultation.findById(consultationId);
   if (!existing) {
     throw new AppError(httpStatus.NOT_FOUND, "Consultation not found");
   }
 
-  existing.scheduledAt = new Date(scheduledAt);
+  existing.scheduledAt = new Date(payload?.scheduledAt);
+  existing.meetingLink = payload?.meetingLink;
   await existing.save();
 
   // Populate user and consultant for consistency

@@ -60,9 +60,8 @@ const getMyConsultations = catchAsync(async (req, res) => {
 // Schedule a consultation (update scheduledAt)
 const scheduleConsultation = catchAsync(async (req, res) => {
   const { consultationId } = req.params;
-  const { scheduledAt } = req.body;
 
-  const result = await ConsultationServices.scheduleConsultation(consultationId, scheduledAt);
+  const result = await ConsultationServices.scheduleConsultation(consultationId, req.body);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
