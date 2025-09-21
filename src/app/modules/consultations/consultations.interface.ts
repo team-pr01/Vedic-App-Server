@@ -14,7 +14,7 @@ export type TConsultation = {
   category : string;
   scheduledAt?: Date;
   meetingLink?: string;
-  status?: "pending" | "completed" | "cancelled";
+  status?: "pending" | "scheduled" | "completed" | "cancelled";
   createdAt?: Date;
   updatedAt?: Date;
 };
