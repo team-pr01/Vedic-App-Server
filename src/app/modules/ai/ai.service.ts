@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import AppError from "../../errors/AppError";
 import { openai } from "../../utils/openai";
+import News from "../news/news.model";
 import Quiz from "../quiz/quiz.model";
 
 const aiChat = async (message: string) => {
@@ -103,9 +105,85 @@ const generateQuiz = async (title: string) => {
   return newQuiz;
 };
 
+const translateNews = async (payload: {
+  newsId: string;
+  title: string;
+  content: string;
+  tags: string[];
+  category: string;
+  batchLanguages: { code: string; name: string }[];
+}) => {
+  const { newsId, title, content, tags, category, batchLanguages } = payload;
+  const inputText = `Title: ${title}\nContent: ${content}\nTags: ${tags.join(", ")}\nCategory: ${category}`;
+
+  const systemMessage = `
+You are a professional translator.
+Translate the following news into exactly the ${batchLanguages.length} languages provided.
+Output JSON in the following format:
+
+{
+${batchLanguages.map((lang) => `  "${lang.code}": { "title": "...", "content": "...", "tags": [...] }`).join(",\n")}
+}
+
+Only include the languages listed in this fixed list:
+${batchLanguages.map((lang) => `${lang.code} (${lang.name})`).join(", ")}
+`;
+
+  const response = await openai.chat.completions.create({
+    model: "gpt-4o-mini",
+    messages: [
+      { role: "system", content: systemMessage },
+      { role: "user", content: inputText },
+    ],
+    temperature: 0,
+    max_tokens: 4000,
+  });
+
+  const contentRes = response.choices[0]?.message?.content;
+
+  let translations;
+  try {
+    translations = JSON.parse(contentRes || "{}");
+  } catch (err) {
+    throw new AppError(
+      500,
+      "Failed to parse translations. GPT response: " + contentRes
+    );
+  }
+
+  // ✅ Ensure all batch languages are returned
+  const missingLanguages = batchLanguages.filter(
+    (lang) => !translations[lang.code]
+  );
+  if (missingLanguages.length > 0) {
+    throw new AppError(
+      500,
+      `GPT did not return translations for: ${missingLanguages.map((l) => l.name).join(", ")}`
+    );
+  }
+
+  // ✅ Build $set with dot-notation so we only update those specific languages
+  const setObj: Record<string, any> = {};
+  for (const [code, value] of Object.entries(translations)) {
+    setObj[`translations.${code}`] = value;
+  }
+
+  // ✅ Update News translations safely
+  const updatedNews = await News.findByIdAndUpdate(
+    newsId,
+    { $set: setObj },
+    { new: true, runValidators: true }
+  );
+
+  if (!updatedNews) throw new AppError(404, "News not found");
+
+  return updatedNews;
+};
+
 export const AiServices = {
   aiChat,
   translateShloka,
   generateRecipe,
   generateQuiz,
+  translateNews,
 };

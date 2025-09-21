@@ -9,9 +9,9 @@ const router = express.Router();
 
 router.post(
   "/add-news",
-  multerUpload.single("file"),
   auth(UserRole.admin, UserRole.moderator, UserRole["super-admin"]),
   authorizeRoute(),
+  multerUpload.single("file"),
   NewsControllers.addNews
 );
 

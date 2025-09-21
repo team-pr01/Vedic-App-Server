@@ -11,7 +11,7 @@ const news_controller_1 = require("./news.controller");
 const authorizeRoute_1 = __importDefault(require("../../middlewares/authorizeRoute"));
 const multer_config_1 = require("../../config/multer.config");
 const router = express_1.default.Router();
-router.post("/add-news", multer_config_1.multerUpload.single("file"), (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), (0, authorizeRoute_1.default)(), news_controller_1.NewsControllers.addNews);
+router.post("/add-news", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), (0, authorizeRoute_1.default)(), multer_config_1.multerUpload.single("file"), news_controller_1.NewsControllers.addNews);
 router.get("/", news_controller_1.NewsControllers.getAllNews);
 router.get("/:newsId", news_controller_1.NewsControllers.getSingleNewsById);
 router.put("/:newsId", multer_config_1.multerUpload.single("file"), (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), (0, authorizeRoute_1.default)(), news_controller_1.NewsControllers.updateNews);

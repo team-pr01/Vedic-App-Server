@@ -1,34 +1,27 @@
 import { Schema, model } from "mongoose";
-import { TNews } from "./news.interface";
+import { TNews, TNewsTranslation } from "./news.interface";
+
+const NewsTranslationSchema = new Schema<TNewsTranslation>(
+  {
+    title: { type: String, required: true },
+    content: { type: String, required: true },
+    tags: { type: [String], default: [] },
+  },
+  { _id: false }
+);
 
 const NewsSchema = new Schema<TNews>(
   {
-    title: {
-      type: String,
-      required: true,
+    title: { type: String, required: true },
+    imageUrl: { type: String, required: true },
+    category: { type: String, required: true },
+    content: { type: String, required: true },
+    tags: { type: [String], default: [] },
+    translations: {
+      type: Map,
+      of: NewsTranslationSchema,
+      required: false,
     },
-    imageUrl: {
-      type: String,
-      required: true,
-    },
-    category: {
-      type: String,
-      required: true,
-    },
-    content: {
-      type: String,
-      required: true,
-    },
-    excerpt: {
-      type: String,
-      required: true,
-    },
-    tags: [
-      {
-        type: String,
-        required: true,
-      },
-    ],
   },
   { timestamps: true }
 );
