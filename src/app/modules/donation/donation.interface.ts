@@ -11,6 +11,7 @@ export type TDonation = {
   amount: string;
   currency: string;
   paymentMethod: string;
+  senderAccountNumber: string;
   createdAt?: Date;
   updatedAt?: Date;
 };

@@ -42,6 +42,10 @@ const DonationSchema = new Schema<TDonation>(
       type: String,
       required: true,
     },
+    senderAccountNumber: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,
