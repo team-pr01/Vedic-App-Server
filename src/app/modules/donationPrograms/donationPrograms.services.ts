@@ -23,7 +23,6 @@ const createDonationProgram = async (
   const payloadData = {
     ...payload,
     amountNeeded: Number(payload.amountNeeded),
-    //
     imageUrl,
   };
 

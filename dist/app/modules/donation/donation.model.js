@@ -33,6 +33,10 @@ const DonationSchema = new mongoose_1.Schema({
         type: String,
         required: true,
     },
+    currency: {
+        type: String,
+        required: true,
+    },
 }, {
     timestamps: true,
 });

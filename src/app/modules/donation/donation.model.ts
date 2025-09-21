@@ -34,6 +34,10 @@ const DonationSchema = new Schema<TDonation>(
       type: String,
       required: true,
     },
+    currency: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,

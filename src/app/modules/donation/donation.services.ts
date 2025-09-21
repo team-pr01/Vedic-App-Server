@@ -14,13 +14,11 @@ const donate = async (
 ) => {
   let imageUrl = "";
 
-  // get logged-in user data
   const userData = await User.findById(user.userId);
   if (!userData) {
     throw new AppError(httpStatus.NOT_FOUND, "User not found");
   }
 
-  // handle optional image upload
   if (file) {
     const imageName = `${payload.userName || "donor"}-${Date.now()}`;
     const path = file.path;

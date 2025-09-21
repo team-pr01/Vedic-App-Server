@@ -24,6 +24,10 @@ const DonationProgramSchema = new Schema<TDonationPrograms>(
       required: false,
       default: 0,
     },
+    currency: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,

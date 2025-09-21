@@ -9,6 +9,7 @@ export type TDonation = {
   userPhoneNumber: string;
   userEmail?: string;
   amount: string;
+  currency: string;
   createdAt?: Date;
   updatedAt?: Date;
 };

@@ -22,12 +22,10 @@ const auth_model_1 = require("../auth/auth.model");
 const donationPrograms_model_1 = __importDefault(require("../donationPrograms/donationPrograms.model"));
 const donate = (payload, file, user) => __awaiter(void 0, void 0, void 0, function* () {
     let imageUrl = "";
-    // get logged-in user data
     const userData = yield auth_model_1.User.findById(user.userId);
     if (!userData) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, "User not found");
     }
-    // handle optional image upload
     if (file) {
         const imageName = `${payload.userName || "donor"}-${Date.now()}`;
         const path = file.path;
