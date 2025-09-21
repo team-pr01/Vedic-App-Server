@@ -37,6 +37,10 @@ const DonationSchema = new mongoose_1.Schema({
         type: String,
         required: true,
     },
+    paymentMethod: {
+        type: String,
+        required: true,
+    },
 }, {
     timestamps: true,
 });

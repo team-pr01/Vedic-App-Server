@@ -10,6 +10,7 @@ export type TDonation = {
   userEmail?: string;
   amount: string;
   currency: string;
+  paymentMethod: string;
   createdAt?: Date;
   updatedAt?: Date;
 };
