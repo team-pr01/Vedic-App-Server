@@ -5,7 +5,8 @@ export type TProduct = {
   category: string;
   productLink: string;
   description: string;
-  price: string;
+  basePrice: string;
+  discountedPrice: string;
   currency: string;
   label: string;
   tags: string;

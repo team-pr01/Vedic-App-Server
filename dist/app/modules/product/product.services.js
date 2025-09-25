@@ -20,7 +20,7 @@ const product_model_1 = __importDefault(require("./product.model"));
 const sendImageToCloudinary_1 = require("../../utils/sendImageToCloudinary");
 // Add Product (for admin)
 const addProduct = (payload, file) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, category, productLink, description, price, currency, label, tags, videoUrl, } = payload;
+    const { name, category, productLink, description, basePrice, discountedPrice, currency, label, tags, videoUrl, } = payload;
     let imageUrl = "";
     if (file) {
         const imageName = `${Date.now()}`;
@@ -34,7 +34,8 @@ const addProduct = (payload, file) => __awaiter(void 0, void 0, void 0, function
         category,
         productLink,
         description,
-        price,
+        basePrice,
+        discountedPrice,
         currency,
         label,
         tags,

@@ -24,7 +24,11 @@ const ProductSchema = new Schema<TProduct>(
       type: String,
       required: true,
     },
-    price: {
+    basePrice: {
+      type: String,
+      required: true,
+    },
+    discountedPrice: {
       type: String,
       required: true,
     },
