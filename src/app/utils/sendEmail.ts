@@ -1,5 +1,6 @@
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
+import config from "../config";
 
 dotenv.config();
 
@@ -8,13 +9,13 @@ export const sendEmail = async (to: string, html: string) => {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: "rahulsd380@gmail.com",
-        pass: "udzt yuom aqbg fdtm",
+        user: config.smtp_email,
+        pass: config.smtp_pass,
       },
     });
 
     await transporter.sendMail({
-      from: "rahulsd380@gmail.com",
+      from: config.smtp_email,
       to,
       subject: "Reset your password within 10 minutes",
       text: "Reset your password within 10 minutes",

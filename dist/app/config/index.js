@@ -22,5 +22,7 @@ exports.default = {
     aamarpay_payment_url: process.env.PAYMENT_URL,
     payment_verify_url: process.env.PAYMENT_VERIFY_URL,
     reset_password_ui_url: process.env.RESET_PASSWORD_UI_URL,
-    chat_gpt_api: process.env.CHAT_GPT_API
+    chat_gpt_api: process.env.CHAT_GPT_API,
+    smtp_email: process.env.SMTP_EMAIL,
+    smtp_pass: process.env.SMTP_PASS
 };
