@@ -4,6 +4,17 @@ import { openai } from "../../utils/openai";
 import News from "../news/news.model";
 import Quiz from "../quiz/quiz.model";
 
+
+interface TranslatePayload {
+  newsId: string;
+  title: string;
+  content: string;
+  tags: string[];
+  category: string;
+  batchLanguages: { code: string; name: string }[];
+}
+
+
 const aiChat = async (message: string) => {
   const completion = await openai.chat.completions.create({
     model: "gpt-4o-mini",
@@ -105,30 +116,35 @@ const generateQuiz = async (title: string) => {
   return newQuiz;
 };
 
-const translateNews = async (payload: {
-  newsId: string;
-  title: string;
-  content: string;
-  tags: string[];
-  category: string;
-  batchLanguages: { code: string; name: string }[];
-}) => {
+export const translateNews = async (payload: TranslatePayload) => {
   const { newsId, title, content, tags, category, batchLanguages } = payload;
-  const inputText = `Title: ${title}\nContent: ${content}\nTags: ${tags.join(", ")}\nCategory: ${category}`;
 
+  // Input text for GPT
+  const inputText = `Title: ${title}
+Content: ${content}
+Tags: ${tags.join(", ")}
+Category: ${category}`;
+
+  // GPT prompt
   const systemMessage = `
 You are a professional translator.
-Translate the following news into exactly the ${batchLanguages.length} languages provided.
+Translate the following news into exactly ${batchLanguages.length} languages provided.
 Output JSON in the following format:
 
 {
-${batchLanguages.map((lang) => `  "${lang.code}": { "title": "...", "content": "...", "tags": [...] }`).join(",\n")}
+${batchLanguages
+  .map(
+    (lang) =>
+      `  "${lang.code}": { "title": "...", "content": "...", "tags": [...], "category": "..." }`
+  )
+  .join(",\n")}
 }
 
 Only include the languages listed in this fixed list:
 ${batchLanguages.map((lang) => `${lang.code} (${lang.name})`).join(", ")}
 `;
 
+  // Call GPT
   const response = await openai.chat.completions.create({
     model: "gpt-4o-mini",
     messages: [
@@ -151,34 +167,35 @@ ${batchLanguages.map((lang) => `${lang.code} (${lang.name})`).join(", ")}
     );
   }
 
-  // ✅ Ensure all batch languages are returned
   const missingLanguages = batchLanguages.filter(
     (lang) => !translations[lang.code]
   );
   if (missingLanguages.length > 0) {
     throw new AppError(
       500,
-      `GPT did not return translations for: ${missingLanguages.map((l) => l.name).join(", ")}`
+      `GPT did not return translations for: ${missingLanguages
+        .map((l) => l.name)
+        .join(", ")}`
     );
   }
-
-  // ✅ Build $set with dot-notation so we only update those specific languages
   const setObj: Record<string, any> = {};
   for (const [code, value] of Object.entries(translations)) {
-    setObj[`translations.${code}`] = value;
+    const v = value as { title?: string; content?: string; tags?: string[]; category?: string };
+    setObj[`translations.${code}`] = {
+      title: v.title || "",
+      content: v.content || "",
+      tags: v.tags || [],
+      category: v.category || category,
+    };
   }
 
-  // ✅ Update News translations safely
-  const updatedNews = await News.findByIdAndUpdate(
-    newsId,
-    { $set: setObj },
-    { new: true, runValidators: true }
-  );
-
+  // Update News safely
+  const updatedNews = await News.findByIdAndUpdate(newsId, { $set: setObj }, { new: true, runValidators: true });
   if (!updatedNews) throw new AppError(404, "News not found");
 
   return updatedNews;
 };
+
 
 export const AiServices = {
   aiChat,

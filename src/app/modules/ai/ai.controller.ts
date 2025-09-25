@@ -71,10 +71,7 @@ const generateQuiz = catchAsync(async (req, res) => {
   });
 });
 
- const translateNews = catchAsync(async (req, res) => {
-
-
-  // Call service to translate
+const translateNews = catchAsync(async (req, res) => {
   const translations = await AiServices.translateNews(req.body);
 
   sendResponse(res, {
@@ -84,7 +81,6 @@ const generateQuiz = catchAsync(async (req, res) => {
     data: translations,
   });
 });
-
 
 export const AiControllers = {
   aiChat,

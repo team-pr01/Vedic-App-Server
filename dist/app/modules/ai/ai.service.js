@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AiServices = void 0;
+exports.AiServices = exports.translateNews = void 0;
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const AppError_1 = __importDefault(require("../../errors/AppError"));
 const openai_1 = require("../../utils/openai");
@@ -114,19 +114,27 @@ const generateQuiz = (title) => __awaiter(void 0, void 0, void 0, function* () {
 const translateNews = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
     const { newsId, title, content, tags, category, batchLanguages } = payload;
-    const inputText = `Title: ${title}\nContent: ${content}\nTags: ${tags.join(", ")}\nCategory: ${category}`;
+    // Input text for GPT
+    const inputText = `Title: ${title}
+Content: ${content}
+Tags: ${tags.join(", ")}
+Category: ${category}`;
+    // GPT prompt
     const systemMessage = `
 You are a professional translator.
-Translate the following news into exactly the ${batchLanguages.length} languages provided.
+Translate the following news into exactly ${batchLanguages.length} languages provided.
 Output JSON in the following format:
 
 {
-${batchLanguages.map((lang) => `  "${lang.code}": { "title": "...", "content": "...", "tags": [...] }`).join(",\n")}
+${batchLanguages
+        .map((lang) => `  "${lang.code}": { "title": "...", "content": "...", "tags": [...], "category": "..." }`)
+        .join(",\n")}
 }
 
 Only include the languages listed in this fixed list:
 ${batchLanguages.map((lang) => `${lang.code} (${lang.name})`).join(", ")}
 `;
+    // Call GPT
     const response = yield openai_1.openai.chat.completions.create({
         model: "gpt-4o-mini",
         messages: [
@@ -144,26 +152,33 @@ ${batchLanguages.map((lang) => `${lang.code} (${lang.name})`).join(", ")}
     catch (err) {
         throw new AppError_1.default(500, "Failed to parse translations. GPT response: " + contentRes);
     }
-    // ✅ Ensure all batch languages are returned
     const missingLanguages = batchLanguages.filter((lang) => !translations[lang.code]);
     if (missingLanguages.length > 0) {
-        throw new AppError_1.default(500, `GPT did not return translations for: ${missingLanguages.map((l) => l.name).join(", ")}`);
+        throw new AppError_1.default(500, `GPT did not return translations for: ${missingLanguages
+            .map((l) => l.name)
+            .join(", ")}`);
     }
-    // ✅ Build $set with dot-notation so we only update those specific languages
     const setObj = {};
     for (const [code, value] of Object.entries(translations)) {
-        setObj[`translations.${code}`] = value;
+        const v = value;
+        setObj[`translations.${code}`] = {
+            title: v.title || "",
+            content: v.content || "",
+            tags: v.tags || [],
+            category: v.category || category,
+        };
     }
-    // ✅ Update News translations safely
+    // Update News safely
     const updatedNews = yield news_model_1.default.findByIdAndUpdate(newsId, { $set: setObj }, { new: true, runValidators: true });
     if (!updatedNews)
         throw new AppError_1.default(404, "News not found");
     return updatedNews;
 });
+exports.translateNews = translateNews;
 exports.AiServices = {
     aiChat,
     translateShloka,
     generateRecipe,
     generateQuiz,
-    translateNews,
+    translateNews: exports.translateNews,
 };

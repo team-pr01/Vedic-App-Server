@@ -69,7 +69,6 @@ const generateQuiz = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, v
     });
 }));
 const translateNews = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // Call service to translate
     const translations = yield ai_service_1.AiServices.translateNews(req.body);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,

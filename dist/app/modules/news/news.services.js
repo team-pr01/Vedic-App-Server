@@ -21,12 +21,17 @@ const sendImageToCloudinary_1 = require("../../utils/sendImageToCloudinary");
 const addNews = (payload, file) => __awaiter(void 0, void 0, void 0, function* () {
     let imageUrl = "";
     if (file) {
-        const imageName = `${payload.title}-${Date.now()}`;
+        const imageName = `${Date.now()}`;
         const path = file.path;
         const { secure_url } = yield (0, sendImageToCloudinary_1.sendImageToCloudinary)(imageName, path);
         imageUrl = secure_url;
     }
-    const payloadData = Object.assign(Object.assign({}, payload), { imageUrl });
+    let translations = payload.translations;
+    if (typeof translations === "string") {
+        translations = JSON.parse(translations);
+    }
+    const payloadData = Object.assign(Object.assign({}, payload), { imageUrl,
+        translations });
     const result = yield news_model_1.default.create(payloadData);
     return result;
 });
@@ -55,7 +60,7 @@ const updateNews = (newsId, payload, file) => __awaiter(void 0, void 0, void 0, 
     }
     let imageUrl;
     if (file) {
-        const imageName = `${(payload === null || payload === void 0 ? void 0 : payload.title) || existing.title}-${Date.now()}`;
+        const imageName = `${Date.now()}`;
         const path = file.path;
         const { secure_url } = yield (0, sendImageToCloudinary_1.sendImageToCloudinary)(imageName, path);
         imageUrl = secure_url;

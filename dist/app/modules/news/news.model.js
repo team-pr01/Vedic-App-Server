@@ -5,17 +5,14 @@ const NewsTranslationSchema = new mongoose_1.Schema({
     title: { type: String, required: true },
     content: { type: String, required: true },
     tags: { type: [String], default: [] },
+    category: { type: String, required: true },
 }, { _id: false });
 const NewsSchema = new mongoose_1.Schema({
-    title: { type: String, required: true },
     imageUrl: { type: String, required: true },
-    category: { type: String, required: true },
-    content: { type: String, required: true },
-    tags: { type: [String], default: [] },
     translations: {
         type: Map,
         of: NewsTranslationSchema,
-        required: false,
+        required: true,
     },
 }, { timestamps: true });
 const News = (0, mongoose_1.model)("News", NewsSchema);

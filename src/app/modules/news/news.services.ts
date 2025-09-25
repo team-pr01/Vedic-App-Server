@@ -12,20 +12,28 @@ const addNews = async (
   let imageUrl = "";
 
   if (file) {
-    const imageName = `${payload.title}-${Date.now()}`;
+    const imageName = `${Date.now()}`;
     const path = file.path;
 
     const { secure_url } = await sendImageToCloudinary(imageName, path);
     imageUrl = secure_url;
   }
+  
+  let translations = payload.translations;
+  if (typeof translations === "string") {
+    translations = JSON.parse(translations);
+  }
 
   const payloadData = {
     ...payload,
     imageUrl,
+    translations,
   };
+
   const result = await News.create(payloadData);
   return result;
 };
+
 
 const getAllNews = async (keyword: any, category: any) => {
   const query: any = {};
@@ -59,7 +67,7 @@ const updateNews = async (newsId: string, payload: Partial<TNews>, file: any) =>
   let imageUrl: string | undefined;
 
   if (file) {
-    const imageName = `${payload?.title || existing.title}-${Date.now()}`;
+    const imageName = `${Date.now()}`;
     const path = file.path;
 
     const { secure_url } = await sendImageToCloudinary(imageName, path);
