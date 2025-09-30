@@ -88,7 +88,7 @@ const signup = (payload, file) => __awaiter(void 0, void 0, void 0, function* ()
         const { secure_url } = yield (0, sendImageToCloudinary_1.sendImageToCloudinary)(imageName, path);
         imageUrl = secure_url;
     }
-    const payloadData = Object.assign(Object.assign({}, payload), { avatar: imageUrl, role: "user", isDeleted: false, isSuspended: false, isVerified: false });
+    const payloadData = Object.assign(Object.assign({}, payload), { avatar: imageUrl, role: payload.role || "user", isDeleted: false, isSuspended: false, isVerified: false });
     // Create user in the database
     const result = yield auth_model_1.User.create(payloadData);
     return result;

@@ -14,6 +14,6 @@ router.delete("/delete/:id", auth(UserRole.admin), QuizController.deleteQuiz);
 
 // User Routes
 router.get("/:id",  QuizController.getQuiz);
-router.post("/participate/:id", auth(UserRole.user, UserRole.moderator, UserRole["super-admin"], UserRole.admin), QuizController.participateQuiz);
+router.post("/participate/:id", auth(UserRole.user, UserRole.temple, UserRole.moderator, UserRole["super-admin"], UserRole.admin), QuizController.participateQuiz);
 
 export const QuizRoutes = router;

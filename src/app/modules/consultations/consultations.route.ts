@@ -11,6 +11,7 @@ router.post(
   "/book",
   auth(
     UserRole.user,
+    UserRole.temple,
     UserRole.admin,
     UserRole.moderator,
     UserRole["super-admin"]
@@ -31,6 +32,7 @@ router.get(
   "/:consultationId",
   auth(
     UserRole.user,
+    UserRole.temple,
     UserRole.admin,
     UserRole.moderator,
     UserRole["super-admin"]
@@ -41,7 +43,7 @@ router.get(
 // Get my consultations (logged-in user)
 router.get(
   "/my-consultations",
-  auth(UserRole.user),
+  auth(UserRole.user, UserRole.temple,),
   ConsultationControllers.getMyConsultations
 );
 
@@ -66,6 +68,7 @@ router.delete(
   "/delete/:consultationId",
   auth(
     UserRole.user,
+    UserRole.temple,
     UserRole.admin,
     UserRole.moderator,
     UserRole["super-admin"]

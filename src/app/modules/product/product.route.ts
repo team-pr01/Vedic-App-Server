@@ -34,7 +34,7 @@ router.put(
 // Update Product
 router.put(
   "/update-click/:productId",
-  auth(UserRole.admin, UserRole.moderator, UserRole["super-admin"], UserRole.user),
+  auth(UserRole.admin, UserRole.moderator, UserRole["super-admin"], UserRole.user, UserRole.temple,),
   ProductControllers.updateProductClick
 );
 

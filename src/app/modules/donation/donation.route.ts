@@ -14,7 +14,8 @@ router.post(
     UserRole.admin,
     UserRole.moderator,
     UserRole["super-admin"],
-    UserRole.user
+    UserRole.user,
+    UserRole.temple
   ),
   authorizeRoute(),
   DonationController.donate

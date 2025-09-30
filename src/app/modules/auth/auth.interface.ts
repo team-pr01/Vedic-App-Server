@@ -17,7 +17,7 @@ export type TUser= {
   state : string;
   country : string;
   password: string;
-  role: "user" | "admin" | "moderator" | "super-admin";
+  role: "user" | "admin" | "moderator" | "super-admin" | "temple";
   assignedPages? : string[];
   totalQuizTaken?: number;
   isVerified: boolean;

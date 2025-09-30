@@ -104,7 +104,7 @@ const signup = async (
   const payloadData = {
     ...payload,
     avatar: imageUrl,
-    role: "user",
+    role: payload.role || "user",
     isDeleted: false,
     isSuspended: false,
     isVerified: false,

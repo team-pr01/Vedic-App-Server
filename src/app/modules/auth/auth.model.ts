@@ -54,7 +54,7 @@ const userSchema = new Schema<TUser, UserModel>(
     },
     role: {
       type: String,
-      enum: ["user", "admin", "moderator", "super-admin"],
+      enum: ["user", "admin", "moderator", "super-admin", "temple"],
       default: "user",
     },
     assignedPages: {

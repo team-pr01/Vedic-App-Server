@@ -11,17 +11,17 @@ const authorizeRoute_1 = __importDefault(require("../../middlewares/authorizeRou
 const consultations_controller_1 = require("./consultations.controller");
 const router = express_1.default.Router();
 // Book a consultation (user)
-router.post("/book", (0, auth_1.default)(auth_constannts_1.UserRole.user, auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), consultations_controller_1.ConsultationControllers.bookConsultation);
+router.post("/book", (0, auth_1.default)(auth_constannts_1.UserRole.user, auth_constannts_1.UserRole.temple, auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), consultations_controller_1.ConsultationControllers.bookConsultation);
 // Get all consultations (admin)
 router.get("/", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), (0, authorizeRoute_1.default)(), consultations_controller_1.ConsultationControllers.getAllConsultations);
 // Get single consultation by ID
-router.get("/:consultationId", (0, auth_1.default)(auth_constannts_1.UserRole.user, auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), consultations_controller_1.ConsultationControllers.getSingleConsultationById);
+router.get("/:consultationId", (0, auth_1.default)(auth_constannts_1.UserRole.user, auth_constannts_1.UserRole.temple, auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), consultations_controller_1.ConsultationControllers.getSingleConsultationById);
 // Get my consultations (logged-in user)
-router.get("/my-consultations", (0, auth_1.default)(auth_constannts_1.UserRole.user), consultations_controller_1.ConsultationControllers.getMyConsultations);
+router.get("/my-consultations", (0, auth_1.default)(auth_constannts_1.UserRole.user, auth_constannts_1.UserRole.temple), consultations_controller_1.ConsultationControllers.getMyConsultations);
 // Schedule consultation route
 router.put("/schedule/:consultationId", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), (0, authorizeRoute_1.default)(), consultations_controller_1.ConsultationControllers.scheduleConsultation);
 // Update consultation status (admin)
 router.put("/update-status/:consultationId", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), (0, authorizeRoute_1.default)(), consultations_controller_1.ConsultationControllers.updateConsultationStatus);
 // Delete consultation (admin)
-router.delete("/delete/:consultationId", (0, auth_1.default)(auth_constannts_1.UserRole.user, auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), (0, authorizeRoute_1.default)(), consultations_controller_1.ConsultationControllers.deleteConsultation);
+router.delete("/delete/:consultationId", (0, auth_1.default)(auth_constannts_1.UserRole.user, auth_constannts_1.UserRole.temple, auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), (0, authorizeRoute_1.default)(), consultations_controller_1.ConsultationControllers.deleteConsultation);
 exports.ConsultationRoutes = router;

@@ -20,7 +20,7 @@ router.get("/:productId", product_controller_1.ProductControllers.getSingleProdu
 // Update Product
 router.put("/update/:productId", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), (0, authorizeRoute_1.default)(), multer_config_1.multerUpload.single("file"), product_controller_1.ProductControllers.updateProduct);
 // Update Product
-router.put("/update-click/:productId", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"], auth_constannts_1.UserRole.user), product_controller_1.ProductControllers.updateProductClick);
+router.put("/update-click/:productId", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"], auth_constannts_1.UserRole.user, auth_constannts_1.UserRole.temple), product_controller_1.ProductControllers.updateProductClick);
 // Delete Product
 router.delete("/delete/:productId", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), (0, authorizeRoute_1.default)(), product_controller_1.ProductControllers.deleteProduct);
 exports.ProductRoutes = router;
