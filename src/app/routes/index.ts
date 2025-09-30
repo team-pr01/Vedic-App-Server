@@ -28,6 +28,7 @@ import { AyurvedaRoutes } from "../modules/ayurveda/ayurveda.route";
 import { ProductRoutes } from "../modules/product/product.route";
 import { ConsultationRoutes } from "../modules/consultations/consultations.route";
 import { DonationRoutes } from "../modules/donation/donation.route";
+import { VastuTipsRoutes } from "../modules/vastuTips/vastuTips.route";
 
 const router = Router();
 
@@ -55,6 +56,10 @@ const moduleRoutes = [
   {
     path: "/vastu",
     route: VastuRoutes,
+  },
+  {
+    path: "/vastuTips",
+    route: VastuTipsRoutes,
   },
   {
     path: "/temple",

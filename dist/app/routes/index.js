@@ -30,6 +30,7 @@ const ayurveda_route_1 = require("../modules/ayurveda/ayurveda.route");
 const product_route_1 = require("../modules/product/product.route");
 const consultations_route_1 = require("../modules/consultations/consultations.route");
 const donation_route_1 = require("../modules/donation/donation.route");
+const vastuTips_route_1 = require("../modules/vastuTips/vastuTips.route");
 const router = (0, express_1.Router)();
 const moduleRoutes = [
     {
@@ -55,6 +56,10 @@ const moduleRoutes = [
     {
         path: "/vastu",
         route: vastu_route_1.VastuRoutes,
+    },
+    {
+        path: "/vastuTips",
+        route: vastuTips_route_1.VastuTipsRoutes,
     },
     {
         path: "/temple",

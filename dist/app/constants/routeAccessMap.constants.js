@@ -83,13 +83,19 @@ exports.routeAccessMap = {
         "/temple/update-status/:templeId", // PUT (Update status)
         "/temple/:templeId", // DELETE
     ],
-    // Vastu
+    // Vastu and Vastu Tips
     "/dashboard/vastu": [
         "/vastu/add-vastu", // POST
         "/vastu", // GET all
         "/vastu/:vastuId", // GET one
         "/vastu/:vastuId", // PUT
         "/vastu/:vastuId", // DELETE
+        // Vastu Tips
+        "/vastuTips/add", // POST
+        "/vastuTips", // GET all
+        "/vastuTips/:vastuTipId", // GET one
+        "/vastuTips/update/:vastuTipId", // PUT
+        "/vastuTips/delete/:vastuTipId", // DELETE
     ],
     //   Yoga
     "/dashboard/yoga": [
