@@ -90,6 +90,11 @@ const userSchema = new Schema<TUser, UserModel>(
       type: Date,
       default: null,
     },
+    lastLoggedIn: {
+      type: Date,
+      default: null,
+      required: false,
+    },
   },
   {
     timestamps: true,

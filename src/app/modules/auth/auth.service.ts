@@ -11,7 +11,6 @@ import { sendEmail } from "../../utils/sendEmail";
 import bcrypt from "bcrypt";
 import { sendImageToCloudinary } from "../../utils/sendImageToCloudinary";
 
-
 const generateOTP = () => {
   return Math.floor(100000 + Math.random() * 900000).toString(); // Ensures a 6-digit number
 };
@@ -34,9 +33,6 @@ const saveUserPushToken = async (payload: any) => {
 
   return result;
 };
-
-
-
 
 // const sendPushNotificationToUser = async (payload: {
 //   userId: string;
@@ -121,18 +117,16 @@ const loginUser = async (payload: TLoginAuth) => {
   const user = await User.isUserExists(payload.email);
 
   if (!(await user)) {
-    throw new AppError(httpStatus.NOT_FOUND, "User does not exists.");
+    throw new AppError(httpStatus.NOT_FOUND, "User does not exist.");
   }
 
   // Check if the user already deleted or not
-  const isUserDeleted = user?.isDeleted;
-  if (isUserDeleted) {
-    throw new AppError(httpStatus.NOT_FOUND, "User does not exists.");
+  if (user?.isDeleted) {
+    throw new AppError(httpStatus.NOT_FOUND, "User does not exist.");
   }
 
   // Check if the user suspended or not
-  const isUserSuspended = user?.isSuspended;
-  if (isUserSuspended) {
+  if (user?.isSuspended) {
     throw new AppError(httpStatus.FORBIDDEN, "You are suspended!");
   }
 
@@ -141,11 +135,16 @@ const loginUser = async (payload: TLoginAuth) => {
     throw new AppError(httpStatus.FORBIDDEN, "Password is not correct.");
   }
 
-  // Create token and send to client/user
+  await User.findByIdAndUpdate(
+    user?._id,
+    { lastLoggedIn: new Date() },
+    { new: true, runValidators: true }
+  );
 
+  // Create token and send to client/user
   const jwtPayload = {
     userId: user._id.toString(),
-    name : user.name,
+    name: user.name,
     email: user.email || "",
     phoneNumber: user.phoneNumber,
     role: user.role,
@@ -165,8 +164,6 @@ const loginUser = async (payload: TLoginAuth) => {
     config.jwt_refresh_expires_in as string
   );
 
-  // Access the user into his account.
-
   return {
     accessToken,
     refreshToken,
@@ -179,6 +176,7 @@ const loginUser = async (payload: TLoginAuth) => {
       assignedPages: user.assignedPages || [],
       avatar: user.avatar || "",
       totalQuizTaken: user.totalQuizTaken || 0,
+      lastLoggedIn: user.lastLoggedIn, // optional: return last login time
     },
   };
 };
@@ -213,7 +211,7 @@ const refreshToken = async (token: string) => {
 
   const jwtPayload = {
     userId: user._id.toString(),
-    name : user.name,
+    name: user.name,
     email: user.email || "",
     phoneNumber: user.phoneNumber,
     role: user.role,

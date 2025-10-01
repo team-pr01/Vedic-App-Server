@@ -28,6 +28,7 @@ export type TUser= {
   updatedAt: Date;
   isDeleted : boolean;
   isSuspended : boolean;
+  lastLoggedIn? : Date
 }
 
 export interface UserModel extends Model<TUser> {

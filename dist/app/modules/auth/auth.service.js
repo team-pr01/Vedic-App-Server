@@ -98,22 +98,21 @@ const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     // Check if the user exists or not
     const user = yield auth_model_1.User.isUserExists(payload.email);
     if (!(yield user)) {
-        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "User does not exists.");
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "User does not exist.");
     }
     // Check if the user already deleted or not
-    const isUserDeleted = user === null || user === void 0 ? void 0 : user.isDeleted;
-    if (isUserDeleted) {
-        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "User does not exists.");
+    if (user === null || user === void 0 ? void 0 : user.isDeleted) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "User does not exist.");
     }
     // Check if the user suspended or not
-    const isUserSuspended = user === null || user === void 0 ? void 0 : user.isSuspended;
-    if (isUserSuspended) {
+    if (user === null || user === void 0 ? void 0 : user.isSuspended) {
         throw new AppError_1.default(http_status_1.default.FORBIDDEN, "You are suspended!");
     }
     // Check if the password is correct or not
     if (!(yield auth_model_1.User.isPasswordMatched(payload === null || payload === void 0 ? void 0 : payload.password, user === null || user === void 0 ? void 0 : user.password))) {
         throw new AppError_1.default(http_status_1.default.FORBIDDEN, "Password is not correct.");
     }
+    yield auth_model_1.User.findByIdAndUpdate(user === null || user === void 0 ? void 0 : user._id, { lastLoggedIn: new Date() }, { new: true, runValidators: true });
     // Create token and send to client/user
     const jwtPayload = {
         userId: user._id.toString(),
@@ -126,7 +125,6 @@ const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     };
     const accessToken = (0, auth_utils_1.createToekn)(jwtPayload, config_1.default.jwt_access_secret, config_1.default.jwt_access_expires_in);
     const refreshToken = (0, auth_utils_1.createToekn)(jwtPayload, config_1.default.jwt_refresh_secret, config_1.default.jwt_refresh_expires_in);
-    // Access the user into his account.
     return {
         accessToken,
         refreshToken,
@@ -139,6 +137,7 @@ const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
             assignedPages: user.assignedPages || [],
             avatar: user.avatar || "",
             totalQuizTaken: user.totalQuizTaken || 0,
+            lastLoggedIn: user.lastLoggedIn, // optional: return last login time
         },
     };
 });
