@@ -7,7 +7,9 @@ dotenv.config();
 export const sendEmail = async (to: string, html: string, subject?: string) => {
   try {
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
       auth: {
         user: config.smtp_email,
         pass: config.smtp_pass,
