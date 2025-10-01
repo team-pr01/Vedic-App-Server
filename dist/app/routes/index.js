@@ -31,6 +31,7 @@ const product_route_1 = require("../modules/product/product.route");
 const consultations_route_1 = require("../modules/consultations/consultations.route");
 const donation_route_1 = require("../modules/donation/donation.route");
 const vastuTips_route_1 = require("../modules/vastuTips/vastuTips.route");
+const bulkSms_route_1 = require("../modules/bulkSms/bulkSms.route");
 const router = (0, express_1.Router)();
 const moduleRoutes = [
     {
@@ -152,6 +153,10 @@ const moduleRoutes = [
     {
         path: "/donation",
         route: donation_route_1.DonationRoutes,
+    },
+    {
+        path: "/bulkSms",
+        route: bulkSms_route_1.BulkSmsRoutes,
     },
 ];
 moduleRoutes.forEach((route) => router.use(route.path, route.route));

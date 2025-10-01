@@ -141,7 +141,7 @@ const loginUser = async (payload: TLoginAuth) => {
     { new: true, runValidators: true }
   );
 
-  // Create token and send to client/user
+  // Create token
   const jwtPayload = {
     userId: user._id.toString(),
     name: user.name,
@@ -176,7 +176,7 @@ const loginUser = async (payload: TLoginAuth) => {
       assignedPages: user.assignedPages || [],
       avatar: user.avatar || "",
       totalQuizTaken: user.totalQuizTaken || 0,
-      lastLoggedIn: user.lastLoggedIn, // optional: return last login time
+      lastLoggedIn: user.lastLoggedIn,
     },
   };
 };

@@ -183,4 +183,9 @@ exports.routeAccessMap = {
         "/donation/:donationId", // GET one
         "/donation/delete/:donationId", // DELETE
     ],
+    //   Consultation
+    "/dashboard/bulk-sms": [
+        "/bulkSms/send-bulk-email", // POST
+        "/bulkSms/send-bulk-sms", // POST
+    ],
 };

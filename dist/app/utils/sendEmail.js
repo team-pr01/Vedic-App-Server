@@ -17,7 +17,7 @@ const nodemailer_1 = __importDefault(require("nodemailer"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const config_1 = __importDefault(require("../config"));
 dotenv_1.default.config();
-const sendEmail = (to, html) => __awaiter(void 0, void 0, void 0, function* () {
+const sendEmail = (to, html, subject) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const transporter = nodemailer_1.default.createTransport({
             service: "gmail",
@@ -29,7 +29,7 @@ const sendEmail = (to, html) => __awaiter(void 0, void 0, void 0, function* () {
         yield transporter.sendMail({
             from: config_1.default.smtp_email,
             to,
-            subject: "Reset your password within 10 minutes",
+            subject: subject || "Reset your password within 10 minutes",
             text: "Reset your password within 10 minutes",
             html,
         });

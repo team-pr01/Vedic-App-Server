@@ -29,6 +29,7 @@ import { ProductRoutes } from "../modules/product/product.route";
 import { ConsultationRoutes } from "../modules/consultations/consultations.route";
 import { DonationRoutes } from "../modules/donation/donation.route";
 import { VastuTipsRoutes } from "../modules/vastuTips/vastuTips.route";
+import { BulkSmsRoutes } from "../modules/bulkSms/bulkSms.route";
 
 const router = Router();
 
@@ -152,6 +153,10 @@ const moduleRoutes = [
   {
     path: "/donation",
     route: DonationRoutes,
+  },
+  {
+    path: "/bulkSms",
+    route: BulkSmsRoutes,
   },
 ];
 

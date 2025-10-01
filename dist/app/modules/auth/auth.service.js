@@ -113,7 +113,7 @@ const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
         throw new AppError_1.default(http_status_1.default.FORBIDDEN, "Password is not correct.");
     }
     yield auth_model_1.User.findByIdAndUpdate(user === null || user === void 0 ? void 0 : user._id, { lastLoggedIn: new Date() }, { new: true, runValidators: true });
-    // Create token and send to client/user
+    // Create token
     const jwtPayload = {
         userId: user._id.toString(),
         name: user.name,
@@ -137,7 +137,7 @@ const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
             assignedPages: user.assignedPages || [],
             avatar: user.avatar || "",
             totalQuizTaken: user.totalQuizTaken || 0,
-            lastLoggedIn: user.lastLoggedIn, // optional: return last login time
+            lastLoggedIn: user.lastLoggedIn,
         },
     };
 });
