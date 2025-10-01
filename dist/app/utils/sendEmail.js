@@ -20,9 +20,7 @@ dotenv_1.default.config();
 const sendEmail = (to, html, subject) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const transporter = nodemailer_1.default.createTransport({
-            host: "smtp.gmail.com",
-            port: 465,
-            secure: true,
+            service: "gmail",
             auth: {
                 user: config_1.default.smtp_email,
                 pass: config_1.default.smtp_pass,
