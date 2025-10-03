@@ -206,4 +206,13 @@ export const routeAccessMap: Record<string, string[]> = {
     "/bulkSms/send-bulk-email", // POST
     "/bulkSms/send-bulk-sms", // POST
   ],
+
+  //   Consultation
+  "/dashboard/daily-horoscope": [
+    "/dailyHoroscope/add", // POST
+    "/dailyHoroscope", // GET all
+    "/dailyHoroscope/:horoscopeId", // GET one
+    "/dailyHoroscope/update/:horoscopeId", // UPDATE
+    "/dailyHoroscope/delete/:horoscopeId", // DELETE
+  ],
 };

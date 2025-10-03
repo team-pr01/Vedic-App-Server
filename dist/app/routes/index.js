@@ -32,6 +32,7 @@ const consultations_route_1 = require("../modules/consultations/consultations.ro
 const donation_route_1 = require("../modules/donation/donation.route");
 const vastuTips_route_1 = require("../modules/vastuTips/vastuTips.route");
 const bulkSms_route_1 = require("../modules/bulkSms/bulkSms.route");
+const dailyHoroscope_route_1 = require("../modules/dailyHoroscope/dailyHoroscope.route");
 const router = (0, express_1.Router)();
 const moduleRoutes = [
     {
@@ -157,6 +158,10 @@ const moduleRoutes = [
     {
         path: "/bulkSms",
         route: bulkSms_route_1.BulkSmsRoutes,
+    },
+    {
+        path: "/dailyHoroscope",
+        route: dailyHoroscope_route_1.DailyHoroscopeRoutes,
     },
 ];
 moduleRoutes.forEach((route) => router.use(route.path, route.route));
