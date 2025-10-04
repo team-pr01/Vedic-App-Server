@@ -42,16 +42,19 @@ const getSingleNewsById = catchAsync(async (req, res) => {
   });
 });
 
-// Update
+// Update 
 const updateNews = catchAsync(async (req, res) => {
   const { newsId } = req.params;
-  const file = req.file;
-  const result = await NewsServices.updateNews(newsId, req.body, file);
+  if (req.body.translations && typeof req.body.translations === "string") {
+    req.body.translations = JSON.parse(req.body.translations);
+  }
+
+  const result = await NewsServices.updateNews(newsId, req.body, req.file);
 
   sendResponse(res, {
-    statusCode: httpStatus.OK,
     success: true,
-    message: "News updated successfully.",
+    statusCode: httpStatus.OK,
+    message: "News updated successfully",
     data: result,
   });
 });

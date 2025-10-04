@@ -50,15 +50,17 @@ const getSingleNewsById = (0, catchAsync_1.default)((req, res) => __awaiter(void
         data: result,
     });
 }));
-// Update
+// Update 
 const updateNews = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { newsId } = req.params;
-    const file = req.file;
-    const result = yield news_services_1.NewsServices.updateNews(newsId, req.body, file);
+    if (req.body.translations && typeof req.body.translations === "string") {
+        req.body.translations = JSON.parse(req.body.translations);
+    }
+    const result = yield news_services_1.NewsServices.updateNews(newsId, req.body, req.file);
     (0, sendResponse_1.default)(res, {
-        statusCode: http_status_1.default.OK,
         success: true,
-        message: "News updated successfully.",
+        statusCode: http_status_1.default.OK,
+        message: "News updated successfully",
         data: result,
     });
 }));
