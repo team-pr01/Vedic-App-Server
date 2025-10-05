@@ -4,7 +4,6 @@ import { openai } from "../../utils/openai";
 import News from "../news/news.model";
 import Quiz from "../quiz/quiz.model";
 
-
 interface TranslatePayload {
   newsId: string;
   title: string;
@@ -13,7 +12,6 @@ interface TranslatePayload {
   category: string;
   batchLanguages: { code: string; name: string }[];
 }
-
 
 const aiChat = async (message: string) => {
   const completion = await openai.chat.completions.create({
@@ -116,7 +114,7 @@ const generateQuiz = async (title: string) => {
   return newQuiz;
 };
 
-export const translateNews = async (payload: TranslatePayload) => {
+const translateNews = async (payload: TranslatePayload) => {
   const { newsId, title, content, tags, category, batchLanguages } = payload;
 
   // Input text for GPT
@@ -180,7 +178,12 @@ ${batchLanguages.map((lang) => `${lang.code} (${lang.name})`).join(", ")}
   }
   const setObj: Record<string, any> = {};
   for (const [code, value] of Object.entries(translations)) {
-    const v = value as { title?: string; content?: string; tags?: string[]; category?: string };
+    const v = value as {
+      title?: string;
+      content?: string;
+      tags?: string[];
+      category?: string;
+    };
     setObj[`translations.${code}`] = {
       title: v.title || "",
       content: v.content || "",
@@ -190,12 +193,61 @@ ${batchLanguages.map((lang) => `${lang.code} (${lang.name})`).join(", ")}
   }
 
   // Update News safely
-  const updatedNews = await News.findByIdAndUpdate(newsId, { $set: setObj }, { new: true, runValidators: true });
+  const updatedNews = await News.findByIdAndUpdate(
+    newsId,
+    { $set: setObj },
+    { new: true, runValidators: true }
+  );
   if (!updatedNews) throw new AppError(404, "News not found");
 
   return updatedNews;
 };
 
+const generateKundli = async ({
+  name,
+  birthDate,
+  birthTime,
+  birthPlace,
+}: {
+  name: string;
+  birthDate: string;
+  birthTime: string;
+  birthPlace: string;
+}) => {
+  const response = await openai.chat.completions.create({
+    model: "gpt-4o-mini",
+    messages: [
+      {
+        role: "system",
+        content: `You are an expert Vedic astrologer (Hindu Jyotish Acharya).
+        You specialize in creating detailed Janam Kundlis (birth charts).
+        When asked, generate an authentic Hindu-style Kundli analysis using Vedic astrology principles.
+        Include:
+        - **Basic Details:** (Name, Date, Time, Place)
+        - **Ascendant (Lagna)** and its meaning
+        - **Planetary positions (Graha Sthiti)** overview
+        - **Zodiac sign (Rashi)** and **Nakshatra**
+        - **Dasha / Mahadasha** explanation (general overview)
+        - **Personality traits** based on planetary alignment
+        - **Career, Health, Marriage, Finance** insights
+        - **Remedies and suggestions (Upay)** — like gemstones, mantra, or pooja.
+        Keep the explanation structured and easy to read for a general person.`,
+      },
+      {
+        role: "user",
+        content: `Generate a Hindu Kundli for:
+        Name: ${name}
+        Date of Birth: ${birthDate}
+        Time of Birth: ${birthTime}
+        Place of Birth: ${birthPlace}`,
+      },
+    ],
+    temperature: 0.8,
+    max_tokens: 1200,
+  });
+
+  return response.choices[0]?.message?.content || "Could not generate Kundli";
+};
 
 export const AiServices = {
   aiChat,
@@ -203,4 +255,5 @@ export const AiServices = {
   generateRecipe,
   generateQuiz,
   translateNews,
+  generateKundli,
 };

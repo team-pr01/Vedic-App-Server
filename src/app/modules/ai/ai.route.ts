@@ -8,5 +8,7 @@ router.post("/translate-shloka", AiControllers.translateShloka);
 router.post("/generate-recipe", AiControllers.generateRecipe);
 router.post("/generate-quiz", AiControllers.generateQuiz);
 router.post("/translate-news", AiControllers.translateNews);
+router.post("/generate-kundli", AiControllers.generateKundli);
+
 
 export const AiRoutes = router;

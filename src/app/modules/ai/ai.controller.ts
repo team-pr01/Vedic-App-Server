@@ -82,10 +82,29 @@ const translateNews = catchAsync(async (req, res) => {
   });
 });
 
+const generateKundli = catchAsync(async (req, res) => {
+  const { name, birthDate, birthTime, birthPlace } = req.body;
+
+  if (!name || !birthDate || !birthTime || !birthPlace) {
+    throw new AppError(httpStatus.BAD_REQUEST, "All fields (name, birthDate, birthTime, birthPlace) are required");
+  }
+
+  const result = await AiServices.generateKundli({ name, birthDate, birthTime, birthPlace });
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Kundli generated successfully",
+    data: result,
+  });
+});
+
+
 export const AiControllers = {
   aiChat,
   translateShloka,
   generateRecipe,
   generateQuiz,
   translateNews,
+  generateKundli
 };
