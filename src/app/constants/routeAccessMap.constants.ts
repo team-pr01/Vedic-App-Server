@@ -215,4 +215,13 @@ export const routeAccessMap: Record<string, string[]> = {
     "/dailyHoroscope/update/:horoscopeId", // UPDATE
     "/dailyHoroscope/delete/:horoscopeId", // DELETE
   ],
+
+  //   Books
+  "/dashboard/books": [
+    "/books/create-book", // POST
+    "/books", // GET all
+    "/books/:bookId", // GET one
+    "/books/update/:bookId", // UPDATE
+    "/books/delete/:bookId", // DELETE
+  ],
 };

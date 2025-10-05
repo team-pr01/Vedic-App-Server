@@ -31,6 +31,7 @@ import { DonationRoutes } from "../modules/donation/donation.route";
 import { VastuTipsRoutes } from "../modules/vastuTips/vastuTips.route";
 import { BulkSmsRoutes } from "../modules/bulkSms/bulkSms.route";
 import { DailyHoroscopeRoutes } from "../modules/dailyHoroscope/dailyHoroscope.route";
+import { BooksRoutes } from "../modules/book/books/books.route";
 
 const router = Router();
 
@@ -162,6 +163,10 @@ const moduleRoutes = [
   {
     path: "/dailyHoroscope",
     route: DailyHoroscopeRoutes,
+  },
+  {
+    path: "/books",
+    route: BooksRoutes,
   },
 ];
 
