@@ -40,6 +40,23 @@ const getSingleBookText = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getBookTextByDetails = catchAsync(async (req: Request, res: Response) => {
+  const { bookId, chapter, verseNumber } = req.query;
+
+  const result = await BookTextService.getBookTextByDetails(
+    bookId as string,
+    chapter as string,
+    verseNumber as string
+  );
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Book text fetched successfully",
+    data: result,
+  });
+});
+
 const updateBookText = catchAsync(async (req: Request, res: Response) => {
   const { bookTextId } = req.params;
   const result = await BookTextService.updateBookText(bookTextId, req.body);
@@ -68,6 +85,7 @@ export const BookTextController = {
   createBookText,
   getAllBookTexts,
   getSingleBookText,
+  getBookTextByDetails,
   updateBookText,
   deleteBookText,
 };

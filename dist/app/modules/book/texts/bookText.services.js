@@ -44,6 +44,17 @@ const getSingleBookText = (bookTextId) => __awaiter(void 0, void 0, void 0, func
     }
     return bookText;
 });
+const getBookTextByDetails = (bookId, chapter, verse) => __awaiter(void 0, void 0, void 0, function* () {
+    const bookText = yield bookText_model_1.default.findOne({
+        bookId,
+        "location.chapter": chapter,
+        "location.verse": verse,
+    }).populate("bookId", "name type structure");
+    if (!bookText) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Book text not found with given details");
+    }
+    return bookText;
+});
 const updateBookText = (bookTextId, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const existing = yield bookText_model_1.default.findById(bookTextId);
     if (!existing) {
@@ -66,6 +77,7 @@ exports.BookTextService = {
     createBookText,
     getAllBookTexts,
     getSingleBookText,
+    getBookTextByDetails,
     updateBookText,
     deleteBookText,
 };

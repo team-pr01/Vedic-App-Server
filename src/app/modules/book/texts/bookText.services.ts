@@ -41,7 +41,31 @@ const getSingleBookText = async (bookTextId: string) => {
   return bookText;
 };
 
-const updateBookText = async (bookTextId: string, payload: Partial<TBookText>) => {
+const getBookTextByDetails = async (
+  bookId: string,
+  chapter: string,
+  verse: string
+): Promise<any> => {
+  const bookText = await BookText.findOne({
+    bookId,
+    "location.chapter": chapter,
+    "location.verse": verse,
+  }).populate("bookId", "name type structure");
+
+  if (!bookText) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      "Book text not found with given details"
+    );
+  }
+
+  return bookText;
+};
+
+const updateBookText = async (
+  bookTextId: string,
+  payload: Partial<TBookText>
+) => {
   const existing = await BookText.findById(bookTextId);
 
   if (!existing) {
@@ -70,6 +94,7 @@ export const BookTextService = {
   createBookText,
   getAllBookTexts,
   getSingleBookText,
+  getBookTextByDetails,
   updateBookText,
   deleteBookText,
 };

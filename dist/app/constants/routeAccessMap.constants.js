@@ -208,6 +208,7 @@ exports.routeAccessMap = {
         "/book-text/add", // POST
         "/book-text", // GET all
         "/book-text/:bookTextId", // GET one
+        "/book-text/find-by-details", // GET one
         "/book-text/update/:bookTextId", // UPDATE
         "/book-text/delete/:bookTextId", // DELETE
     ],
