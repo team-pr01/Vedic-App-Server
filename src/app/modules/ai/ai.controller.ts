@@ -99,6 +99,23 @@ const generateKundli = catchAsync(async (req, res) => {
   });
 });
 
+const generateMuhurta = catchAsync(async (req, res) => {
+  const { query } = req.body;
+
+  if (!query) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Query is required to generate Muhurta");
+  }
+
+  const result = await AiServices.generateMuhurta(query);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Muhurta generated successfully",
+    data: result,
+  });
+});
+
 
 export const AiControllers = {
   aiChat,
@@ -106,5 +123,6 @@ export const AiControllers = {
   generateRecipe,
   generateQuiz,
   translateNews,
-  generateKundli
+  generateKundli,
+  generateMuhurta
 };

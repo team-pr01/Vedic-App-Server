@@ -12,4 +12,6 @@ router.post("/translate-shloka", ai_controller_1.AiControllers.translateShloka);
 router.post("/generate-recipe", ai_controller_1.AiControllers.generateRecipe);
 router.post("/generate-quiz", ai_controller_1.AiControllers.generateQuiz);
 router.post("/translate-news", ai_controller_1.AiControllers.translateNews);
+router.post("/generate-kundli", ai_controller_1.AiControllers.generateKundli);
+router.post("/generate-muhurta", ai_controller_1.AiControllers.generateMuhurta);
 exports.AiRoutes = router;

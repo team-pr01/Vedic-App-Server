@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AiServices = exports.translateNews = void 0;
+exports.AiServices = void 0;
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const AppError_1 = __importDefault(require("../../errors/AppError"));
 const openai_1 = require("../../utils/openai");
@@ -174,11 +174,74 @@ ${batchLanguages.map((lang) => `${lang.code} (${lang.name})`).join(", ")}
         throw new AppError_1.default(404, "News not found");
     return updatedNews;
 });
-exports.translateNews = translateNews;
+const generateKundli = (_a) => __awaiter(void 0, [_a], void 0, function* ({ name, birthDate, birthTime, birthPlace, }) {
+    var _b, _c;
+    const response = yield openai_1.openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+            {
+                role: "system",
+                content: `You are an expert Vedic astrologer (Hindu Jyotish Acharya).
+        You specialize in creating detailed Janam Kundlis (birth charts).
+        When asked, generate an authentic Hindu-style Kundli analysis using Vedic astrology principles.
+        Include:
+        - **Basic Details:** (Name, Date, Time, Place)
+        - **Ascendant (Lagna)** and its meaning
+        - **Planetary positions (Graha Sthiti)** overview
+        - **Zodiac sign (Rashi)** and **Nakshatra**
+        - **Dasha / Mahadasha** explanation (general overview)
+        - **Personality traits** based on planetary alignment
+        - **Career, Health, Marriage, Finance** insights
+        - **Remedies and suggestions (Upay)** — like gemstones, mantra, or pooja.
+        Keep the explanation structured and easy to read for a general person.`,
+            },
+            {
+                role: "user",
+                content: `Generate a Hindu Kundli for:
+        Name: ${name}
+        Date of Birth: ${birthDate}
+        Time of Birth: ${birthTime}
+        Place of Birth: ${birthPlace}`,
+            },
+        ],
+        temperature: 0.8,
+        max_tokens: 1200,
+    });
+    return ((_c = (_b = response.choices[0]) === null || _b === void 0 ? void 0 : _b.message) === null || _c === void 0 ? void 0 : _c.content) || "Could not generate Kundli";
+});
+const generateMuhurta = (query) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
+    const response = yield openai_1.openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+            {
+                role: "system",
+                content: `You are a professional Vedic astrologer with deep knowledge of Panchang, Nakshatra, Tithi, Yoga, and Karana.
+        Provide accurate Hindu-style Muhurta (auspicious time) for the given event.
+        The output should include:
+        - Auspicious Date & Time Range (with reason)
+        - Tithi, Nakshatra, Yoga, Karana
+        - Planetary positions influencing the event
+        - Dosha (if any) and remedies
+        - General guidance or precautions
+        Always explain in a respectful and spiritual tone.`,
+            },
+            {
+                role: "user",
+                content: query,
+            },
+        ],
+        temperature: 0.7,
+        max_tokens: 1000,
+    });
+    return ((_b = (_a = response.choices[0]) === null || _a === void 0 ? void 0 : _a.message) === null || _b === void 0 ? void 0 : _b.content) || "Could not generate Muhurta";
+});
 exports.AiServices = {
     aiChat,
     translateShloka,
     generateRecipe,
     generateQuiz,
-    translateNews: exports.translateNews,
+    translateNews,
+    generateKundli,
+    generateMuhurta
 };

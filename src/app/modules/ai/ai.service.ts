@@ -249,6 +249,34 @@ const generateKundli = async ({
   return response.choices[0]?.message?.content || "Could not generate Kundli";
 };
 
+const generateMuhurta = async (query: string) => {
+  const response = await openai.chat.completions.create({
+    model: "gpt-4o-mini",
+    messages: [
+      {
+        role: "system",
+        content: `You are a professional Vedic astrologer with deep knowledge of Panchang, Nakshatra, Tithi, Yoga, and Karana.
+        Provide accurate Hindu-style Muhurta (auspicious time) for the given event.
+        The output should include:
+        - Auspicious Date & Time Range (with reason)
+        - Tithi, Nakshatra, Yoga, Karana
+        - Planetary positions influencing the event
+        - Dosha (if any) and remedies
+        - General guidance or precautions
+        Always explain in a respectful and spiritual tone.`,
+      },
+      {
+        role: "user",
+        content: query,
+      },
+    ],
+    temperature: 0.7,
+    max_tokens: 1000,
+  });
+
+  return response.choices[0]?.message?.content || "Could not generate Muhurta";
+};
+
 export const AiServices = {
   aiChat,
   translateShloka,
@@ -256,4 +284,5 @@ export const AiServices = {
   generateQuiz,
   translateNews,
   generateKundli,
+  generateMuhurta
 };

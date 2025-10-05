@@ -77,10 +77,38 @@ const translateNews = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, 
         data: translations,
     });
 }));
+const generateKundli = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { name, birthDate, birthTime, birthPlace } = req.body;
+    if (!name || !birthDate || !birthTime || !birthPlace) {
+        throw new AppError_1.default(http_status_1.default.BAD_REQUEST, "All fields (name, birthDate, birthTime, birthPlace) are required");
+    }
+    const result = yield ai_service_1.AiServices.generateKundli({ name, birthDate, birthTime, birthPlace });
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "Kundli generated successfully",
+        data: result,
+    });
+}));
+const generateMuhurta = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { query } = req.body;
+    if (!query) {
+        throw new AppError_1.default(http_status_1.default.BAD_REQUEST, "Query is required to generate Muhurta");
+    }
+    const result = yield ai_service_1.AiServices.generateMuhurta(query);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "Muhurta generated successfully",
+        data: result,
+    });
+}));
 exports.AiControllers = {
     aiChat,
     translateShloka,
     generateRecipe,
     generateQuiz,
     translateNews,
+    generateKundli,
+    generateMuhurta
 };
