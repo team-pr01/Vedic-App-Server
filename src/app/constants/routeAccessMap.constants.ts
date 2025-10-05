@@ -218,10 +218,18 @@ export const routeAccessMap: Record<string, string[]> = {
 
   //   Books
   "/dashboard/books": [
+    // Book
     "/books/create-book", // POST
     "/books", // GET all
     "/books/:bookId", // GET one
     "/books/update/:bookId", // UPDATE
     "/books/delete/:bookId", // DELETE
+
+    // Book text
+    "/book-text/add", // POST
+    "/book-text", // GET all
+    "/book-text/:bookTextId", // GET one
+    "/book-text/update/:bookTextId", // UPDATE
+    "/book-text/delete/:bookTextId", // DELETE
   ],
 };

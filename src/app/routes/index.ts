@@ -32,6 +32,7 @@ import { VastuTipsRoutes } from "../modules/vastuTips/vastuTips.route";
 import { BulkSmsRoutes } from "../modules/bulkSms/bulkSms.route";
 import { DailyHoroscopeRoutes } from "../modules/dailyHoroscope/dailyHoroscope.route";
 import { BooksRoutes } from "../modules/book/books/books.route";
+import { BookTextRoutes } from "../modules/book/texts/bookText.route";
 
 const router = Router();
 
@@ -167,6 +168,10 @@ const moduleRoutes = [
   {
     path: "/books",
     route: BooksRoutes,
+  },
+  {
+    path: "/book-text",
+    route: BookTextRoutes,
   },
 ];
 

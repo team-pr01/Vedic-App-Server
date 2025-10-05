@@ -34,6 +34,7 @@ const vastuTips_route_1 = require("../modules/vastuTips/vastuTips.route");
 const bulkSms_route_1 = require("../modules/bulkSms/bulkSms.route");
 const dailyHoroscope_route_1 = require("../modules/dailyHoroscope/dailyHoroscope.route");
 const books_route_1 = require("../modules/book/books/books.route");
+const bookText_route_1 = require("../modules/book/texts/bookText.route");
 const router = (0, express_1.Router)();
 const moduleRoutes = [
     {
@@ -167,6 +168,10 @@ const moduleRoutes = [
     {
         path: "/books",
         route: books_route_1.BooksRoutes,
+    },
+    {
+        path: "/book-text",
+        route: bookText_route_1.BookTextRoutes,
     },
 ];
 moduleRoutes.forEach((route) => router.use(route.path, route.route));
