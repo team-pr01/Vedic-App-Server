@@ -25,10 +25,10 @@ const aiChat = async (message: string) => {
 
 type TranslateShlokaPayload = {
   textId: string;
-  languageCodes: string[]; // e.g., ["en", "hi", "fr"]
+  languageCodes: string[];
 };
 
-export const translateShloka = async (payload: TranslateShlokaPayload) => {
+const translateShloka = async (payload: TranslateShlokaPayload) => {
   const { textId, languageCodes } = payload;
 
   // Fetch original Sanskrit text
@@ -73,31 +73,41 @@ ${languageCodes
   try {
     translations = JSON.parse(contentRes || "{}");
   } catch (err) {
-    throw new AppError(
-      500,
-      "Failed to parse GPT response: " + contentRes
-    );
+    throw new AppError(500, "Failed to parse GPT response: " + contentRes);
   }
 
   // Check for missing languages
   const missing = languageCodes.filter((code) => !translations[code]);
   if (missing.length > 0)
-    throw new AppError(500, `GPT did not return translations for: ${missing.join(", ")}`);
+    throw new AppError(
+      500,
+      `GPT did not return translations for: ${missing.join(", ")}`
+    );
 
-  // Prepare update object
-  const setObj = { translations: [] as any[] };
+  // Merge new translations with existing ones
+  const updatedTranslations = [...(bookText.translations || [])];
+
   for (const code of languageCodes) {
-    setObj.translations.push({
+    const idx = updatedTranslations.findIndex((t) => t.langCode === code);
+    const newTrans = {
       langCode: code,
       translation: translations[code].translation || "",
       sanskritWordBreakdown: translations[code].sanskritWordBreakdown || [],
-    });
+    };
+
+    if (idx >= 0) {
+      // Replace existing translation
+      updatedTranslations[idx] = newTrans;
+    } else {
+      // Add new translation
+      updatedTranslations.push(newTrans);
+    }
   }
 
-  // Update BookText
+  // Update BookText in DB
   const updatedText = await BookText.findByIdAndUpdate(
     textId,
-    { $set: { translations: setObj.translations } },
+    { $set: { translations: updatedTranslations } },
     { new: true, runValidators: true }
   );
 
@@ -105,7 +115,6 @@ ${languageCodes
 
   return updatedText;
 };
-
 
 const generateRecipe = async (query: string) => {
   const response = await openai.chat.completions.create({
@@ -353,5 +362,5 @@ export const AiServices = {
   generateQuiz,
   translateNews,
   generateKundli,
-  generateMuhurta
+  generateMuhurta,
 };

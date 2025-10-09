@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AiServices = exports.translateShloka = void 0;
+exports.AiServices = void 0;
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const AppError_1 = __importDefault(require("../../errors/AppError"));
 const openai_1 = require("../../utils/openai");
@@ -72,22 +72,30 @@ ${languageCodes
     const missing = languageCodes.filter((code) => !translations[code]);
     if (missing.length > 0)
         throw new AppError_1.default(500, `GPT did not return translations for: ${missing.join(", ")}`);
-    // Prepare update object
-    const setObj = { translations: [] };
+    // Merge new translations with existing ones
+    const updatedTranslations = [...(bookText.translations || [])];
     for (const code of languageCodes) {
-        setObj.translations.push({
+        const idx = updatedTranslations.findIndex((t) => t.langCode === code);
+        const newTrans = {
             langCode: code,
             translation: translations[code].translation || "",
             sanskritWordBreakdown: translations[code].sanskritWordBreakdown || [],
-        });
+        };
+        if (idx >= 0) {
+            // Replace existing translation
+            updatedTranslations[idx] = newTrans;
+        }
+        else {
+            // Add new translation
+            updatedTranslations.push(newTrans);
+        }
     }
-    // Update BookText
-    const updatedText = yield bookText_model_1.default.findByIdAndUpdate(textId, { $set: { translations: setObj.translations } }, { new: true, runValidators: true });
+    // Update BookText in DB
+    const updatedText = yield bookText_model_1.default.findByIdAndUpdate(textId, { $set: { translations: updatedTranslations } }, { new: true, runValidators: true });
     if (!updatedText)
         throw new AppError_1.default(404, "Book text not found after update");
     return updatedText;
 });
-exports.translateShloka = translateShloka;
 const generateRecipe = (query) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
     const response = yield openai_1.openai.chat.completions.create({
@@ -285,10 +293,10 @@ const generateMuhurta = (query) => __awaiter(void 0, void 0, void 0, function* (
 });
 exports.AiServices = {
     aiChat,
-    translateShloka: exports.translateShloka,
+    translateShloka,
     generateRecipe,
     generateQuiz,
     translateNews,
     generateKundli,
-    generateMuhurta
+    generateMuhurta,
 };

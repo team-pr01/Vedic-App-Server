@@ -62,23 +62,33 @@ const getBookTextByDetails = async (
   return bookText;
 };
 
-const updateBookText = async (
-  bookTextId: string,
-  payload: Partial<TBookText>
-) => {
+const updateBookText = async (bookTextId: string, payload: any) => {
+  // Fetch existing book text
   const existing = await BookText.findById(bookTextId);
+  if (!existing) throw new AppError(httpStatus.NOT_FOUND, "Book text not found");
 
-  if (!existing) {
-    throw new AppError(httpStatus.NOT_FOUND, "Book text not found");
+  // Make sure payload has translations array
+  if (!payload.translations || !Array.isArray(payload.translations)) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Invalid translations format");
   }
 
-  const result = await BookText.findByIdAndUpdate(bookTextId, payload, {
-    new: true,
-    runValidators: true,
-  });
+  // Update translations directly
+  const result = await BookText.findByIdAndUpdate(
+    bookTextId,
+    { translations: payload.translations },
+    { new: true, runValidators: true }
+  );
+
+  if (!result) throw new AppError(httpStatus.NOT_FOUND, "Book text not found after update");
 
   return result;
 };
+
+
+
+
+
+
 
 const deleteBookText = async (bookTextId: string) => {
   const result = await BookText.findByIdAndDelete(bookTextId);
