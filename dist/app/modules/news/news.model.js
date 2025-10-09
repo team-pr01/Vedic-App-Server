@@ -14,6 +14,10 @@ const NewsSchema = new mongoose_1.Schema({
         of: NewsTranslationSchema,
         required: true,
     },
+    likes: { type: Number, default: 0, required: false },
+    likedBy: [{ type: mongoose_1.Types.ObjectId, ref: "User" }],
+    views: { type: Number, default: 0, required: false },
+    viewedBy: [{ type: mongoose_1.Types.ObjectId, ref: "User" }],
 }, { timestamps: true });
 const News = (0, mongoose_1.model)("News", NewsSchema);
 exports.default = News;

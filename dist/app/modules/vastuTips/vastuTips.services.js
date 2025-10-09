@@ -37,7 +37,6 @@ const getAllVastuTips = (keyword, category) => __awaiter(void 0, void 0, void 0,
     if (keyword) {
         query.$or = [
             { title: { $regex: keyword, $options: "i" } },
-            { description: { $regex: keyword, $options: "i" } },
         ];
     }
     if (category && category !== "all") {

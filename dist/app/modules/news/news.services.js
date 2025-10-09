@@ -79,10 +79,42 @@ const deleteNews = (newsId) => __awaiter(void 0, void 0, void 0, function* () {
     }
     return yield news_model_1.default.findByIdAndDelete(newsId);
 });
+const toggleLikeNews = (newsId, userId) => __awaiter(void 0, void 0, void 0, function* () {
+    const news = yield news_model_1.default.findById(newsId);
+    if (!news)
+        throw new Error("News not found");
+    const likedIndex = news.likedBy.findIndex((id) => id.toString() === userId);
+    if (likedIndex >= 0) {
+        // User already liked -> unlike
+        news.likedBy.splice(likedIndex, 1);
+        news.likes = Math.max(0, news.likes - 1);
+    }
+    else {
+        // User not liked -> like
+        news.likedBy.push(userId);
+        news.likes += 1;
+    }
+    yield news.save();
+    return news;
+});
+const addNewsView = (newsId, userId) => __awaiter(void 0, void 0, void 0, function* () {
+    const news = yield news_model_1.default.findById(newsId);
+    if (!news)
+        throw new Error("News not found");
+    // Only increment if user hasn't viewed yet
+    if (!news.viewedBy.includes(userId)) {
+        news.viewedBy.push(userId);
+        news.views += 1;
+        yield news.save();
+    }
+    return news;
+});
 exports.NewsServices = {
     addNews,
     getAllNews,
     getSingleNewsById,
     updateNews,
     deleteNews,
+    toggleLikeNews,
+    addNewsView,
 };

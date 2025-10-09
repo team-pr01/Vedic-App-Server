@@ -18,7 +18,7 @@ const addNews = async (
     const { secure_url } = await sendImageToCloudinary(imageName, path);
     imageUrl = secure_url;
   }
-  
+
   let translations = payload.translations;
   if (typeof translations === "string") {
     translations = JSON.parse(translations);
@@ -33,7 +33,6 @@ const addNews = async (
   const result = await News.create(payloadData);
   return result;
 };
-
 
 const getAllNews = async (keyword: any, category: any) => {
   const query: any = {};
@@ -58,7 +57,11 @@ const getSingleNewsById = async (newsId: string) => {
   return result;
 };
 
-const updateNews = async (newsId: string, payload: Partial<TNews>, file: any) => {
+const updateNews = async (
+  newsId: string,
+  payload: Partial<TNews>,
+  file: any
+) => {
   const existing = await News.findById(newsId);
   if (!existing) {
     throw new AppError(httpStatus.NOT_FOUND, "News not found");
@@ -75,9 +78,9 @@ const updateNews = async (newsId: string, payload: Partial<TNews>, file: any) =>
   }
 
   const updatePayload: Partial<TNews> = {
-      ...payload,
-      ...(imageUrl && { imageUrl }),
-    };
+    ...payload,
+    ...(imageUrl && { imageUrl }),
+  };
 
   const result = await News.findByIdAndUpdate(newsId, updatePayload, {
     new: true,
@@ -100,7 +103,7 @@ const toggleLikeNews = async (newsId: string, userId: string) => {
   const news = await News.findById(newsId);
   if (!news) throw new Error("News not found");
 
-  const likedIndex = news.likedBy!.findIndex(id => id.toString() === userId);
+  const likedIndex = news.likedBy!.findIndex((id) => id.toString() === userId);
 
   if (likedIndex >= 0) {
     // User already liked -> unlike
@@ -108,7 +111,7 @@ const toggleLikeNews = async (newsId: string, userId: string) => {
     news.likes = Math.max(0, news.likes! - 1);
   } else {
     // User not liked -> like
-    news.likedBy!.push(userId);
+    news.likedBy!.push(userId as any);
     news.likes! += 1;
   }
 
@@ -122,7 +125,7 @@ const addNewsView = async (newsId: string, userId: string) => {
 
   // Only increment if user hasn't viewed yet
   if (!news.viewedBy!.includes(userId as any)) {
-    news.viewedBy!.push(userId);
+    news.viewedBy!.push(userId as any);
     news.views! += 1;
     await news.save();
   }
@@ -137,5 +140,5 @@ export const NewsServices = {
   updateNews,
   deleteNews,
   toggleLikeNews,
-  addNewsView
+  addNewsView,
 };

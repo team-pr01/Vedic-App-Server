@@ -16,4 +16,6 @@ router.get("/", news_controller_1.NewsControllers.getAllNews);
 router.get("/:newsId", news_controller_1.NewsControllers.getSingleNewsById);
 router.put("/:newsId", multer_config_1.multerUpload.single("file"), (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), (0, authorizeRoute_1.default)(), news_controller_1.NewsControllers.updateNews);
 router.delete("/:newsId", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), (0, authorizeRoute_1.default)(), news_controller_1.NewsControllers.deleteNews);
+router.patch("/like/:newsId", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"], auth_constannts_1.UserRole.user, auth_constannts_1.UserRole.temple), news_controller_1.NewsControllers.toggleLikeNewsController);
+router.patch("/view/:newsId", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"], auth_constannts_1.UserRole.user, auth_constannts_1.UserRole.temple), news_controller_1.NewsControllers.viewNews);
 exports.NewsRoutes = router;

@@ -14,6 +14,10 @@ const VastuTipsSchema = new mongoose_1.Schema({
         type: [String],
         required: true,
     },
+    category: {
+        type: String,
+        required: true,
+    },
 }, {
     timestamps: true,
 });
