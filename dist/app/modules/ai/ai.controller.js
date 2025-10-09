@@ -30,13 +30,16 @@ const aiChat = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0,
     });
 }));
 const translateShloka = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { text, targetLang } = req.body;
-    const result = yield ai_service_1.AiServices.translateShloka(text, targetLang);
+    const { textId, languageCodes } = req.body;
+    if (!textId || !languageCodes || !Array.isArray(languageCodes) || languageCodes.length === 0) {
+        throw new AppError_1.default(http_status_1.default.BAD_REQUEST, "Missing required fields");
+    }
+    const updatedText = yield ai_service_1.AiServices.translateShloka(req.body);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
         message: "Shloka translated successfully",
-        data: result,
+        data: updatedText,
     });
 }));
 const generateRecipe = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {

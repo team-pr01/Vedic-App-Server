@@ -19,14 +19,19 @@ const aiChat = catchAsync(async (req, res) => {
 });
 
 const translateShloka = catchAsync(async (req, res) => {
-  const { text, targetLang } = req.body;
-  const result = await AiServices.translateShloka(text, targetLang);
+  const { textId, languageCodes } = req.body;
+
+  if (!textId || !languageCodes || !Array.isArray(languageCodes) || languageCodes.length === 0) {
+   throw new AppError(httpStatus.BAD_REQUEST, "Missing required fields");
+  }
+
+  const updatedText = await AiServices.translateShloka(req.body);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: "Shloka translated successfully",
-    data: result,
+    data: updatedText,
   });
 });
 

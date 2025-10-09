@@ -1,6 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
+const SanskritWordSchema = new mongoose_1.Schema({
+    sanskritWord: { type: String, required: true, trim: true },
+    shortMeaning: { type: String, required: true, trim: true },
+    descriptiveMeaning: { type: String, required: true, trim: true },
+}, { _id: false });
+const TranslationSchema = new mongoose_1.Schema({
+    langCode: { type: String, required: true, trim: true },
+    translation: { type: String, required: true, trim: true },
+    sanskritWordBreakdown: [SanskritWordSchema],
+}, { _id: false });
 const BookTextSchema = new mongoose_1.Schema({
     bookId: { type: mongoose_1.Types.ObjectId, ref: "Books", required: true },
     location: [
@@ -11,6 +21,7 @@ const BookTextSchema = new mongoose_1.Schema({
     ],
     originalText: { type: String, required: true, trim: true },
     primaryTranslation: { type: String, required: true, trim: true },
+    translations: { type: [TranslationSchema], default: [] },
     tags: { type: [String], default: [] },
     isVerified: { type: Boolean, default: false },
 }, { timestamps: true });

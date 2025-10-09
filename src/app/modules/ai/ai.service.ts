@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import AppError from "../../errors/AppError";
 import { openai } from "../../utils/openai";
+import BookText from "../book/texts/bookText.model";
 import News from "../news/news.model";
 import Quiz from "../quiz/quiz.model";
 
@@ -22,21 +23,89 @@ const aiChat = async (message: string) => {
   return completion.choices[0].message?.content || "No response";
 };
 
-const translateShloka = async (text: string, targetLang: string) => {
+type TranslateShlokaPayload = {
+  textId: string;
+  languageCodes: string[]; // e.g., ["en", "hi", "fr"]
+};
+
+export const translateShloka = async (payload: TranslateShlokaPayload) => {
+  const { textId, languageCodes } = payload;
+
+  // Fetch original Sanskrit text
+  const bookText = await BookText.findById(textId);
+  if (!bookText) throw new AppError(404, "Book text not found");
+
+  const inputText = bookText.originalText;
+
+  // Build GPT system message
+  const systemMessage = `
+You are a Vedic scholar who translates Sanskrit shlokas.
+Translate the following Sanskrit text into exactly ${languageCodes.length} languages listed below.
+For each language, provide:
+- translation: simple, clear meaning
+- sanskritWordBreakdown: an array of objects with sanskritWord, shortMeaning, descriptiveMeaning
+
+Return JSON in the format:
+{
+${languageCodes
+  .map(
+    (code) =>
+      `  "${code}": { "translation": "...", "sanskritWordBreakdown": [ { "sanskritWord": "...", "shortMeaning": "...", "descriptiveMeaning": "..." } ] }`
+  )
+  .join(",\n")}
+}
+`;
+
+  // GPT request
   const response = await openai.chat.completions.create({
     model: "gpt-4o-mini",
     messages: [
-      {
-        role: "system",
-        content: `You are a Vedic scholar who translates Sanskrit shlokas into ${targetLang}. 
-                  Provide meaning in a simple, clear way.`,
-      },
-      { role: "user", content: text },
+      { role: "system", content: systemMessage },
+      { role: "user", content: inputText },
     ],
+    temperature: 0,
+    max_tokens: 4000,
   });
 
-  return response.choices[0].message?.content;
+  const contentRes = response.choices[0]?.message?.content;
+
+  let translations;
+  try {
+    translations = JSON.parse(contentRes || "{}");
+  } catch (err) {
+    throw new AppError(
+      500,
+      "Failed to parse GPT response: " + contentRes
+    );
+  }
+
+  // Check for missing languages
+  const missing = languageCodes.filter((code) => !translations[code]);
+  if (missing.length > 0)
+    throw new AppError(500, `GPT did not return translations for: ${missing.join(", ")}`);
+
+  // Prepare update object
+  const setObj = { translations: [] as any[] };
+  for (const code of languageCodes) {
+    setObj.translations.push({
+      langCode: code,
+      translation: translations[code].translation || "",
+      sanskritWordBreakdown: translations[code].sanskritWordBreakdown || [],
+    });
+  }
+
+  // Update BookText
+  const updatedText = await BookText.findByIdAndUpdate(
+    textId,
+    { $set: { translations: setObj.translations } },
+    { new: true, runValidators: true }
+  );
+
+  if (!updatedText) throw new AppError(404, "Book text not found after update");
+
+  return updatedText;
 };
+
 
 const generateRecipe = async (query: string) => {
   const response = await openai.chat.completions.create({
