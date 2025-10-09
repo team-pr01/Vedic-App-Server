@@ -77,7 +77,6 @@ const getMyConsultations = async (userId: string) => {
 
 const scheduleConsultation = async (consultationId: string, payload: any) => {
   const existing = await Consultation.findById(consultationId);
-  console.log(consultationId);
   if (!existing) {
     throw new AppError(httpStatus.NOT_FOUND, "Consultation not found");
   }

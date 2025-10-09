@@ -66,7 +66,6 @@ const getMyConsultations = (userId) => __awaiter(void 0, void 0, void 0, functio
 });
 const scheduleConsultation = (consultationId, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const existing = yield consultations_model_1.default.findById(consultationId);
-    console.log(consultationId);
     if (!existing) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Consultation not found");
     }
