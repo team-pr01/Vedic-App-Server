@@ -72,10 +72,45 @@ const deleteNews = catchAsync(async (req, res) => {
   });
 });
 
+const toggleLikeNewsController = catchAsync(async (req, res) => {
+  const { newsId } = req.params;
+  const userId = req.user._id;
+
+  const updatedNews = await NewsServices.toggleLikeNews(newsId, userId);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "News like toggled successfully",
+    data: {
+      likes: updatedNews.likes,
+      likedByUser: updatedNews.likedBy!.includes(userId),
+    },
+  });
+});
+
+const viewNews = catchAsync(async (req, res) => {
+  const { newsId } = req.params;
+  const userId = req.user._id;
+
+  const news = await NewsServices.addNewsView(newsId, userId);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "News view recorded",
+    data: {
+      views: news.views
+    },
+  });
+});
+
 export const NewsControllers = {
   addNews,
   getAllNews,
   getSingleNewsById,
   updateNews,
   deleteNews,
+  toggleLikeNewsController,
+  viewNews
 };

@@ -1,3 +1,5 @@
+import { ObjectId } from "mongoose";
+
 export type TNewsTranslation = {
   title: string;
   content: string;
@@ -10,4 +12,8 @@ export type TNews = {
   translations: {
     [languageCode: string]: TNewsTranslation;
   };
+  likes?: number;
+  likedBy?: ObjectId[];
+  views?: number;
+  viewedBy?: ObjectId[];
 };

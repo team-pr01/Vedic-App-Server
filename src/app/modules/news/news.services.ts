@@ -96,10 +96,46 @@ const deleteNews = async (newsId: string) => {
   return await News.findByIdAndDelete(newsId);
 };
 
+const toggleLikeNews = async (newsId: string, userId: string) => {
+  const news = await News.findById(newsId);
+  if (!news) throw new Error("News not found");
+
+  const likedIndex = news.likedBy!.findIndex(id => id.toString() === userId);
+
+  if (likedIndex >= 0) {
+    // User already liked -> unlike
+    news.likedBy!.splice(likedIndex, 1);
+    news.likes = Math.max(0, news.likes! - 1);
+  } else {
+    // User not liked -> like
+    news.likedBy!.push(userId);
+    news.likes! += 1;
+  }
+
+  await news.save();
+  return news;
+};
+
+const addNewsView = async (newsId: string, userId: string) => {
+  const news = await News.findById(newsId);
+  if (!news) throw new Error("News not found");
+
+  // Only increment if user hasn't viewed yet
+  if (!news.viewedBy!.includes(userId as any)) {
+    news.viewedBy!.push(userId);
+    news.views! += 1;
+    await news.save();
+  }
+
+  return news;
+};
+
 export const NewsServices = {
   addNews,
   getAllNews,
   getSingleNewsById,
   updateNews,
   deleteNews,
+  toggleLikeNews,
+  addNewsView
 };

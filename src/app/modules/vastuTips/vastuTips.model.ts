@@ -16,6 +16,10 @@ const VastuTipsSchema = new Schema<TVastuTips>(
       type: [String],
       required: true,
     },
+    category : {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,

@@ -36,7 +36,6 @@ const getAllVastuTips = async (keyword: any, category: any) => {
   if (keyword) {
     query.$or = [
       { title: { $regex: keyword, $options: "i" } },
-      { description: { $regex: keyword, $options: "i" } },
     ];
   }
 

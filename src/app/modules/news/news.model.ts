@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, Types, model } from "mongoose";
 import { TNews, TNewsTranslation } from "./news.interface";
 
 const NewsTranslationSchema = new Schema<TNewsTranslation>(
@@ -20,6 +20,10 @@ const NewsSchema = new Schema<TNews>(
       of: NewsTranslationSchema,
       required: true,
     },
+    likes: { type: Number, default: 0, required: false },
+    likedBy: [{ type: Types.ObjectId, ref: "User" }],
+    views: { type: Number, default: 0, required: false },
+    viewedBy: [{ type: Types.ObjectId, ref: "User" }],
   },
   { timestamps: true }
 );
