@@ -3,6 +3,7 @@ import httpStatus from "http-status";
 import catchAsync from "../../../utils/catchAsync";
 import sendResponse from "../../../utils/sendResponse";
 import { BookTextService } from "./bookText.services";
+import AppError from "../../../errors/AppError";
 
 const createBookText = catchAsync(async (req: Request, res: Response) => {
   const result = await BookTextService.createBookText(req.body);
@@ -41,13 +42,20 @@ const getSingleBookText = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getBookTextByDetails = catchAsync(async (req: Request, res: Response) => {
-  const { bookId, chapter, verseNumber } = req.query;
+  const { bookId, ...levels } = req.query;
 
-  const result = await BookTextService.getBookTextByDetails(
-    bookId as string,
-    chapter as string,
-    verseNumber as string
-  );
+  if (!bookId) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Book ID is required");
+  }
+
+  // Convert query params to Record<string, string>
+  const searchLevels: Record<string, string> = {};
+  Object.keys(levels).forEach((key) => {
+    const value = levels[key];
+    if (typeof value === "string") searchLevels[key] = value;
+  });
+
+  const result = await BookTextService.getBookTextByDetails(bookId as string, searchLevels);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

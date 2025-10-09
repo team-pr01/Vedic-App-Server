@@ -44,11 +44,15 @@ const getSingleBookText = (bookTextId) => __awaiter(void 0, void 0, void 0, func
     }
     return bookText;
 });
-const getBookTextByDetails = (bookId, chapter, verse) => __awaiter(void 0, void 0, void 0, function* () {
+const getBookTextByDetails = (bookId, searchLevels // dynamic levels, e.g., { Chapter: "1", Verse: "2" }
+) => __awaiter(void 0, void 0, void 0, function* () {
+    // Build dynamic $and query for all levels
+    const locationQuery = Object.entries(searchLevels).map(([levelName, value]) => ({
+        location: { $elemMatch: { levelName, value } },
+    }));
     const bookText = yield bookText_model_1.default.findOne({
         bookId,
-        "location.chapter": chapter,
-        "location.verse": verse,
+        $and: locationQuery,
     }).populate("bookId", "name type structure");
     if (!bookText) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Book text not found with given details");

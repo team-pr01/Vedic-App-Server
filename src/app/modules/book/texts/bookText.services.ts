@@ -43,20 +43,20 @@ const getSingleBookText = async (bookTextId: string) => {
 
 const getBookTextByDetails = async (
   bookId: string,
-  chapter: string,
-  verse: string
+  searchLevels: Record<string, string> // dynamic levels, e.g., { Chapter: "1", Verse: "2" }
 ): Promise<any> => {
+  // Build dynamic $and query for all levels
+  const locationQuery = Object.entries(searchLevels).map(([levelName, value]) => ({
+    location: { $elemMatch: { levelName, value } },
+  }));
+
   const bookText = await BookText.findOne({
     bookId,
-    "location.chapter": chapter,
-    "location.verse": verse,
+    $and: locationQuery,
   }).populate("bookId", "name type structure");
 
   if (!bookText) {
-    throw new AppError(
-      httpStatus.NOT_FOUND,
-      "Book text not found with given details"
-    );
+    throw new AppError(httpStatus.NOT_FOUND, "Book text not found with given details");
   }
 
   return bookText;

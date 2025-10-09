@@ -3,41 +3,18 @@ import { TBookText } from "./bookText.interface";
 
 const BookTextSchema = new Schema<TBookText>(
   {
-    bookId: {
-      type: Types.ObjectId,
-      ref: "Books",
-      required: [true, "Book ID is required"],
-    },
-    location: {
-      chapter: {
-        type: String,
-        required: [true, "Chapter is required"],
-        trim: true,
+    bookId: { type: Types.ObjectId, ref: "Books", required: true },
+    location: [
+      {
+        levelName: { type: String, required: true },
+        value: { type: String, required: true, trim: true },
       },
-      verse: {
-        type: String,
-        required: [true, "Verse is required"],
-        trim: true,
-      },
-    },
-    originalText: {
-      type: String,
-      required: [true, "Original text is required"],
-      trim: true,
-    },
-    primaryTranslation: {
-      type: String,
-      required: [true, "Primary translation is required"],
-      trim: true,
-    },
-    tags: {
-      type: [String],
-      default: [],
-    },
-    idVerified: {
-      type: Boolean,
-      default: false,
-    },
+    ],
+
+    originalText: { type: String, required: true, trim: true },
+    primaryTranslation: { type: String, required: true, trim: true },
+    tags: { type: [String], default: [] },
+    isVerified: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
