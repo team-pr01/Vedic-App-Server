@@ -7,6 +7,6 @@ export type TReportMantra = {
   translation: string;
   reason : string;
   feedback : string;
-  status : "pending" | "resolved";
+  status : "pending" | "resolved" | "dismissed";
   isHumanVerified?: boolean;
 };

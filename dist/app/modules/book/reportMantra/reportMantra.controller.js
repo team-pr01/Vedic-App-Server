@@ -55,9 +55,7 @@ const getSingleReportedMantra = (0, catchAsync_1.default)((req, res) => __awaite
 // Update report status (mark as human verified)
 const updateReportStatus = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { reportId } = req.params;
-    const result = yield reportMantra_services_1.ReportMantraService.updateReportStatus(reportId, {
-        isHumanVerified: true,
-    });
+    const result = yield reportMantra_services_1.ReportMantraService.updateReportStatus(reportId, req.body);
     if (!result) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Reported mantra not found");
     }

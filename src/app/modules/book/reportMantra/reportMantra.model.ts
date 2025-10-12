@@ -9,7 +9,7 @@ const ReportMantraSchema = new Schema<TReportMantra>(
     translation: { type: String, required: true },
     reason: { type: String, required: true },
     feedback: { type: String, required: true },
-    status : { type: String, enum: ["pending", "resolved"], default: "pending" },
+    status : { type: String, enum: ["pending", "resolved", "dismissed"], default: "pending" },
     isHumanVerified: { type: Boolean, default: false },
   },
   { timestamps: true }

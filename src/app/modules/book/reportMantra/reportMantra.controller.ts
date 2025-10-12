@@ -50,9 +50,7 @@ const getSingleReportedMantra = catchAsync(async (req: Request, res: Response) =
 const updateReportStatus = catchAsync(async (req: Request, res: Response) => {
   const { reportId } = req.params;
 
-  const result = await ReportMantraService.updateReportStatus(reportId, {
-    isHumanVerified: true,
-  });
+  const result = await ReportMantraService.updateReportStatus(reportId, req.body);
 
   if (!result) {
     throw new AppError(httpStatus.NOT_FOUND, "Reported mantra not found");

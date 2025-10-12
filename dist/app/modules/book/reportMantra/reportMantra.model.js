@@ -8,7 +8,7 @@ const ReportMantraSchema = new mongoose_1.Schema({
     translation: { type: String, required: true },
     reason: { type: String, required: true },
     feedback: { type: String, required: true },
-    status: { type: String, enum: ["pending", "resolved"], default: "pending" },
+    status: { type: String, enum: ["pending", "resolved", "dismissed"], default: "pending" },
     isHumanVerified: { type: Boolean, default: false },
 }, { timestamps: true });
 const ReportMantra = (0, mongoose_1.model)("ReportMantra", ReportMantraSchema);
