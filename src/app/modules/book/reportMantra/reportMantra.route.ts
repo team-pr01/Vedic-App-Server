@@ -29,4 +29,12 @@ router.put(
   ReportMantraController.updateReportStatus
 );
 
+router.delete(
+  "/delete/:reportId",
+  auth(UserRole.admin, UserRole.moderator, UserRole["super-admin"]),
+  authorizeRoute(),
+  ReportMantraController.deleteReportedMantra
+);
+
+
 export const ReportMantraRoutes = router;

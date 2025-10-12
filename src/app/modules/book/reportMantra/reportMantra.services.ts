@@ -11,9 +11,17 @@ const reportMantra = async (payload: TReportMantra) => {
 };
 
 // Get all reported mantras
-const getAllReportedMantras = async () => {
-  const result = await ReportMantra.find()
-    .populate("bookId", "name type structure");
+const getAllReportedMantras = async (status: any) => {
+  const query: any = {};
+
+  if (status) {
+    query.status = status;
+  }
+
+  const result = await ReportMantra.find(query).populate(
+    "bookId",
+    "name type structure"
+  );
   return result;
 };
 
@@ -31,7 +39,10 @@ const getSingleReportedMantra = async (reportId: string) => {
 };
 
 // Update report status (mark as human verified)
-const updateReportStatus = async (reportId: string, payload: Partial<TReportMantra>) => {
+const updateReportStatus = async (
+  reportId: string,
+  payload: Partial<TReportMantra>
+) => {
   const existingReport = await ReportMantra.findById(reportId);
   if (!existingReport) {
     throw new AppError(httpStatus.NOT_FOUND, "Reported mantra not found");
@@ -46,9 +57,20 @@ const updateReportStatus = async (reportId: string, payload: Partial<TReportMant
   return updatedReport;
 };
 
+// Delete Reported Mantra
+const deleteReportedMantra = async (reportId: string) => {
+  const result = await ReportMantra.findByIdAndDelete(reportId);
+  if (!result) {
+    throw new AppError(httpStatus.NOT_FOUND, "Reported mantra not found");
+  }
+  return result;
+};
+
+
 export const ReportMantraService = {
   reportMantra,
   getAllReportedMantras,
   getSingleReportedMantra,
   updateReportStatus,
+  deleteReportedMantra
 };

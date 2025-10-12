@@ -30,7 +30,8 @@ const reportMantra = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, v
 }));
 // Get all reported mantras
 const getAllReportedMantras = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield reportMantra_services_1.ReportMantraService.getAllReportedMantras();
+    const { status } = req.query;
+    const result = yield reportMantra_services_1.ReportMantraService.getAllReportedMantras(status);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
@@ -66,9 +67,21 @@ const updateReportStatus = (0, catchAsync_1.default)((req, res) => __awaiter(voi
         data: result,
     });
 }));
+// Delete Reported Mantra
+const deleteReportedMantra = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { reportId } = req.params;
+    const result = yield reportMantra_services_1.ReportMantraService.deleteReportedMantra(reportId);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "Reported mantra deleted successfully",
+        data: result,
+    });
+}));
 exports.ReportMantraController = {
     reportMantra,
     getAllReportedMantras,
     getSingleReportedMantra,
     updateReportStatus,
+    deleteReportedMantra
 };

@@ -23,9 +23,12 @@ const reportMantra = (payload) => __awaiter(void 0, void 0, void 0, function* ()
     return result;
 });
 // Get all reported mantras
-const getAllReportedMantras = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield reportMantra_model_1.default.find()
-        .populate("bookId", "name type structure");
+const getAllReportedMantras = (status) => __awaiter(void 0, void 0, void 0, function* () {
+    const query = {};
+    if (status) {
+        query.status = status;
+    }
+    const result = yield reportMantra_model_1.default.find(query).populate("bookId", "name type structure");
     return result;
 });
 // Get a single reported mantra by ID
@@ -47,9 +50,18 @@ const updateReportStatus = (reportId, payload) => __awaiter(void 0, void 0, void
     const updatedReport = yield reportMantra_model_1.default.findByIdAndUpdate(reportId, payload, { new: true, runValidators: true });
     return updatedReport;
 });
+// Delete Reported Mantra
+const deleteReportedMantra = (reportId) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield reportMantra_model_1.default.findByIdAndDelete(reportId);
+    if (!result) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Reported mantra not found");
+    }
+    return result;
+});
 exports.ReportMantraService = {
     reportMantra,
     getAllReportedMantras,
     getSingleReportedMantra,
     updateReportStatus,
+    deleteReportedMantra
 };

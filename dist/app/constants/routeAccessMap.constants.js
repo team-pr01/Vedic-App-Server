@@ -215,6 +215,7 @@ exports.routeAccessMap = {
         "/reportMantra/report", // POST
         "/reportMantra", // GET all
         "/reportMantra/:reportId", // GET one
-        "/reportMantra/update-status/:reportId", // DELETE
+        "/reportMantra/update-status/:reportId", // PUT
+        "/reportMantra/delete/:reportId", // DELETE
     ],
 };
