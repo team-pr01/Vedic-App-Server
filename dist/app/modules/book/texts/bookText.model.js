@@ -10,6 +10,7 @@ const TranslationSchema = new mongoose_1.Schema({
     langCode: { type: String, required: true, trim: true },
     translation: { type: String, required: true, trim: true },
     sanskritWordBreakdown: [SanskritWordSchema],
+    isHumanVerified: { type: Boolean, default: false },
 }, { _id: false });
 const BookTextSchema = new mongoose_1.Schema({
     bookId: { type: mongoose_1.Types.ObjectId, ref: "Books", required: true },
@@ -23,7 +24,6 @@ const BookTextSchema = new mongoose_1.Schema({
     primaryTranslation: { type: String, required: true, trim: true },
     translations: { type: [TranslationSchema], default: [] },
     tags: { type: [String], default: [] },
-    isVerified: { type: Boolean, default: false },
 }, { timestamps: true });
 const BookText = (0, mongoose_1.model)("BookText", BookTextSchema);
 exports.default = BookText;

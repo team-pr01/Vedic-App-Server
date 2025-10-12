@@ -15,6 +15,7 @@ export type TTranslation = {
   langCode: string;
   translation: string;
   sanskritWordBreakdown?: TSanskritWord[];
+  isHumanVerified?: boolean
 };
 
 export type TBookText = {
@@ -24,5 +25,4 @@ export type TBookText = {
   primaryTranslation: string;
   translations?: TTranslation[];
   tags: string[];
-  isVerified?: boolean;
 };

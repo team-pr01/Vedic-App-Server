@@ -4,6 +4,7 @@ export type TReportMantra = {
   bookId: ObjectId;
   textId: ObjectId;
   originalText: string;
+  languageCode: string;
   translation: string;
   reason : string;
   feedback : string;

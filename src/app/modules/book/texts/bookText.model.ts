@@ -15,6 +15,7 @@ const TranslationSchema = new Schema<TTranslation>(
     langCode: { type: String, required: true, trim: true },
     translation: { type: String, required: true, trim: true },
     sanskritWordBreakdown: [SanskritWordSchema],
+    isHumanVerified : { type: Boolean, default: false },
   },
   { _id: false }
 );
@@ -32,7 +33,6 @@ const BookTextSchema = new Schema<TBookText>(
     primaryTranslation: { type: String, required: true, trim: true },
     translations: { type: [TranslationSchema], default: [] },
     tags: { type: [String], default: [] },
-    isVerified: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

@@ -67,6 +67,23 @@ const updateReportStatus = (0, catchAsync_1.default)((req, res) => __awaiter(voi
         data: result,
     });
 }));
+const resolveIssue = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { textId } = req.params;
+    const { langCode, translation } = req.body;
+    if (!textId || !langCode || !translation) {
+        throw new AppError_1.default(http_status_1.default.BAD_REQUEST, "textId, langCode, and translation are required");
+    }
+    const result = yield reportMantra_services_1.ReportMantraService.resolveIssue(textId, req.body);
+    if (!result) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Book text not found");
+    }
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "Translation updated successfully",
+        data: result,
+    });
+}));
 // Delete Reported Mantra
 const deleteReportedMantra = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { reportId } = req.params;
@@ -83,5 +100,6 @@ exports.ReportMantraController = {
     getAllReportedMantras,
     getSingleReportedMantra,
     updateReportStatus,
+    resolveIssue,
     deleteReportedMantra
 };

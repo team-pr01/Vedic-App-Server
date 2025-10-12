@@ -65,6 +65,28 @@ const updateReportStatus = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const resolveIssue = catchAsync(async (req: Request, res: Response) => {
+  const { textId } = req.params;
+  const { langCode, translation } = req.body;
+
+  if (!textId || !langCode || !translation) {
+    throw new AppError(httpStatus.BAD_REQUEST, "textId, langCode, and translation are required");
+  }
+
+  const result = await ReportMantraService.resolveIssue(textId, req.body);
+
+  if (!result) {
+    throw new AppError(httpStatus.NOT_FOUND, "Book text not found");
+  }
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Translation updated successfully",
+    data: result,
+  });
+});
+
 // Delete Reported Mantra
 const deleteReportedMantra = catchAsync(async (req, res) => {
   const { reportId } = req.params;
@@ -84,5 +106,6 @@ export const ReportMantraController = {
   getAllReportedMantras,
   getSingleReportedMantra,
   updateReportStatus,
+  resolveIssue,
   deleteReportedMantra
 };

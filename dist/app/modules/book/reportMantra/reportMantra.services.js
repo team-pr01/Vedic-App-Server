@@ -17,6 +17,7 @@ exports.ReportMantraService = void 0;
 const reportMantra_model_1 = __importDefault(require("./reportMantra.model"));
 const http_status_1 = __importDefault(require("http-status"));
 const AppError_1 = __importDefault(require("../../../errors/AppError"));
+const bookText_model_1 = __importDefault(require("../texts/bookText.model"));
 // Create a new reported mantra
 const reportMantra = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield reportMantra_model_1.default.create(payload);
@@ -34,8 +35,8 @@ const getAllReportedMantras = (status) => __awaiter(void 0, void 0, void 0, func
 // Get a single reported mantra by ID
 const getSingleReportedMantra = (reportId) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield reportMantra_model_1.default.findById(reportId)
-        .populate("bookId", "name type structure")
-        .populate("textId", "originalText translation");
+        .populate("bookId", "name type levels structure")
+        .populate("textId", "originalText translation location");
     if (!result) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Reported mantra not found");
     }
@@ -50,6 +51,31 @@ const updateReportStatus = (reportId, payload) => __awaiter(void 0, void 0, void
     const updatedReport = yield reportMantra_model_1.default.findByIdAndUpdate(reportId, payload, { new: true, runValidators: true });
     return updatedReport;
 });
+const resolveIssue = (textId, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
+    const { langCode, translation, reportId, status } = payload;
+    const bookText = yield bookText_model_1.default.findById(textId);
+    if (!bookText) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Book text not found");
+    }
+    const translationObj = (_a = bookText === null || bookText === void 0 ? void 0 : bookText.translations) === null || _a === void 0 ? void 0 : _a.find((t) => t.langCode === langCode);
+    if (translationObj) {
+        translationObj.translation = translation;
+        translationObj.isHumanVerified = true;
+    }
+    else {
+        (_b = bookText === null || bookText === void 0 ? void 0 : bookText.translations) === null || _b === void 0 ? void 0 : _b.push({
+            langCode,
+            translation,
+            isHumanVerified: true,
+            sanskritWordBreakdown: [],
+        });
+    }
+    yield reportMantra_model_1.default.findByIdAndUpdate(reportId, { status }, { new: true, runValidators: true });
+    // Save updated document
+    yield bookText.save();
+    return bookText;
+});
 // Delete Reported Mantra
 const deleteReportedMantra = (reportId) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield reportMantra_model_1.default.findByIdAndDelete(reportId);
@@ -63,5 +89,6 @@ exports.ReportMantraService = {
     getAllReportedMantras,
     getSingleReportedMantra,
     updateReportStatus,
-    deleteReportedMantra
+    resolveIssue,
+    deleteReportedMantra,
 };

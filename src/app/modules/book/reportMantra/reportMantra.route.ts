@@ -29,6 +29,13 @@ router.put(
   ReportMantraController.updateReportStatus
 );
 
+router.put(
+  "/resolve/:textId",
+  auth(UserRole.admin, UserRole.moderator, UserRole["super-admin"]),
+  authorizeRoute(),
+  ReportMantraController.resolveIssue
+);
+
 router.delete(
   "/delete/:reportId",
   auth(UserRole.admin, UserRole.moderator, UserRole["super-admin"]),

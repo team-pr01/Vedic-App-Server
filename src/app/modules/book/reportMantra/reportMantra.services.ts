@@ -3,6 +3,7 @@ import ReportMantra from "./reportMantra.model";
 import { TReportMantra } from "./reportMantra.interface";
 import httpStatus from "http-status";
 import AppError from "../../../errors/AppError";
+import BookText from "../texts/bookText.model";
 
 // Create a new reported mantra
 const reportMantra = async (payload: TReportMantra) => {
@@ -28,8 +29,8 @@ const getAllReportedMantras = async (status: any) => {
 // Get a single reported mantra by ID
 const getSingleReportedMantra = async (reportId: string) => {
   const result = await ReportMantra.findById(reportId)
-    .populate("bookId", "name type structure")
-    .populate("textId", "originalText translation");
+    .populate("bookId", "name type levels structure")
+    .populate("textId", "originalText translation location");
 
   if (!result) {
     throw new AppError(httpStatus.NOT_FOUND, "Reported mantra not found");
@@ -57,6 +58,42 @@ const updateReportStatus = async (
   return updatedReport;
 };
 
+const resolveIssue = async (textId: string, payload: any) => {
+  const { langCode, translation, reportId, status } = payload;
+
+  const bookText = await BookText.findById(textId);
+  if (!bookText) {
+    throw new AppError(httpStatus.NOT_FOUND, "Book text not found");
+  }
+
+  const translationObj = bookText?.translations?.find(
+    (t) => t.langCode === langCode
+  );
+
+  if (translationObj) {
+    translationObj.translation = translation;
+    translationObj.isHumanVerified = true;
+  } else {
+    bookText?.translations?.push({
+      langCode,
+      translation,
+      isHumanVerified: true,
+      sanskritWordBreakdown: [],
+    });
+  }
+
+  await ReportMantra.findByIdAndUpdate(
+    reportId,
+    { status },
+    { new: true, runValidators: true }
+  );
+
+  // Save updated document
+  await bookText.save();
+
+  return bookText;
+};
+
 // Delete Reported Mantra
 const deleteReportedMantra = async (reportId: string) => {
   const result = await ReportMantra.findByIdAndDelete(reportId);
@@ -66,11 +103,11 @@ const deleteReportedMantra = async (reportId: string) => {
   return result;
 };
 
-
 export const ReportMantraService = {
   reportMantra,
   getAllReportedMantras,
   getSingleReportedMantra,
   updateReportStatus,
-  deleteReportedMantra
+  resolveIssue,
+  deleteReportedMantra,
 };

@@ -46,9 +46,11 @@ const getBookTextByDetails = async (
   searchLevels: Record<string, string> // dynamic levels, e.g., { Chapter: "1", Verse: "2" }
 ): Promise<any> => {
   // Build dynamic $and query for all levels
-  const locationQuery = Object.entries(searchLevels).map(([levelName, value]) => ({
-    location: { $elemMatch: { levelName, value } },
-  }));
+  const locationQuery = Object.entries(searchLevels).map(
+    ([levelName, value]) => ({
+      location: { $elemMatch: { levelName, value } },
+    })
+  );
 
   const bookText = await BookText.findOne({
     bookId,
@@ -56,7 +58,10 @@ const getBookTextByDetails = async (
   }).populate("bookId", "name type structure");
 
   if (!bookText) {
-    throw new AppError(httpStatus.NOT_FOUND, "Book text not found with given details");
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      "Book text not found with given details"
+    );
   }
 
   return bookText;
@@ -65,7 +70,8 @@ const getBookTextByDetails = async (
 const updateBookText = async (bookTextId: string, payload: any) => {
   // Fetch existing book text
   const existing = await BookText.findById(bookTextId);
-  if (!existing) throw new AppError(httpStatus.NOT_FOUND, "Book text not found");
+  if (!existing)
+    throw new AppError(httpStatus.NOT_FOUND, "Book text not found");
 
   // Make sure payload has translations array
   if (!payload.translations || !Array.isArray(payload.translations)) {
@@ -79,16 +85,14 @@ const updateBookText = async (bookTextId: string, payload: any) => {
     { new: true, runValidators: true }
   );
 
-  if (!result) throw new AppError(httpStatus.NOT_FOUND, "Book text not found after update");
+  if (!result)
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      "Book text not found after update"
+    );
 
   return result;
 };
-
-
-
-
-
-
 
 const deleteBookText = async (bookTextId: string) => {
   const result = await BookText.findByIdAndDelete(bookTextId);
