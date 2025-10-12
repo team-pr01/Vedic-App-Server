@@ -33,6 +33,7 @@ import { BulkSmsRoutes } from "../modules/bulkSms/bulkSms.route";
 import { DailyHoroscopeRoutes } from "../modules/dailyHoroscope/dailyHoroscope.route";
 import { BooksRoutes } from "../modules/book/books/books.route";
 import { BookTextRoutes } from "../modules/book/texts/bookText.route";
+import { ReportMantraRoutes } from "../modules/book/reportMantra/reportMantra.route";
 
 const router = Router();
 
@@ -172,6 +173,10 @@ const moduleRoutes = [
   {
     path: "/book-text",
     route: BookTextRoutes,
+  },
+  {
+    path: "/reportMantra",
+    route: ReportMantraRoutes
   },
 ];
 

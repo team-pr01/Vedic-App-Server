@@ -232,5 +232,11 @@ export const routeAccessMap: Record<string, string[]> = {
     "/book-text/find-by-details", // GET one
     "/book-text/update/:bookTextId", // UPDATE
     "/book-text/delete/:bookTextId", // DELETE
+
+    // Report Mantra
+    "/reportMantra/report", // POST
+    "/reportMantra", // GET all
+    "/reportMantra/:reportId", // GET one
+    "/reportMantra/update-status/:reportId", // DELETE
   ],
 };
