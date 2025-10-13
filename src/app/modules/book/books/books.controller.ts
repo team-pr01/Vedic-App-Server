@@ -4,6 +4,7 @@ import catchAsync from "../../../utils/catchAsync";
 import sendResponse from "../../../utils/sendResponse";
 import { BooksService } from "./books.services";
 
+// Create book
 const createBook = catchAsync(async (req: Request, res: Response) => {
   const file = req.file;
   const result = await BooksService.createBook(req.body, file);
