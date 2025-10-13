@@ -17,8 +17,10 @@ router.get("/", bookText_controller_1.BookTextController.getAllBookTexts);
 router.get("/find-by-details", bookText_controller_1.BookTextController.getBookTextByDetails);
 // Get a single book text by ID
 router.get("/:bookTextId", bookText_controller_1.BookTextController.getSingleBookText);
+// Update a text translations
+router.put("/update/:bookTextId", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), (0, authorizeRoute_1.default)(), bookText_controller_1.BookTextController.updateTranslations);
 // Update a book text by ID
-router.put("/update/:bookTextId", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), (0, authorizeRoute_1.default)(), bookText_controller_1.BookTextController.updateBookText);
+router.put("/update/text/:bookTextId", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), (0, authorizeRoute_1.default)(), bookText_controller_1.BookTextController.updateTranslations);
 // Delete a book text by ID
 router.delete("/delete/:bookTextId", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), (0, authorizeRoute_1.default)(), bookText_controller_1.BookTextController.deleteBookText);
 exports.BookTextRoutes = router;

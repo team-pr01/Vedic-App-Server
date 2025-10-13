@@ -72,6 +72,18 @@ const updateBookText = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
+    message: "Text updated successfully",
+    data: result,
+  });
+});
+
+const updateTranslations = catchAsync(async (req: Request, res: Response) => {
+  const { bookTextId } = req.params;
+  const result = await BookTextService.updateBookText(bookTextId, req.body);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
     message: "Book text updated successfully",
     data: result,
   });
@@ -95,5 +107,6 @@ export const BookTextController = {
   getSingleBookText,
   getBookTextByDetails,
   updateBookText,
+  updateTranslations,
   deleteBookText,
 };

@@ -67,7 +67,7 @@ const getBookTextByDetails = async (
   return bookText;
 };
 
-const updateBookText = async (bookTextId: string, payload: any) => {
+const updateTranslations = async (bookTextId: string, payload: any) => {
   // Fetch existing book text
   const existing = await BookText.findById(bookTextId);
   if (!existing)
@@ -94,6 +94,28 @@ const updateBookText = async (bookTextId: string, payload: any) => {
   return result;
 };
 
+const updateBookText = async (
+  bookTextId: string,
+  payload: Partial<TBookText>
+) => {
+  const existing = await BookText.findById(bookTextId);
+
+  if (!existing) {
+    throw new AppError(httpStatus.NOT_FOUND, "Text not found");
+  }
+
+  const updatePayload: Partial<TBookText> = {
+    ...payload
+  };
+
+  const result = await BookText.findByIdAndUpdate(bookTextId, updatePayload, {
+    new: true,
+    runValidators: true,
+  });
+
+  return result;
+};
+
 const deleteBookText = async (bookTextId: string) => {
   const result = await BookText.findByIdAndDelete(bookTextId);
 
@@ -110,5 +132,6 @@ export const BookTextService = {
   getSingleBookText,
   getBookTextByDetails,
   updateBookText,
+  updateTranslations,
   deleteBookText,
 };

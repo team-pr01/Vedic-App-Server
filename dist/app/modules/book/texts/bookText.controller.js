@@ -84,6 +84,16 @@ const updateBookText = (0, catchAsync_1.default)((req, res) => __awaiter(void 0,
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
+        message: "Text updated successfully",
+        data: result,
+    });
+}));
+const updateTranslations = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { bookTextId } = req.params;
+    const result = yield bookText_services_1.BookTextService.updateBookText(bookTextId, req.body);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
         message: "Book text updated successfully",
         data: result,
     });
@@ -104,5 +114,6 @@ exports.BookTextController = {
     getSingleBookText,
     getBookTextByDetails,
     updateBookText,
+    updateTranslations,
     deleteBookText,
 };

@@ -22,12 +22,20 @@ router.get("/find-by-details", BookTextController.getBookTextByDetails);
 router.get("/:bookTextId", BookTextController.getSingleBookText);
 
 
-// Update a book text by ID
+// Update a text translations
 router.put(
   "/update/:bookTextId",
   auth(UserRole.admin, UserRole.moderator, UserRole["super-admin"]),
   authorizeRoute(),
-  BookTextController.updateBookText
+  BookTextController.updateTranslations
+);
+
+// Update a book text by ID
+router.put(
+  "/update/text/:bookTextId",
+  auth(UserRole.admin, UserRole.moderator, UserRole["super-admin"]),
+  authorizeRoute(),
+  BookTextController.updateTranslations
 );
 
 // Delete a book text by ID

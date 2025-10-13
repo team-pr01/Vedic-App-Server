@@ -230,7 +230,8 @@ export const routeAccessMap: Record<string, string[]> = {
     "/book-text", // GET all
     "/book-text/:bookTextId", // GET one
     "/book-text/find-by-details", // GET one
-    "/book-text/update/:bookTextId", // UPDATE
+    "/book-text/update/:bookTextId", // UPDATE TRANSLATION
+    "/book-text/update/text/:bookTextId", // UPDATE TEXT
     "/book-text/delete/:bookTextId", // DELETE
 
     // Report Mantra

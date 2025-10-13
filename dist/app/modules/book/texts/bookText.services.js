@@ -59,7 +59,7 @@ const getBookTextByDetails = (bookId, searchLevels // dynamic levels, e.g., { Ch
     }
     return bookText;
 });
-const updateBookText = (bookTextId, payload) => __awaiter(void 0, void 0, void 0, function* () {
+const updateTranslations = (bookTextId, payload) => __awaiter(void 0, void 0, void 0, function* () {
     // Fetch existing book text
     const existing = yield bookText_model_1.default.findById(bookTextId);
     if (!existing)
@@ -72,6 +72,18 @@ const updateBookText = (bookTextId, payload) => __awaiter(void 0, void 0, void 0
     const result = yield bookText_model_1.default.findByIdAndUpdate(bookTextId, { translations: payload.translations }, { new: true, runValidators: true });
     if (!result)
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Book text not found after update");
+    return result;
+});
+const updateBookText = (bookTextId, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const existing = yield bookText_model_1.default.findById(bookTextId);
+    if (!existing) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Text not found");
+    }
+    const updatePayload = Object.assign({}, payload);
+    const result = yield bookText_model_1.default.findByIdAndUpdate(bookTextId, updatePayload, {
+        new: true,
+        runValidators: true,
+    });
     return result;
 });
 const deleteBookText = (bookTextId) => __awaiter(void 0, void 0, void 0, function* () {
@@ -87,5 +99,6 @@ exports.BookTextService = {
     getSingleBookText,
     getBookTextByDetails,
     updateBookText,
+    updateTranslations,
     deleteBookText,
 };
