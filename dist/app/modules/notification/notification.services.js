@@ -13,12 +13,88 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.NotificationServices = void 0;
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const http_status_1 = __importDefault(require("http-status"));
 const AppError_1 = __importDefault(require("../../errors/AppError"));
 const notification_model_1 = __importDefault(require("./notification.model"));
-const addNotification = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield notification_model_1.default.create(payload);
-    return result;
+const auth_model_1 = require("../auth/auth.model");
+const expo_server_sdk_1 = __importDefault(require("expo-server-sdk"));
+const expo = new expo_server_sdk_1.default();
+const sendNotification = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
+    const { userIds, title, message } = payload;
+    const users = yield auth_model_1.User.find({ _id: { $in: userIds } }).select("_id expoPushToken");
+    if (!users || users.length === 0) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "No users found for provided ids");
+    }
+    const notificationsToInsert = users.map((u) => ({
+        user: u._id,
+        title,
+        message,
+    }));
+    const createdNotifications = yield notification_model_1.default.insertMany(notificationsToInsert, { ordered: true });
+    const messages = [];
+    const mapping = [];
+    for (let i = 0; i < users.length; i++) {
+        const user = users[i];
+        const notif = createdNotifications[i];
+        if (!user.expoPushToken || !expo_server_sdk_1.default.isExpoPushToken(user.expoPushToken)) {
+            yield notification_model_1.default.updateOne({ _id: notif._id }, {
+                $set: {
+                    deliveryStatus: "failed",
+                    expoTicket: { error: "no_or_invalid_expo_token" },
+                },
+            });
+            continue;
+        }
+        messages.push({
+            to: user.expoPushToken,
+            sound: "default",
+            title,
+            body: message,
+        });
+        mapping.push({ notificationId: notif._id });
+    }
+    const tickets = [];
+    const chunks = expo.chunkPushNotifications(messages);
+    let messageStartIndex = 0;
+    for (const chunk of chunks) {
+        try {
+            const ticketChunk = yield expo.sendPushNotificationsAsync(chunk);
+            tickets.push(...ticketChunk);
+            for (let i = 0; i < ticketChunk.length; i++) {
+                const ticket = ticketChunk[i];
+                const mapIndex = messageStartIndex + i;
+                const notificationId = (_a = mapping[mapIndex]) === null || _a === void 0 ? void 0 : _a.notificationId;
+                if (!notificationId)
+                    continue;
+                const status = ticket.id ? "sent" : "failed";
+                yield notification_model_1.default.updateOne({ _id: notificationId }, { $set: { deliveryStatus: status, expoTicket: ticket } });
+            }
+            messageStartIndex += ticketChunk.length;
+        }
+        catch (error) {
+            console.error("Error sending Expo chunk:", error);
+            for (let i = 0; i < chunk.length; i++) {
+                const mapIndex = messageStartIndex + i;
+                const notificationId = (_b = mapping[mapIndex]) === null || _b === void 0 ? void 0 : _b.notificationId;
+                if (!notificationId)
+                    continue;
+                yield notification_model_1.default.updateOne({ _id: notificationId }, {
+                    $set: {
+                        deliveryStatus: "failed",
+                        expoTicket: { error: String(error) },
+                    },
+                });
+            }
+            messageStartIndex += chunk.length;
+        }
+    }
+    return {
+        createdNotificationsCount: createdNotifications.length,
+        pushedCount: mapping.length,
+        tickets,
+    };
 });
 const getAllNotifications = () => __awaiter(void 0, void 0, void 0, function* () {
     return yield notification_model_1.default.find();
@@ -30,17 +106,6 @@ const getSingleNotificationById = (notificationId) => __awaiter(void 0, void 0, 
     }
     return result;
 });
-const updateNotification = (notificationId, payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const existing = yield notification_model_1.default.findById(notificationId);
-    if (!existing) {
-        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Notification not found");
-    }
-    const result = yield notification_model_1.default.findByIdAndUpdate(notificationId, payload, {
-        new: true,
-        runValidators: true,
-    });
-    return result;
-});
 const deleteNotification = (notificationId) => __awaiter(void 0, void 0, void 0, function* () {
     const existing = yield notification_model_1.default.findById(notificationId);
     if (!existing) {
@@ -49,9 +114,8 @@ const deleteNotification = (notificationId) => __awaiter(void 0, void 0, void 0,
     return yield notification_model_1.default.findByIdAndDelete(notificationId);
 });
 exports.NotificationServices = {
-    addNotification,
+    sendNotification,
     getAllNotifications,
     getSingleNotificationById,
-    updateNotification,
     deleteNotification,
 };

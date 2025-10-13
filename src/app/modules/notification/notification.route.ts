@@ -6,12 +6,10 @@ import authorizeRoute from "../../middlewares/authorizeRoute";
 
 const router = express.Router();
 
-router.post("/send-notification", auth(UserRole.admin, UserRole.moderator, UserRole["super-admin"]), authorizeRoute(), NotificationControllers.addNotification);
+router.post("/send-notification", auth(UserRole.admin, UserRole.moderator, UserRole["super-admin"]), authorizeRoute(), NotificationControllers.sendNotification);
 
 router.get("/", NotificationControllers.getAllNotifications);
 router.get("/:notificationId", NotificationControllers.getSingleNotificationById);
-
-router.put("/:notificationId", auth(UserRole.admin, UserRole.moderator, UserRole["super-admin"]), authorizeRoute(), NotificationControllers.updateNotification);
 
 router.delete("/:notificationId", auth(UserRole.admin, UserRole.moderator, UserRole["super-admin"]), authorizeRoute(), NotificationControllers.deleteNotification);
 

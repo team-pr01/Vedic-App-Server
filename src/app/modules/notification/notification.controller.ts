@@ -4,16 +4,25 @@ import sendResponse from "../../utils/sendResponse";
 import { NotificationServices } from "./notification.services";
 import { io } from "../../../server";
 
-const addNotification = catchAsync(async (req, res) => {
-  const result = await NotificationServices.addNotification(req.body);
+const sendNotification = catchAsync(async (req, res) => {
+  const { userIds, title, message } = req.body;
 
-  // Emit to all connected clients
-  io.emit('new-notification', result);
+  const result = await NotificationServices.sendNotification({
+    userIds,
+    title,
+    message,
+  });
+
+  io.emit("new-push-notification", {
+    title: "Emergency Message",
+    message: message,
+    createdAt: Date.now(),
+  });
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Notification added successfully',
+    message: "Push notifications processed",
     data: result,
   });
 });
@@ -44,19 +53,6 @@ const getSingleNotificationById = catchAsync(async (req, res) => {
   });
 });
 
-// Update
-const updateNotification = catchAsync(async (req, res) => {
-  const { notificationId } = req.params;
-  const result = await NotificationServices.updateNotification(notificationId, req.body);
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: "Notification updated successfully.",
-    data: result,
-  });
-});
-
 // Delete
 const deleteNotification = catchAsync(async (req, res) => {
   const { notificationId } = req.params;
@@ -71,9 +67,8 @@ const deleteNotification = catchAsync(async (req, res) => {
 });
 
 export const NotificationControllers = {
-  addNotification,
+  sendNotification,
   getAllNotifications,
   getSingleNotificationById,
-  updateNotification,
   deleteNotification,
 };

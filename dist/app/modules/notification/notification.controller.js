@@ -18,14 +18,22 @@ const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const notification_services_1 = require("./notification.services");
 const server_1 = require("../../../server");
-const addNotification = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield notification_services_1.NotificationServices.addNotification(req.body);
-    // Emit to all connected clients
-    server_1.io.emit('new-notification', result);
+const sendNotification = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userIds, title, message } = req.body;
+    const result = yield notification_services_1.NotificationServices.sendNotification({
+        userIds,
+        title,
+        message,
+    });
+    server_1.io.emit("new-push-notification", {
+        title: "Emergency Message",
+        message: message,
+        createdAt: Date.now(),
+    });
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'Notification added successfully',
+        message: "Push notifications processed",
         data: result,
     });
 }));
@@ -50,17 +58,6 @@ const getSingleNotificationById = (0, catchAsync_1.default)((req, res) => __awai
         data: result,
     });
 }));
-// Update
-const updateNotification = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { notificationId } = req.params;
-    const result = yield notification_services_1.NotificationServices.updateNotification(notificationId, req.body);
-    (0, sendResponse_1.default)(res, {
-        statusCode: http_status_1.default.OK,
-        success: true,
-        message: "Notification updated successfully.",
-        data: result,
-    });
-}));
 // Delete
 const deleteNotification = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { notificationId } = req.params;
@@ -73,9 +70,8 @@ const deleteNotification = (0, catchAsync_1.default)((req, res) => __awaiter(voi
     });
 }));
 exports.NotificationControllers = {
-    addNotification,
+    sendNotification,
     getAllNotifications,
     getSingleNotificationById,
-    updateNotification,
     deleteNotification,
 };
