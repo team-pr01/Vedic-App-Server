@@ -35,12 +35,13 @@ const translateShloka = async (payload: TranslateShlokaPayload) => {
   const bookText = await BookText.findById(textId);
   if (!bookText) throw new AppError(404, "Book text not found");
 
-  const inputText = bookText.originalText;
+  // Use primary translation as source
+  const inputText = bookText.primaryTranslation || bookText.originalText;
 
   // Build GPT system message
   const systemMessage = `
 You are a Vedic scholar who translates Sanskrit shlokas.
-Translate the following Sanskrit text into exactly ${languageCodes.length} languages listed below.
+Translate the following text (already translated from Sanskrit) into exactly ${languageCodes.length} languages listed below.
 For each language, provide:
 - translation: simple, clear meaning
 - sanskritWordBreakdown: an array of objects with sanskritWord, shortMeaning, descriptiveMeaning
