@@ -59,6 +59,9 @@ const getBookTextByDetails = (bookId, searchLevels // dynamic levels, e.g., { Ch
     }
     return bookText;
 });
+const getAllBookTextsByBookId = (bookId) => __awaiter(void 0, void 0, void 0, function* () {
+    return yield bookText_model_1.default.find({ bookId }).populate("bookId", "name type structure");
+});
 const updateTranslations = (bookTextId, payload) => __awaiter(void 0, void 0, void 0, function* () {
     // Fetch existing book text
     const existing = yield bookText_model_1.default.findById(bookTextId);
@@ -98,6 +101,7 @@ exports.BookTextService = {
     getAllBookTexts,
     getSingleBookText,
     getBookTextByDetails,
+    getAllBookTextsByBookId,
     updateBookText,
     updateTranslations,
     deleteBookText,

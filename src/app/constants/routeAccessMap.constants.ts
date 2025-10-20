@@ -228,6 +228,7 @@ export const routeAccessMap: Record<string, string[]> = {
     // Book text
     "/book-text/add", // POST
     "/book-text", // GET all
+    "/book-text/:bookId", // GET all
     "/book-text/:bookTextId", // GET one
     "/book-text/find-by-details", // GET one
     "/book-text/update/:bookTextId", // UPDATE TRANSLATION

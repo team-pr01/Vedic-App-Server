@@ -18,9 +18,12 @@ router.post(
 router.get("/", BookTextController.getAllBookTexts);
 
 router.get("/find-by-details", BookTextController.getBookTextByDetails);
+
+// Get all book texts by bookId
+router.get("/:bookId", BookTextController.getAllBookTextsByBookId);
+
 // Get a single book text by ID
 router.get("/:bookTextId", BookTextController.getSingleBookText);
-
 
 // Update a text translations
 router.put(

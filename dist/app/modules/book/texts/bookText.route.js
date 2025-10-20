@@ -15,6 +15,8 @@ router.post("/add", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_c
 // Get all book texts
 router.get("/", bookText_controller_1.BookTextController.getAllBookTexts);
 router.get("/find-by-details", bookText_controller_1.BookTextController.getBookTextByDetails);
+// Get all book texts by bookId
+router.get("/:bookId", bookText_controller_1.BookTextController.getAllBookTextsByBookId);
 // Get a single book text by ID
 router.get("/:bookTextId", bookText_controller_1.BookTextController.getSingleBookText);
 // Update a text translations

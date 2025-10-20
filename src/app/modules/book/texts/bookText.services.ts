@@ -67,6 +67,12 @@ const getBookTextByDetails = async (
   return bookText;
 };
 
+const getAllBookTextsByBookId = async (bookId: string) => {
+  return await BookText.find({ bookId }).populate("bookId", "name type structure");
+};
+
+
+
 const updateTranslations = async (bookTextId: string, payload: any) => {
   // Fetch existing book text
   const existing = await BookText.findById(bookTextId);
@@ -131,6 +137,7 @@ export const BookTextService = {
   getAllBookTexts,
   getSingleBookText,
   getBookTextByDetails,
+  getAllBookTextsByBookId,
   updateBookText,
   updateTranslations,
   deleteBookText,
