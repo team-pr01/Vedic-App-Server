@@ -55,7 +55,10 @@ const getBookTextByDetails = catchAsync(async (req: Request, res: Response) => {
     if (typeof value === "string") searchLevels[key] = value;
   });
 
-  const result = await BookTextService.getBookTextByDetails(bookId as string, searchLevels);
+  const result = await BookTextService.getBookTextByDetails(
+    bookId as string,
+    searchLevels
+  );
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -65,20 +68,20 @@ const getBookTextByDetails = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-const getAllBookTextsByBookId = catchAsync(async (req: Request, res: Response) => {
-  const { bookId } = req.params;
+const getAllBookTextsByBookId = catchAsync(
+  async (req: Request, res: Response) => {
+    const { bookId } = req.params;
 
-  const result = await BookTextService.getAllBookTextsByBookId(bookId);
+    const result = await BookTextService.getAllBookTextsByBookId(bookId);
 
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: "Book texts retrieved successfully by bookId",
-    data: result,
-  });
-});
-
-
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Book texts retrieved successfully by bookId",
+      data: result,
+    });
+  }
+);
 
 const updateBookText = catchAsync(async (req: Request, res: Response) => {
   const { bookTextId } = req.params;

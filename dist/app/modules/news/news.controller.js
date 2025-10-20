@@ -77,7 +77,7 @@ const deleteNews = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
 }));
 const toggleLikeNewsController = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { newsId } = req.params;
-    const userId = req.user._id;
+    const userId = req.user.userId;
     const updatedNews = yield news_services_1.NewsServices.toggleLikeNews(newsId, userId);
     (0, sendResponse_1.default)(res, {
         success: true,
@@ -91,7 +91,7 @@ const toggleLikeNewsController = (0, catchAsync_1.default)((req, res) => __await
 }));
 const viewNews = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { newsId } = req.params;
-    const userId = req.user._id;
+    const userId = req.user.userId;
     const news = yield news_services_1.NewsServices.addNewsView(newsId, userId);
     (0, sendResponse_1.default)(res, {
         success: true,

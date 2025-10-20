@@ -68,10 +68,11 @@ const getBookTextByDetails = async (
 };
 
 const getAllBookTextsByBookId = async (bookId: string) => {
-  return await BookText.find({ bookId }).populate("bookId", "name type structure");
+  return await BookText.find({ bookId }).populate(
+    "bookId",
+    "name type structure"
+  );
 };
-
-
 
 const updateTranslations = async (bookTextId: string, payload: any) => {
   // Fetch existing book text
@@ -111,7 +112,7 @@ const updateBookText = async (
   }
 
   const updatePayload: Partial<TBookText> = {
-    ...payload
+    ...payload,
   };
 
   const result = await BookText.findByIdAndUpdate(bookTextId, updatePayload, {

@@ -74,7 +74,7 @@ const deleteNews = catchAsync(async (req, res) => {
 
 const toggleLikeNewsController = catchAsync(async (req, res) => {
   const { newsId } = req.params;
-  const userId = req.user._id;
+  const userId = req.user.userId;
 
   const updatedNews = await NewsServices.toggleLikeNews(newsId, userId);
 
@@ -91,7 +91,7 @@ const toggleLikeNewsController = catchAsync(async (req, res) => {
 
 const viewNews = catchAsync(async (req, res) => {
   const { newsId } = req.params;
-  const userId = req.user._id;
+  const userId = req.user.userId;
 
   const news = await NewsServices.addNewsView(newsId, userId);
 
