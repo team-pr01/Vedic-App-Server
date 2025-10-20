@@ -37,14 +37,42 @@ const addNews = (payload, file) => __awaiter(void 0, void 0, void 0, function* (
 });
 const getAllNews = (keyword, category) => __awaiter(void 0, void 0, void 0, function* () {
     const query = {};
-    if (keyword) {
-        query.$or = [{ title: { $regex: keyword, $options: "i" } }];
+    if (keyword || category) {
+        query.$expr = {
+            $gt: [
+                {
+                    $size: {
+                        $filter: {
+                            input: { $objectToArray: "$translations" },
+                            as: "t",
+                            cond: {
+                                $or: [
+                                    keyword
+                                        ? {
+                                            $regexMatch: {
+                                                input: "$$t.v.title",
+                                                regex: new RegExp(keyword, "i"),
+                                            },
+                                        }
+                                        : false,
+                                    category
+                                        ? {
+                                            $regexMatch: {
+                                                input: "$$t.v.category",
+                                                regex: new RegExp(category, "i"),
+                                            },
+                                        }
+                                        : false,
+                                ],
+                            },
+                        },
+                    },
+                },
+                0,
+            ],
+        };
     }
-    if (category) {
-        query.category = { $regex: category, $options: "i" };
-    }
-    const result = yield news_model_1.default.find(query);
-    return result;
+    return yield news_model_1.default.find(query);
 });
 const getSingleNewsById = (newsId) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield news_model_1.default.findById(newsId);

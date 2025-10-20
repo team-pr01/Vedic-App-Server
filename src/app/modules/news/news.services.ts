@@ -34,19 +34,46 @@ const addNews = async (
   return result;
 };
 
-const getAllNews = async (keyword: any, category: any) => {
+const getAllNews = async (keyword?: string, category?: string) => {
   const query: any = {};
 
-  if (keyword) {
-    query.$or = [{ title: { $regex: keyword, $options: "i" } }];
+  if (keyword || category) {
+    query.$expr = {
+      $gt: [
+        {
+          $size: {
+            $filter: {
+              input: { $objectToArray: "$translations" },
+              as: "t",
+              cond: {
+                $or: [
+                  keyword
+                    ? {
+                        $regexMatch: {
+                          input: "$$t.v.title",
+                          regex: new RegExp(keyword, "i"),
+                        },
+                      }
+                    : false,
+                  category
+                    ? {
+                        $regexMatch: {
+                          input: "$$t.v.category",
+                          regex: new RegExp(category, "i"),
+                        },
+                      }
+                    : false,
+                ],
+              },
+            },
+          },
+        },
+        0,
+      ],
+    };
   }
 
-  if (category) {
-    query.category = { $regex: category, $options: "i" };
-  }
-
-  const result = await News.find(query);
-  return result;
+  return await News.find(query);
 };
 
 const getSingleNewsById = async (newsId: string) => {
