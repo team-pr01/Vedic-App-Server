@@ -7,13 +7,40 @@ import authorizeRoute from "../../middlewares/authorizeRoute";
 const router = express.Router();
 
 // For admin only
-router.post("/add-reel", auth(UserRole.admin, UserRole.moderator, UserRole["super-admin"]), authorizeRoute(), ReelControllers.addReel);
+router.post(
+  "/add-reel",
+  auth(UserRole.admin, UserRole.moderator, UserRole["super-admin"]),
+  authorizeRoute(),
+  ReelControllers.addReel
+);
 
 router.get("/", ReelControllers.getAllReels);
 router.get("/:reelId", ReelControllers.getSingleReelById);
 
-router.put("/:reelId", auth(UserRole.admin, UserRole.moderator, UserRole["super-admin"]), authorizeRoute(), ReelControllers.updateReel);
+router.patch(
+  "/like/:reelId",
+  auth(
+    UserRole.admin,
+    UserRole.moderator,
+    UserRole["super-admin"],
+    UserRole.user,
+    UserRole.temple
+  ),
+  ReelControllers.toggleLikeReels
+);
 
-router.delete("/:reelId", auth(UserRole.admin, UserRole.moderator, UserRole["super-admin"]), authorizeRoute(), ReelControllers.deleteReel);
+router.put(
+  "/:reelId",
+  auth(UserRole.admin, UserRole.moderator, UserRole["super-admin"]),
+  authorizeRoute(),
+  ReelControllers.updateReel
+);
+
+router.delete(
+  "/:reelId",
+  auth(UserRole.admin, UserRole.moderator, UserRole["super-admin"]),
+  authorizeRoute(),
+  ReelControllers.deleteReel
+);
 
 export const ReelsRoutes = router;

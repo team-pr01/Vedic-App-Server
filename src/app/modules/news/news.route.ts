@@ -36,6 +36,7 @@ router.patch(
   auth(UserRole.admin, UserRole.moderator, UserRole["super-admin"], UserRole.user, UserRole.temple),
   NewsControllers.toggleLikeNewsController
 );
+
 router.patch(
   "/view/:newsId",
   auth(UserRole.admin, UserRole.moderator, UserRole["super-admin"], UserRole.user, UserRole.temple),

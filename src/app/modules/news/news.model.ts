@@ -7,7 +7,6 @@ const NewsTranslationSchema = new Schema<TNewsTranslation>(
     content: { type: String, required: true },
     tags: { type: [String], default: [] },
     category: { type: String, required: true },
-    
   },
   { _id: false }
 );

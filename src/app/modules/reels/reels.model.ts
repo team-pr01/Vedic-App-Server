@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, Types, model } from "mongoose";
 import { TReels } from "./reels.interface";
 
 const ReelsSchema = new Schema<TReels>(
@@ -27,6 +27,8 @@ const ReelsSchema = new Schema<TReels>(
       type: [String],
       required: true,
     },
+    likes: { type: Number, default: 0, required: false },
+    likedBy: [{ type: Types.ObjectId, ref: "User" }],
     createdBy: {
       type: Schema.Types.ObjectId,
       ref: "User",

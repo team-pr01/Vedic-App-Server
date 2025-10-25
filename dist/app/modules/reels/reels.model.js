@@ -26,6 +26,8 @@ const ReelsSchema = new mongoose_1.Schema({
         type: [String],
         required: true,
     },
+    likes: { type: Number, default: 0, required: false },
+    likedBy: [{ type: mongoose_1.Types.ObjectId, ref: "User" }],
     createdBy: {
         type: mongoose_1.Schema.Types.ObjectId,
         ref: "User",

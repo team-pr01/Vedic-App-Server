@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ReelServices = void 0;
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const http_status_1 = __importDefault(require("http-status"));
 const AppError_1 = __importDefault(require("../../errors/AppError"));
 const reels_model_1 = __importDefault(require("./reels.model"));
@@ -26,7 +27,7 @@ const addReel = (payload, createdBy) => __awaiter(void 0, void 0, void 0, functi
         videoSource,
         category,
         tags,
-        createdBy
+        createdBy,
     };
     const result = yield reels_model_1.default.create(payloadData);
     return result;
@@ -56,6 +57,24 @@ const updateReel = (reelId, payload) => __awaiter(void 0, void 0, void 0, functi
     });
     return result;
 });
+const toggleLikeReels = (reelId, userId) => __awaiter(void 0, void 0, void 0, function* () {
+    const reel = yield reels_model_1.default.findById(reelId);
+    if (!reel)
+        throw new Error("Reel not found");
+    const likedIndex = reel.likedBy.findIndex((id) => id.toString() === userId);
+    if (likedIndex >= 0) {
+        // User already liked -> unlike
+        reel.likedBy.splice(likedIndex, 1);
+        reel.likes = Math.max(0, reel.likes - 1);
+    }
+    else {
+        // User not liked -> like
+        reel.likedBy.push(userId);
+        reel.likes += 1;
+    }
+    yield reel.save();
+    return reel;
+});
 // Delete reel by id
 const deleteReel = (reelId) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield reels_model_1.default.findByIdAndDelete(reelId);
@@ -69,5 +88,6 @@ exports.ReelServices = {
     getAllReels,
     getSingleReelById,
     updateReel,
+    toggleLikeReels,
     deleteReel,
 };

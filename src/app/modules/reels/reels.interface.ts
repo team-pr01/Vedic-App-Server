@@ -1,4 +1,4 @@
-import { Types } from "mongoose";
+import { ObjectId, Types } from "mongoose";
 
 export type TReels = {
   title: string;
@@ -8,6 +8,8 @@ export type TReels = {
   category: string;
   tags: string[];
   createdBy: Types.ObjectId;
+  likes?: number;
+  likedBy?: ObjectId[];
   createdAt?: Date;
   updatedAt?: Date;
 };

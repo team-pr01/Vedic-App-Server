@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
 import { TReels } from "./reels.interface";
 import Reels from "./reels.model";
 
 // Add reel for admin only
-const addReel = async (payload: TReels, createdBy:string) => {
+const addReel = async (payload: TReels, createdBy: string) => {
   const { title, description, videoUrl, videoSource, category, tags } = payload;
 
   const payloadData = {
@@ -14,14 +15,13 @@ const addReel = async (payload: TReels, createdBy:string) => {
     videoSource,
     category,
     tags,
-    createdBy
+    createdBy,
   };
 
-  const result = await Reels.create(payloadData);  
+  const result = await Reels.create(payloadData);
 
   return result;
 };
-
 
 // Get all reels
 const getAllReels = async () => {
@@ -39,10 +39,7 @@ const getSingleReelById = async (reelId: string) => {
 };
 
 // Update reel
-const updateReel = async (
-  reelId: string,
-  payload: Partial<TReels>
-) => {
+const updateReel = async (reelId: string, payload: Partial<TReels>) => {
   const existingPost = await Reels.findById(reelId);
 
   if (!existingPost) {
@@ -57,10 +54,30 @@ const updateReel = async (
   return result;
 };
 
+const toggleLikeReels = async (reelId: string, userId: string) => {
+  const reel = await Reels.findById(reelId);
+  if (!reel) throw new Error("Reel not found");
+
+  const likedIndex = reel.likedBy!.findIndex((id) => id.toString() === userId);
+
+  if (likedIndex >= 0) {
+    // User already liked -> unlike
+    reel.likedBy!.splice(likedIndex, 1);
+    reel.likes = Math.max(0, reel.likes! - 1);
+  } else {
+    // User not liked -> like
+    reel.likedBy!.push(userId as any);
+    reel.likes! += 1;
+  }
+
+  await reel.save();
+  return reel;
+};
+
 // Delete reel by id
 const deleteReel = async (reelId: string) => {
   const result = await Reels.findByIdAndDelete(reelId);
-  if(!result){
+  if (!result) {
     throw new AppError(httpStatus.NOT_FOUND, "Reel not found");
   }
   return result;
@@ -71,5 +88,6 @@ export const ReelServices = {
   getAllReels,
   getSingleReelById,
   updateReel,
+  toggleLikeReels,
   deleteReel,
 };

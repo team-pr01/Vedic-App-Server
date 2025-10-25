@@ -55,6 +55,23 @@ const updateReel = catchAsync(async (req, res) => {
   });
 });
 
+const toggleLikeReels = catchAsync(async (req, res) => {
+  const { reelId } = req.params;
+  const userId = req.user.userId;
+
+  const updatedReels = await ReelServices.toggleLikeReels(reelId, userId);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Reels like toggled successfully",
+    data: {
+      likes: updatedReels.likes,
+      likedByUser: updatedReels.likedBy!.includes(userId),
+    },
+  });
+});
+
 // Delete emergency post by id
 const deleteReel = catchAsync(async (req, res) => {
   const { reelId } = req.params;
@@ -73,5 +90,6 @@ export const ReelControllers = {
   getAllReels,
   getSingleReelById,
   updateReel,
+  toggleLikeReels,
   deleteReel,
 };

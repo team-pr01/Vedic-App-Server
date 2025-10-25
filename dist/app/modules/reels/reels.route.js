@@ -14,6 +14,7 @@ const router = express_1.default.Router();
 router.post("/add-reel", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), (0, authorizeRoute_1.default)(), reels_controller_1.ReelControllers.addReel);
 router.get("/", reels_controller_1.ReelControllers.getAllReels);
 router.get("/:reelId", reels_controller_1.ReelControllers.getSingleReelById);
+router.patch("/like/:reelId", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"], auth_constannts_1.UserRole.user, auth_constannts_1.UserRole.temple), reels_controller_1.ReelControllers.toggleLikeReels);
 router.put("/:reelId", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), (0, authorizeRoute_1.default)(), reels_controller_1.ReelControllers.updateReel);
 router.delete("/:reelId", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), (0, authorizeRoute_1.default)(), reels_controller_1.ReelControllers.deleteReel);
 exports.ReelsRoutes = router;
