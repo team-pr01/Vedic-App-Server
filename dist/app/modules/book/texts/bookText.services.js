@@ -13,10 +13,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BookTextService = void 0;
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const bookText_model_1 = __importDefault(require("./bookText.model"));
 const http_status_1 = __importDefault(require("http-status"));
 const AppError_1 = __importDefault(require("../../../errors/AppError"));
+const mongoose_1 = require("mongoose");
 const createBookText = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield bookText_model_1.default.create(payload);
     return result;
@@ -62,6 +64,57 @@ const getBookTextByDetails = (bookId, searchLevels // dynamic levels, e.g., { Ch
 const getAllBookTextsByBookId = (bookId) => __awaiter(void 0, void 0, void 0, function* () {
     return yield bookText_model_1.default.find({ bookId }).populate("bookId", "name type structure");
 });
+const filterBookTexts = (bookId, filters) => __awaiter(void 0, void 0, void 0, function* () {
+    const query = { bookId: new mongoose_1.Types.ObjectId(bookId) };
+    if (filters && Object.keys(filters).length > 0) {
+        // Build filter conditions for each level
+        query.$and = Object.entries(filters).map(([levelName, value]) => ({
+            location: {
+                $elemMatch: {
+                    levelName: new RegExp(`^${levelName}$`, "i"),
+                    value: new RegExp(`^${value}$`, "i"),
+                },
+            },
+        }));
+    }
+    // Get all book texts first to understand the structure
+    const allResults = yield bookText_model_1.default.find(query);
+    // If no results, return empty array
+    if (allResults.length === 0) {
+        return [];
+    }
+    // Analyze the location structure from the first document
+    const sampleLocation = allResults[0].location;
+    const levelOrder = sampleLocation.map((item) => item.levelName);
+    // Sort results based on the actual location structure
+    const sortedResults = allResults.sort((a, b) => {
+        for (let i = 0; i < Math.max(a.location.length, b.location.length); i++) {
+            const levelA = a.location[i];
+            const levelB = b.location[i];
+            if (!levelA && !levelB)
+                return 0;
+            if (!levelA)
+                return -1;
+            if (!levelB)
+                return 1;
+            // Try numeric comparison first, then string comparison
+            const numA = parseInt(levelA.value);
+            const numB = parseInt(levelB.value);
+            if (!isNaN(numA) && !isNaN(numB)) {
+                if (numA !== numB)
+                    return numA - numB;
+            }
+            else {
+                // String comparison
+                const stringCompare = levelA.value.localeCompare(levelB.value, undefined, { numeric: true });
+                if (stringCompare !== 0)
+                    return stringCompare;
+            }
+        }
+        return 0;
+    });
+    return sortedResults;
+});
 const updateTranslations = (bookTextId, payload) => __awaiter(void 0, void 0, void 0, function* () {
     // Fetch existing book text
     const existing = yield bookText_model_1.default.findById(bookTextId);
@@ -102,6 +155,7 @@ exports.BookTextService = {
     getSingleBookText,
     getBookTextByDetails,
     getAllBookTextsByBookId,
+    filterBookTexts,
     updateBookText,
     updateTranslations,
     deleteBookText,

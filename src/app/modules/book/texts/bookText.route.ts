@@ -19,6 +19,8 @@ router.get("/", BookTextController.getAllBookTexts);
 
 router.get("/find-by-details", BookTextController.getBookTextByDetails);
 
+router.get("/filter", BookTextController.filterBookTexts);
+
 // Get all book texts by bookId
 router.get("/:bookId", BookTextController.getAllBookTextsByBookId);
 

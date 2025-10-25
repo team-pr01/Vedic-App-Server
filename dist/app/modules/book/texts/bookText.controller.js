@@ -88,6 +88,15 @@ const getAllBookTextsByBookId = (0, catchAsync_1.default)((req, res) => __awaite
         data: result,
     });
 }));
+const filterBookTexts = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const _a = req.query, { bookId } = _a, filters = __rest(_a, ["bookId"]);
+    const result = yield bookText_services_1.BookTextService.filterBookTexts(bookId, filters);
+    res.status(200).json({
+        success: true,
+        message: "Filtered BookTexts fetched successfully",
+        data: result,
+    });
+}));
 const updateBookText = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { bookTextId } = req.params;
     const result = yield bookText_services_1.BookTextService.updateBookText(bookTextId, req.body);
@@ -127,4 +136,5 @@ exports.BookTextController = {
     updateBookText,
     updateTranslations,
     deleteBookText,
+    filterBookTexts,
 };
