@@ -216,6 +216,14 @@ export const routeAccessMap: Record<string, string[]> = {
     "/dailyHoroscope/delete/:horoscopeId", // DELETE
   ],
 
+  //   Subscription
+  "/dashboard/subscriptions": [
+    "/subscription/subscribe", // POST
+    "/subscription", // GET all
+    "/subscription/:subscriptionId", // GET one
+    "/subscription/delete/:subscriptionId", // DELETE
+  ],
+
   //   Books
   "/dashboard/books": [
     // Book

@@ -34,6 +34,7 @@ import { DailyHoroscopeRoutes } from "../modules/dailyHoroscope/dailyHoroscope.r
 import { BooksRoutes } from "../modules/book/books/books.route";
 import { BookTextRoutes } from "../modules/book/texts/bookText.route";
 import { ReportMantraRoutes } from "../modules/book/reportMantra/reportMantra.route";
+import { SubscriptionRoutes } from "../modules/subscription/subscription.route";
 
 const router = Router();
 
@@ -177,6 +178,10 @@ const moduleRoutes = [
   {
     path: "/reportMantra",
     route: ReportMantraRoutes
+  },
+  {
+    path: "/subscription",
+    route: SubscriptionRoutes
   },
 ];
 
