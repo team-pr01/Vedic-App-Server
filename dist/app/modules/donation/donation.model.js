@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const DonationSchema = new mongoose_1.Schema({
-    imageUrl: { type: String, required: false },
     donationProgramId: {
         type: mongoose_1.Schema.Types.ObjectId,
         ref: "DonationProgram",
@@ -30,10 +29,6 @@ const DonationSchema = new mongoose_1.Schema({
         required: false,
     },
     amount: {
-        type: String,
-        required: true,
-    },
-    currency: {
         type: String,
         required: true,
     },

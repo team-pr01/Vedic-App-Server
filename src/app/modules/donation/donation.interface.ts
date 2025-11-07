@@ -1,7 +1,6 @@
 import { ObjectId } from "mongoose";
 
 export type TDonation = {
-  imageUrl?: string;
   donationProgramId: ObjectId;
   donationProgramTitle: string;
   userId: ObjectId;
@@ -9,7 +8,6 @@ export type TDonation = {
   userPhoneNumber: string;
   userEmail?: string;
   amount: string;
-  currency: string;
   paymentMethod: string;
   senderAccountNumber: string;
   createdAt?: Date;

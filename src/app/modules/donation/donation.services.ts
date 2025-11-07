@@ -1,34 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
-import { sendImageToCloudinary } from "../../utils/sendImageToCloudinary";
 import Donation from "./donation.model";
 import { TDonation } from "./donation.interface";
 import { User } from "../auth/auth.model";
 import DonationPrograms from "../donationPrograms/donationPrograms.model";
 
-const donate = async (
-  payload: TDonation,
-  file: Express.Multer.File | undefined,
-  user: any
-) => {
-  let imageUrl = "";
-
+const donate = async (payload: TDonation, user: any) => {
   const userData = await User.findById(user.userId);
   if (!userData) {
     throw new AppError(httpStatus.NOT_FOUND, "User not found");
   }
 
-  if (file) {
-    const imageName = `${payload.userName || "donor"}-${Date.now()}`;
-    const path = file.path;
-    const { secure_url } = await sendImageToCloudinary(imageName, path);
-    imageUrl = secure_url;
-  }
-
   const donationData = {
     ...payload,
-    imageUrl,
     userName: userData.name,
     userPhoneNumber: userData.phoneNumber,
     userEmail: userData.email,
@@ -64,7 +49,7 @@ const getAllDonations = async (keyword?: string) => {
       { userPhoneNumber: { $regex: keyword, $options: "i" } },
       { userEmail: { $regex: keyword, $options: "i" } },
       { donationProgramId: { $regex: keyword, $options: "i" } },
-      { donationProgramTitle: { $regex: keyword, $options: "i" } }
+      { donationProgramTitle: { $regex: keyword, $options: "i" } },
     ];
   }
 

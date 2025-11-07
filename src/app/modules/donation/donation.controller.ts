@@ -5,8 +5,7 @@ import { DonationService } from "./donation.services";
 
 // Create a donation
 const donate = catchAsync(async (req, res) => {
-  const file = req.file;
-  const result = await DonationService.donate(req.body, file, req.user);
+  const result = await DonationService.donate(req.body, req.user);
 
   sendResponse(res, {
     statusCode: httpStatus.CREATED,

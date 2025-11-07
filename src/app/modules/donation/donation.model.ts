@@ -3,7 +3,6 @@ import { TDonation } from "./donation.interface";
 
 const DonationSchema = new Schema<TDonation>(
   {
-    imageUrl: { type: String, required: false },
     donationProgramId: {
       type: Schema.Types.ObjectId,
       ref: "DonationProgram",
@@ -31,10 +30,6 @@ const DonationSchema = new Schema<TDonation>(
       required: false,
     },
     amount: {
-      type: String,
-      required: true,
-    },
-    currency: {
       type: String,
       required: true,
     },

@@ -19,8 +19,7 @@ const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const donation_services_1 = require("./donation.services");
 // Create a donation
 const donate = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const file = req.file;
-    const result = yield donation_services_1.DonationService.donate(req.body, file, req.user);
+    const result = yield donation_services_1.DonationService.donate(req.body, req.user);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.CREATED,
         success: true,
