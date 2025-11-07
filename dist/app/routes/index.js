@@ -36,6 +36,7 @@ const dailyHoroscope_route_1 = require("../modules/dailyHoroscope/dailyHoroscope
 const books_route_1 = require("../modules/book/books/books.route");
 const bookText_route_1 = require("../modules/book/texts/bookText.route");
 const reportMantra_route_1 = require("../modules/book/reportMantra/reportMantra.route");
+const subscription_route_1 = require("../modules/subscription/subscription.route");
 const router = (0, express_1.Router)();
 const moduleRoutes = [
     {
@@ -177,6 +178,10 @@ const moduleRoutes = [
     {
         path: "/reportMantra",
         route: reportMantra_route_1.ReportMantraRoutes
+    },
+    {
+        path: "/subscription",
+        route: subscription_route_1.SubscriptionRoutes
     },
 ];
 moduleRoutes.forEach((route) => router.use(route.path, route.route));

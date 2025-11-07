@@ -49,9 +49,7 @@ const getAllSubscriptions = async (keyword?: string) => {
   const query: any = {};
 
   if (keyword) {
-    query.$or = [
-      { subscriptionPlanName: { $regex: keyword, $options: "i" } }
-    ];
+    query.$or = [{ subscriptionPlanName: { $regex: keyword, $options: "i" } }];
   }
 
   const result = await Subscription.find(query)
@@ -83,9 +81,31 @@ const deleteSubscription = async (id: string) => {
   return result;
 };
 
+const makeUserAsSubscribed = async (payload: any) => {
+  const user = await User.findById(payload.userId);
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, "User not found");
+  }
+
+  const updatedUser = await User.findByIdAndUpdate(
+    payload.userId,
+    {
+      isPaid: true,
+      subscribedPlanName: payload.subscriptionPlanName,
+    },
+    {
+      new: true,
+      runValidators: false,
+    }
+  );
+
+  return updatedUser;
+};
+
 export const SubscriptionService = {
   subscribe,
   getAllSubscriptions,
   getSingleSubscription,
   deleteSubscription,
+  makeUserAsSubscribed,
 };

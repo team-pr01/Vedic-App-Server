@@ -95,6 +95,14 @@ const userSchema = new Schema<TUser, UserModel>(
       default: null,
       required: false,
     },
+    isPaid: {
+      type: Boolean,
+      default: false,
+    },
+    subscribedPlanName: {
+      type: String,
+      default: null,
+    },
   },
   {
     timestamps: true,

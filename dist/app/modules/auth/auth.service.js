@@ -122,6 +122,8 @@ const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
         role: user.role,
         assignedPages: user.assignedPages || [],
         avatar: user.avatar || [],
+        isPaid: user.isPaid || false,
+        subscribedPlanName: user.subscribedPlanName || null
     };
     const accessToken = (0, auth_utils_1.createToekn)(jwtPayload, config_1.default.jwt_access_secret, config_1.default.jwt_access_expires_in);
     const refreshToken = (0, auth_utils_1.createToekn)(jwtPayload, config_1.default.jwt_refresh_secret, config_1.default.jwt_refresh_expires_in);
@@ -138,6 +140,8 @@ const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
             avatar: user.avatar || "",
             totalQuizTaken: user.totalQuizTaken || 0,
             lastLoggedIn: user.lastLoggedIn,
+            isPaid: user.isPaid || false,
+            subscribedPlanName: user.subscribedPlanName || null
         },
     };
 });

@@ -19,6 +19,17 @@ router.post(
   SubscriptionController.subscribe
 );
 
+router.put(
+  "/mark-user-as-subscribed",
+  auth(
+    UserRole.admin,
+    UserRole.moderator,
+    UserRole["super-admin"]
+  ),
+  authorizeRoute(),
+  SubscriptionController.makeUserAsSubscribed
+);
+
 router.get(
   "/",
   auth(UserRole.admin, UserRole.moderator, UserRole["super-admin"]),

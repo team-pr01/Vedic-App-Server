@@ -28,7 +28,9 @@ export type TUser= {
   updatedAt: Date;
   isDeleted : boolean;
   isSuspended : boolean;
-  lastLoggedIn? : Date
+  lastLoggedIn? : Date;
+  isPaid? : boolean;
+  subscribedPlanName? : string
 }
 
 export interface UserModel extends Model<TUser> {

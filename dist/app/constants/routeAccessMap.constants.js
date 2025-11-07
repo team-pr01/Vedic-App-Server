@@ -196,6 +196,14 @@ exports.routeAccessMap = {
         "/dailyHoroscope/update/:horoscopeId", // UPDATE
         "/dailyHoroscope/delete/:horoscopeId", // DELETE
     ],
+    //   Subscription
+    "/dashboard/subscriptions": [
+        "/subscription/subscribe", // POST
+        "/subscription", // GET all
+        "/subscription/:subscriptionId", // GET one
+        "/subscription/mark-user-as-subscribed", // PUT
+        "/subscription/delete/:subscriptionId", // DELETE
+    ],
     //   Books
     "/dashboard/books": [
         // Book

@@ -107,6 +107,14 @@ const userSchema = new mongoose_1.Schema({
         default: null,
         required: false,
     },
+    isPaid: {
+        type: Boolean,
+        default: false,
+    },
+    subscribedPlanName: {
+        type: String,
+        default: null,
+    },
 }, {
     timestamps: true,
 });
