@@ -87,9 +87,10 @@ const makeUserAsSubscribed = async (payload: any) => {
     throw new AppError(httpStatus.NOT_FOUND, "User not found");
   }
 
-  const updatedUser = await User.findByIdAndUpdate(
+  await User.findByIdAndUpdate(
     payload.userId,
     {
+      status: "active",
       isPaid: true,
       subscribedPlanName: payload.subscriptionPlanName,
     },
@@ -99,7 +100,50 @@ const makeUserAsSubscribed = async (payload: any) => {
     }
   );
 
-  return updatedUser;
+  const updatedSubscription = await Subscription.findByIdAndUpdate(
+    payload.subscriptionId,
+    {
+      status: "active",
+    },
+    {
+      new: true,
+      runValidators: false,
+    }
+  );
+
+  return updatedSubscription;
+};
+
+const makeUserAsUnSubscribed = async (payload: any) => {
+  const user = await User.findById(payload.userId);
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, "User not found");
+  }
+
+  await User.findByIdAndUpdate(
+    payload.userId,
+    {
+      isPaid: false,
+      subscribedPlanName: null,
+    },
+    {
+      new: true,
+      runValidators: false,
+    }
+  );
+
+  const updatedSubscription = await Subscription.findByIdAndUpdate(
+    payload.subscriptionId,
+    {
+      status: "expired",
+    },
+    {
+      new: true,
+      runValidators: false,
+    }
+  );
+
+  return updatedSubscription;
 };
 
 export const SubscriptionService = {
@@ -108,4 +152,5 @@ export const SubscriptionService = {
   getSingleSubscription,
   deleteSubscription,
   makeUserAsSubscribed,
+  makeUserAsUnSubscribed,
 };

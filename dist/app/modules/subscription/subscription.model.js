@@ -27,6 +27,7 @@ const SubscriptionSchema = new mongoose_1.Schema({
         type: Date,
         required: false,
     },
+    status: { type: String, enum: ["active", "expired", "pending"], default: "pending" },
 }, {
     timestamps: true,
 });

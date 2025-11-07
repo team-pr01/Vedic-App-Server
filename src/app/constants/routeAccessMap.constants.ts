@@ -222,6 +222,7 @@ export const routeAccessMap: Record<string, string[]> = {
     "/subscription", // GET all
     "/subscription/:subscriptionId", // GET one
     "/subscription/mark-user-as-subscribed", // PUT
+    "/subscription/mark-user-as-unsubscribed", // PUT
     "/subscription/delete/:subscriptionId", // DELETE
   ],
 

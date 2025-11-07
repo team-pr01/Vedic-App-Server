@@ -30,6 +30,17 @@ router.put(
   SubscriptionController.makeUserAsSubscribed
 );
 
+router.put(
+  "/mark-user-as-unsubscribed",
+  auth(
+    UserRole.admin,
+    UserRole.moderator,
+    UserRole["super-admin"]
+  ),
+  authorizeRoute(),
+  SubscriptionController.makeUserAsUnSubscribed
+);
+
 router.get(
   "/",
   auth(UserRole.admin, UserRole.moderator, UserRole["super-admin"]),

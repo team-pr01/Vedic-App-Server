@@ -70,10 +70,21 @@ const makeUserAsSubscribed = (0, catchAsync_1.default)((req, res) => __awaiter(v
         data: result,
     });
 }));
+// Mark user as subscribed
+const makeUserAsUnSubscribed = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield subscription_services_1.SubscriptionService.makeUserAsUnSubscribed(req.body);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "Subscription deleted successfully",
+        data: result,
+    });
+}));
 exports.SubscriptionController = {
     subscribe,
     getAllSubscriptions,
     getSingleSubscription,
     deleteSubscription,
     makeUserAsSubscribed,
+    makeUserAsUnSubscribed
 };

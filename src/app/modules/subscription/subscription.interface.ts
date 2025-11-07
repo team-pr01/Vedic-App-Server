@@ -6,7 +6,8 @@ export type TSubscription = {
   amount: string;
   paymentMethod: string;
   senderAccountNumber: string;
-  endDate?: Date
+  endDate?: Date;
+  status ?: "active" | "expired" | "pending";
   createdAt?: Date;
   updatedAt?: Date;
 };

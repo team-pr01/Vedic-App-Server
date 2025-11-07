@@ -78,14 +78,41 @@ const makeUserAsSubscribed = (payload) => __awaiter(void 0, void 0, void 0, func
     if (!user) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, "User not found");
     }
-    const updatedUser = yield auth_model_1.User.findByIdAndUpdate(payload.userId, {
+    yield auth_model_1.User.findByIdAndUpdate(payload.userId, {
+        status: "active",
         isPaid: true,
         subscribedPlanName: payload.subscriptionPlanName,
     }, {
         new: true,
         runValidators: false,
     });
-    return updatedUser;
+    const updatedSubscription = yield subscription_model_1.default.findByIdAndUpdate(payload.subscriptionId, {
+        status: "active",
+    }, {
+        new: true,
+        runValidators: false,
+    });
+    return updatedSubscription;
+});
+const makeUserAsUnSubscribed = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield auth_model_1.User.findById(payload.userId);
+    if (!user) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "User not found");
+    }
+    yield auth_model_1.User.findByIdAndUpdate(payload.userId, {
+        isPaid: false,
+        subscribedPlanName: null,
+    }, {
+        new: true,
+        runValidators: false,
+    });
+    const updatedSubscription = yield subscription_model_1.default.findByIdAndUpdate(payload.subscriptionId, {
+        status: "expired",
+    }, {
+        new: true,
+        runValidators: false,
+    });
+    return updatedSubscription;
 });
 exports.SubscriptionService = {
     subscribe,
@@ -93,4 +120,5 @@ exports.SubscriptionService = {
     getSingleSubscription,
     deleteSubscription,
     makeUserAsSubscribed,
+    makeUserAsUnSubscribed,
 };
