@@ -10,7 +10,7 @@ const auth_1 = __importDefault(require("../../middlewares/auth"));
 const authorizeRoute_1 = __importDefault(require("../../middlewares/authorizeRoute"));
 const auth_constannts_1 = require("../auth/auth.constannts");
 const router = express_1.default.Router();
-router.post("/subscribe", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"], auth_constannts_1.UserRole.user, auth_constannts_1.UserRole.temple), (0, authorizeRoute_1.default)(), subscription_controller_1.SubscriptionController.subscribe);
+router.post("/subscribe", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"], auth_constannts_1.UserRole.user, auth_constannts_1.UserRole.temple), subscription_controller_1.SubscriptionController.subscribe);
 router.put("/mark-user-as-subscribed", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), (0, authorizeRoute_1.default)(), subscription_controller_1.SubscriptionController.makeUserAsSubscribed);
 router.put("/mark-user-as-unsubscribed", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), (0, authorizeRoute_1.default)(), subscription_controller_1.SubscriptionController.makeUserAsUnSubscribed);
 router.get("/", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), (0, authorizeRoute_1.default)(), subscription_controller_1.SubscriptionController.getAllSubscriptions);
