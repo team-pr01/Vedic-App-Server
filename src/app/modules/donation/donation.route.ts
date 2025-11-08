@@ -15,7 +15,6 @@ router.post(
     UserRole.user,
     UserRole.temple
   ),
-  authorizeRoute(),
   DonationController.donate
 );
 router.get(

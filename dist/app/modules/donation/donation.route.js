@@ -10,7 +10,7 @@ const auth_1 = __importDefault(require("../../middlewares/auth"));
 const authorizeRoute_1 = __importDefault(require("../../middlewares/authorizeRoute"));
 const auth_constannts_1 = require("../auth/auth.constannts");
 const router = express_1.default.Router();
-router.post("/donate", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"], auth_constannts_1.UserRole.user, auth_constannts_1.UserRole.temple), (0, authorizeRoute_1.default)(), donation_controller_1.DonationController.donate);
+router.post("/donate", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"], auth_constannts_1.UserRole.user, auth_constannts_1.UserRole.temple), donation_controller_1.DonationController.donate);
 router.get("/", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), (0, authorizeRoute_1.default)(), donation_controller_1.DonationController.getAllDonations);
 router.get("/:donationId", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), (0, authorizeRoute_1.default)(), donation_controller_1.DonationController.getSingleDonation);
 router.delete("/:donationId", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), (0, authorizeRoute_1.default)(), donation_controller_1.DonationController.deleteDonation);
