@@ -166,6 +166,12 @@ exports.routeAccessMap = {
         "/product/:productId", // GET one
         "/product/update/:productId", // PUT
         "/product/delete/:productId", // DELETE
+        // Product banner
+        "/product-banner/add", // POST
+        "/product-banner", // GET all
+        "/product-banner/:bannerId", // GET one
+        "/product-banner/update/:bannerId", // PUT
+        "/product-banner/delete/:bannerId", // DELETE
     ],
     //   Consultation
     "/dashboard/consultation": [

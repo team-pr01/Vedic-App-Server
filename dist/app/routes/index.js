@@ -37,6 +37,7 @@ const books_route_1 = require("../modules/book/books/books.route");
 const bookText_route_1 = require("../modules/book/texts/bookText.route");
 const reportMantra_route_1 = require("../modules/book/reportMantra/reportMantra.route");
 const subscription_route_1 = require("../modules/subscription/subscription.route");
+const productBanner_route_1 = require("../modules/productBanner/productBanner.route");
 const router = (0, express_1.Router)();
 const moduleRoutes = [
     {
@@ -150,6 +151,10 @@ const moduleRoutes = [
     {
         path: "/product",
         route: product_route_1.ProductRoutes,
+    },
+    {
+        path: "/product-banner",
+        route: productBanner_route_1.ProductBannerRoutes,
     },
     {
         path: "/consultation",

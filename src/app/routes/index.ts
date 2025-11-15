@@ -35,6 +35,7 @@ import { BooksRoutes } from "../modules/book/books/books.route";
 import { BookTextRoutes } from "../modules/book/texts/bookText.route";
 import { ReportMantraRoutes } from "../modules/book/reportMantra/reportMantra.route";
 import { SubscriptionRoutes } from "../modules/subscription/subscription.route";
+import { ProductBannerRoutes } from "../modules/productBanner/productBanner.route";
 
 const router = Router();
 
@@ -150,6 +151,10 @@ const moduleRoutes = [
   {
     path: "/product",
     route: ProductRoutes,
+  },
+  {
+    path: "/product-banner",
+    route: ProductBannerRoutes,
   },
   {
     path: "/consultation",
