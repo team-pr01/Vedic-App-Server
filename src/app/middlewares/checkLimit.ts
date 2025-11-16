@@ -59,7 +59,6 @@ export const checkAiChatLimit = async (
   next();
 };
 
-
 export const checkAiRecipesLimit = async (
   req: Request,
   res: Response,
@@ -94,7 +93,6 @@ export const checkAiRecipesLimit = async (
   await User.findOneAndUpdate({ _id: user._id }, { $inc: { "usage.aiRecipesMonthly": 1 } });
   next();
 };
-
 
 export const checkVastuAiLimit = async (
   req: Request,
