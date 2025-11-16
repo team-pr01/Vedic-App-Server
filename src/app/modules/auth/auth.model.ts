@@ -95,13 +95,20 @@ const userSchema = new Schema<TUser, UserModel>(
       default: null,
       required: false,
     },
-    isPaid: {
-      type: Boolean,
-      default: false,
-    },
-    subscribedPlanName: {
-      type: String,
-      default: null,
+    plan: { type: String, default: "free" },
+    subscriptionStart: Date,
+    subscriptionEnd: Date,
+
+    // Usage tracking for subscription
+    usage: {
+      aiChatDaily: { type: Number, default: 0 },
+      aiRecipesMonthly: { type: Number, default: 0 },
+      vastuAiMonthly: { type: Number, default: 0 },
+      kundliMonthly: { type: Number, default: 0 },
+      muhurtaMonthly: { type: Number, default: 0 },
+
+      lastDailyReset: Date,
+      lastMonthlyReset: Date,
     },
   },
   {

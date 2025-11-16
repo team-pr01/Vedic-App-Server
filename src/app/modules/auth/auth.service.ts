@@ -150,8 +150,6 @@ const loginUser = async (payload: TLoginAuth) => {
     role: user.role,
     assignedPages: user.assignedPages || [],
     avatar: user.avatar || [],
-    isPaid : user.isPaid || false,
-    subscribedPlanName : user.subscribedPlanName || null
   };
 
   const accessToken = createToekn(
@@ -179,8 +177,6 @@ const loginUser = async (payload: TLoginAuth) => {
       avatar: user.avatar || "",
       totalQuizTaken: user.totalQuizTaken || 0,
       lastLoggedIn: user.lastLoggedIn,
-      isPaid : user.isPaid || false,
-      subscribedPlanName : user.subscribedPlanName || null
     },
   };
 };
