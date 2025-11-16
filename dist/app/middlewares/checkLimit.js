@@ -38,7 +38,7 @@ const checkAiChatLimit = (req, res, next) => __awaiter(void 0, void 0, void 0, f
     if (dailyLimit !== Infinity && user.usage.aiChatDaily >= dailyLimit) {
         return res.status(403).json({
             success: false,
-            message: "Daily AI Chat limit reached",
+            message: "Daily AI Chat limit reached. Please try again tomorrow or upgrade your plan.",
         });
     }
     // ✅ Increase count (atomic update)
@@ -69,7 +69,7 @@ const checkAiRecipesLimit = (req, res, next) => __awaiter(void 0, void 0, void 0
         user.usage.aiRecipesMonthly = 0;
     }
     if (monthlyLimit !== Infinity && user.usage.aiRecipesMonthly >= monthlyLimit) {
-        return res.status(403).json({ success: false, message: "Monthly AI Recipes limit reached" });
+        return res.status(403).json({ success: false, message: "Monthly AI Recipes limit reached. Please try again next month or upgrade your plan." });
     }
     yield auth_model_1.User.findOneAndUpdate({ _id: user._id }, { $inc: { "usage.aiRecipesMonthly": 1 } });
     next();
@@ -94,7 +94,7 @@ const checkVastuAiLimit = (req, res, next) => __awaiter(void 0, void 0, void 0, 
         user.usage.vastuAiMonthly = 0;
     }
     if (monthlyLimit !== Infinity && user.usage.vastuAiMonthly >= monthlyLimit) {
-        return res.status(403).json({ success: false, message: "Monthly Vastu AI limit reached" });
+        return res.status(403).json({ success: false, message: "Monthly Vastu AI limit reached. Please try again next month or upgrade your plan." });
     }
     yield auth_model_1.User.findOneAndUpdate({ _id: user._id }, { $inc: { "usage.vastuAiMonthly": 1 } });
     next();
@@ -119,7 +119,7 @@ const checkKundliLimit = (req, res, next) => __awaiter(void 0, void 0, void 0, f
         user.usage.kundliMonthly = 0;
     }
     if (monthlyLimit !== Infinity && user.usage.kundliMonthly >= monthlyLimit) {
-        return res.status(403).json({ success: false, message: "Monthly Kundli limit reached" });
+        return res.status(403).json({ success: false, message: "Monthly Kundli limit reached. Please try again next month or upgrade your plan." });
     }
     yield auth_model_1.User.findOneAndUpdate({ _id: user._id }, { $inc: { "usage.kundliMonthly": 1 } });
     next();
@@ -144,7 +144,7 @@ const checkMuhurtaLimit = (req, res, next) => __awaiter(void 0, void 0, void 0, 
         user.usage.muhurtaMonthly = 0;
     }
     if (monthlyLimit !== Infinity && user.usage.muhurtaMonthly >= monthlyLimit) {
-        return res.status(403).json({ success: false, message: "Monthly Muhurta limit reached" });
+        return res.status(403).json({ success: false, message: "Monthly Muhurta limit reached. Please try again next month or upgrade your plan." });
     }
     yield auth_model_1.User.findOneAndUpdate({ _id: user._id }, { $inc: { "usage.muhurtaMonthly": 1 } });
     next();

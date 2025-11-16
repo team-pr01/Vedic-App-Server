@@ -42,7 +42,7 @@ export const checkAiChatLimit = async (
   if (dailyLimit !== Infinity && user.usage.aiChatDaily >= dailyLimit) {
     return res.status(403).json({
       success: false,
-      message: "Daily AI Chat limit reached",
+      message: "Daily AI Chat limit reached. Please try again tomorrow or upgrade your plan.",
     });
   }
 
@@ -87,7 +87,7 @@ export const checkAiRecipesLimit = async (
   }
 
   if (monthlyLimit !== Infinity && user.usage.aiRecipesMonthly >= monthlyLimit) {
-    return res.status(403).json({ success: false, message: "Monthly AI Recipes limit reached" });
+    return res.status(403).json({ success: false, message: "Monthly AI Recipes limit reached. Please try again next month or upgrade your plan." });
   }
 
   await User.findOneAndUpdate({ _id: user._id }, { $inc: { "usage.aiRecipesMonthly": 1 } });
@@ -122,7 +122,7 @@ export const checkVastuAiLimit = async (
   }
 
   if (monthlyLimit !== Infinity && user.usage.vastuAiMonthly >= monthlyLimit) {
-    return res.status(403).json({ success: false, message: "Monthly Vastu AI limit reached" });
+    return res.status(403).json({ success: false, message: "Monthly Vastu AI limit reached. Please try again next month or upgrade your plan." });
   }
 
   await User.findOneAndUpdate({ _id: user._id }, { $inc: { "usage.vastuAiMonthly": 1 } });
@@ -157,7 +157,7 @@ export const checkKundliLimit = async (
   }
 
   if (monthlyLimit !== Infinity && user.usage.kundliMonthly >= monthlyLimit) {
-    return res.status(403).json({ success: false, message: "Monthly Kundli limit reached" });
+    return res.status(403).json({ success: false, message: "Monthly Kundli limit reached. Please try again next month or upgrade your plan." });
   }
 
   await User.findOneAndUpdate({ _id: user._id }, { $inc: { "usage.kundliMonthly": 1 } });
@@ -192,7 +192,7 @@ export const checkMuhurtaLimit = async (
   }
 
   if (monthlyLimit !== Infinity && user.usage.muhurtaMonthly >= monthlyLimit) {
-    return res.status(403).json({ success: false, message: "Monthly Muhurta limit reached" });
+    return res.status(403).json({ success: false, message: "Monthly Muhurta limit reached. Please try again next month or upgrade your plan." });
   }
 
   await User.findOneAndUpdate({ _id: user._id }, { $inc: { "usage.muhurtaMonthly": 1 } });
