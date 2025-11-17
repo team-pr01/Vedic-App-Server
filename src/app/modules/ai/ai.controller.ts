@@ -122,13 +122,13 @@ const generateMuhurta = catchAsync(async (req, res) => {
 });
 
 const generateVastuAnalysis = catchAsync(async (req, res) => {
-  const { concern } = req.body;
+  const { query } = req.body;
 
-  if (!concern) {
-    throw new AppError(httpStatus.BAD_REQUEST, "Concern is required for Vastu analysis");
+  if (!query) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Query is required for Vastu analysis");
   }
 
-  const result = await AiServices.generateVastuAnalysis(concern);
+  const result = await AiServices.generateVastuAnalysis(query);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

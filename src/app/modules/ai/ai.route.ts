@@ -13,7 +13,7 @@ router.post("/generate-quiz",auth( UserRole.user , UserRole.temple, UserRole.adm
 router.post("/translate-news",auth( UserRole.user , UserRole.temple, UserRole.admin, UserRole.moderator, UserRole["super-admin"]), AiControllers.translateNews);
 router.post("/generate-kundli",auth( UserRole.user , UserRole.temple, UserRole.admin, UserRole.moderator, UserRole["super-admin"]), checkKundliLimit, AiControllers.generateKundli);
 router.post("/generate-muhurta",auth( UserRole.user , UserRole.temple, UserRole.admin, UserRole.moderator, UserRole["super-admin"]), checkMuhurtaLimit, AiControllers.generateMuhurta);
-router.post("/generate-muhurta",auth( UserRole.user , UserRole.temple, UserRole.admin, UserRole.moderator, UserRole["super-admin"]), checkVastuAiLimit, AiControllers.generateVastuAnalysis);
+router.post("/generate-vastu",auth( UserRole.user , UserRole.temple, UserRole.admin, UserRole.moderator, UserRole["super-admin"]), checkVastuAiLimit, AiControllers.generateVastuAnalysis);
 
 
 export const AiRoutes = router;

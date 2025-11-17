@@ -107,11 +107,11 @@ const generateMuhurta = (0, catchAsync_1.default)((req, res) => __awaiter(void 0
     });
 }));
 const generateVastuAnalysis = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { concern } = req.body;
-    if (!concern) {
-        throw new AppError_1.default(http_status_1.default.BAD_REQUEST, "Concern is required for Vastu analysis");
+    const { query } = req.body;
+    if (!query) {
+        throw new AppError_1.default(http_status_1.default.BAD_REQUEST, "Query is required for Vastu analysis");
     }
-    const result = yield ai_service_1.AiServices.generateVastuAnalysis(concern);
+    const result = yield ai_service_1.AiServices.generateVastuAnalysis(query);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,

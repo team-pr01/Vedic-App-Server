@@ -356,7 +356,7 @@ const generateMuhurta = async (query: string) => {
   return response.choices[0]?.message?.content || "Could not generate Muhurta";
 };
 
-const generateVastuAnalysis = async (concern: string) => {
+const generateVastuAnalysis = async (query: string) => {
   const response = await openai.chat.completions.create({
     model: "gpt-4o-mini",
     messages: [
@@ -368,7 +368,7 @@ const generateVastuAnalysis = async (concern: string) => {
         - Energy flow (Prana), elemental balance (Earth, Water, Fire, Air, Space)
         - Residential, commercial, and land Vastu
         
-        Provide accurate and practical Vastu analysis based on the user's concern.
+        Provide accurate and practical Vastu analysis based on the user's query.
         The response must include:
 
         1. **Problem Summary** – What Vastu issue the user is facing  
@@ -383,7 +383,7 @@ const generateVastuAnalysis = async (concern: string) => {
       },
       {
         role: "user",
-        content: concern,
+        content: query,
       },
     ],
     temperature: 0.6,
