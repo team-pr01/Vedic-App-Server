@@ -121,6 +121,24 @@ const generateMuhurta = catchAsync(async (req, res) => {
   });
 });
 
+const generateVastuAnalysis = catchAsync(async (req, res) => {
+  const { concern } = req.body;
+
+  if (!concern) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Concern is required for Vastu analysis");
+  }
+
+  const result = await AiServices.generateVastuAnalysis(concern);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Vastu analysis generated successfully",
+    data: result,
+  });
+});
+
+
 
 export const AiControllers = {
   aiChat,
@@ -129,5 +147,6 @@ export const AiControllers = {
   generateQuiz,
   translateNews,
   generateKundli,
-  generateMuhurta
+  generateMuhurta,
+  generateVastuAnalysis
 };

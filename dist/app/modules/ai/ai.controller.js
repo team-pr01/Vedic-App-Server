@@ -106,6 +106,19 @@ const generateMuhurta = (0, catchAsync_1.default)((req, res) => __awaiter(void 0
         data: result,
     });
 }));
+const generateVastuAnalysis = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { concern } = req.body;
+    if (!concern) {
+        throw new AppError_1.default(http_status_1.default.BAD_REQUEST, "Concern is required for Vastu analysis");
+    }
+    const result = yield ai_service_1.AiServices.generateVastuAnalysis(concern);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "Vastu analysis generated successfully",
+        data: result,
+    });
+}));
 exports.AiControllers = {
     aiChat,
     translateShloka,
@@ -113,5 +126,6 @@ exports.AiControllers = {
     generateQuiz,
     translateNews,
     generateKundli,
-    generateMuhurta
+    generateMuhurta,
+    generateVastuAnalysis
 };

@@ -292,6 +292,42 @@ const generateMuhurta = (query) => __awaiter(void 0, void 0, void 0, function* (
     });
     return ((_b = (_a = response.choices[0]) === null || _a === void 0 ? void 0 : _a.message) === null || _b === void 0 ? void 0 : _b.content) || "Could not generate Muhurta";
 });
+const generateVastuAnalysis = (concern) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
+    const response = yield openai_1.openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+            {
+                role: "system",
+                content: `You are an expert Vastu Shastra consultant with deep knowledge of:
+        - Directions (North, South, East, West, NE, NW, SE, SW)
+        - Vastu Purusha Mandala
+        - Energy flow (Prana), elemental balance (Earth, Water, Fire, Air, Space)
+        - Residential, commercial, and land Vastu
+        
+        Provide accurate and practical Vastu analysis based on the user's concern.
+        The response must include:
+
+        1. **Problem Summary** – What Vastu issue the user is facing  
+        2. **Directional Analysis** – Impact of directions/elements  
+        3. **Vastu Dosha Analysis** – Identify any imbalances  
+        4. **Corrections (Remedies)** – Without renovation if possible  
+        5. **Energy Flow Explanation**  
+        6. **Professional Recommendations**  
+        
+        Tone: warm, spiritual, and respectful.
+        Do not generate fear or negativity. Keep the guidance positive.`,
+            },
+            {
+                role: "user",
+                content: concern,
+            },
+        ],
+        temperature: 0.6,
+        max_tokens: 1200,
+    });
+    return ((_b = (_a = response.choices[0]) === null || _a === void 0 ? void 0 : _a.message) === null || _b === void 0 ? void 0 : _b.content) || "Could not generate Vastu analysis";
+});
 exports.AiServices = {
     aiChat,
     translateShloka,
@@ -300,4 +336,5 @@ exports.AiServices = {
     translateNews,
     generateKundli,
     generateMuhurta,
+    generateVastuAnalysis
 };
