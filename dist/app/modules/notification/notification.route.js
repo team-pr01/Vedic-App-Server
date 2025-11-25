@@ -12,6 +12,5 @@ const authorizeRoute_1 = __importDefault(require("../../middlewares/authorizeRou
 const router = express_1.default.Router();
 router.post("/send-notification", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), (0, authorizeRoute_1.default)(), notification_controller_1.NotificationControllers.sendNotification);
 router.get("/", notification_controller_1.NotificationControllers.getAllNotifications);
-router.get("/:notificationId", notification_controller_1.NotificationControllers.getSingleNotificationById);
-router.delete("/:notificationId", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), (0, authorizeRoute_1.default)(), notification_controller_1.NotificationControllers.deleteNotification);
+router.get('/:userId', notification_controller_1.NotificationControllers.getAllNotificationsForUser);
 exports.NotificationRoutes = router;

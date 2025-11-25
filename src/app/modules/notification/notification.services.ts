@@ -8,7 +8,7 @@ import Expo from "expo-server-sdk";
 const expo = new Expo();
 
 const sendNotification = async (payload: any) => {
-  const { userIds, title, message } = payload;
+  const { userIds, title, message, data } = payload;
 
   const users = await User.find({ _id: { $in: userIds } }).select(
     "_id expoPushToken"
@@ -22,6 +22,7 @@ const sendNotification = async (payload: any) => {
     user: u._id,
     title,
     message,
+    data,
   }));
 
   const createdNotifications = await Notification.insertMany(
@@ -113,26 +114,14 @@ const getAllNotifications = async () => {
   return await Notification.find();
 };
 
-const getSingleNotificationById = async (notificationId: string) => {
-  const result = await Notification.findById(notificationId);
-  if (!result) {
-    throw new AppError(httpStatus.NOT_FOUND, "Notification not found");
-  }
+// Get All Popups (with optional title search)
+const getAllNotificationsForUser = async (userId: any) => {
+  const result = await Notification.find({ user: userId });
   return result;
-};
-
-const deleteNotification = async (notificationId: string) => {
-  const existing = await Notification.findById(notificationId);
-  if (!existing) {
-    throw new AppError(httpStatus.NOT_FOUND, "Notification not found");
-  }
-
-  return await Notification.findByIdAndDelete(notificationId);
 };
 
 export const NotificationServices = {
   sendNotification,
   getAllNotifications,
-  getSingleNotificationById,
-  deleteNotification,
+  getAllNotificationsForUser,
 };

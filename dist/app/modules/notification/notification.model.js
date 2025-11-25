@@ -2,14 +2,21 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const NotificationSchema = new mongoose_1.Schema({
-    title: {
-        type: String,
+    user: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: "User",
         required: true,
+        index: true,
     },
-    message: {
+    title: { type: String, required: true },
+    message: { type: String, required: true },
+    data: { type: mongoose_1.Schema.Types.Mixed, default: {} },
+    deliveryStatus: {
         type: String,
-        required: true,
+        enum: ["pending", "sent", "failed"],
+        default: "pending",
     },
+    expoTicket: { type: mongoose_1.Schema.Types.Mixed },
 }, {
     timestamps: true,
 });

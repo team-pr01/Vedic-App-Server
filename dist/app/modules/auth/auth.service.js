@@ -29,6 +29,7 @@ const generateOTP = () => {
 };
 // Change user role (For admin)
 const saveUserPushToken = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(payload);
     const user = yield auth_model_1.User.findById(payload === null || payload === void 0 ? void 0 : payload.userId);
     if (!user) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, "User not found");

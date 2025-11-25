@@ -22,7 +22,7 @@ const expo_server_sdk_1 = __importDefault(require("expo-server-sdk"));
 const expo = new expo_server_sdk_1.default();
 const sendNotification = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
-    const { userIds, title, message } = payload;
+    const { userIds, title, message, data } = payload;
     const users = yield auth_model_1.User.find({ _id: { $in: userIds } }).select("_id expoPushToken");
     if (!users || users.length === 0) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, "No users found for provided ids");
@@ -31,6 +31,7 @@ const sendNotification = (payload) => __awaiter(void 0, void 0, void 0, function
         user: u._id,
         title,
         message,
+        data,
     }));
     const createdNotifications = yield notification_model_1.default.insertMany(notificationsToInsert, { ordered: true });
     const messages = [];
@@ -99,23 +100,13 @@ const sendNotification = (payload) => __awaiter(void 0, void 0, void 0, function
 const getAllNotifications = () => __awaiter(void 0, void 0, void 0, function* () {
     return yield notification_model_1.default.find();
 });
-const getSingleNotificationById = (notificationId) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield notification_model_1.default.findById(notificationId);
-    if (!result) {
-        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Notification not found");
-    }
+// Get All Popups (with optional title search)
+const getAllNotificationsForUser = (userId) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield notification_model_1.default.find({ user: userId });
     return result;
-});
-const deleteNotification = (notificationId) => __awaiter(void 0, void 0, void 0, function* () {
-    const existing = yield notification_model_1.default.findById(notificationId);
-    if (!existing) {
-        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Notification not found");
-    }
-    return yield notification_model_1.default.findByIdAndDelete(notificationId);
 });
 exports.NotificationServices = {
     sendNotification,
     getAllNotifications,
-    getSingleNotificationById,
-    deleteNotification,
+    getAllNotificationsForUser,
 };

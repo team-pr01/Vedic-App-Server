@@ -5,12 +5,13 @@ import { NotificationServices } from "./notification.services";
 import { io } from "../../../server";
 
 const sendNotification = catchAsync(async (req, res) => {
-  const { userIds, title, message } = req.body;
+  const { userIds, title, message, data } = req.body;
 
   const result = await NotificationServices.sendNotification({
     userIds,
     title,
     message,
+    data,
   });
 
   io.emit("new-push-notification", {
@@ -40,28 +41,16 @@ const getAllNotifications = catchAsync(async (_req, res) => {
   });
 });
 
-// Get Single
-const getSingleNotificationById = catchAsync(async (req, res) => {
-  const { notificationId } = req.params;
-  const result = await NotificationServices.getSingleNotificationById(notificationId);
+// Get All Notifications
+const getAllNotificationsForUser = catchAsync(async (req, res) => {
+  const { userId } = req.params;
+  const result =
+    await NotificationServices.getAllNotificationsForUser(userId);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Notification fetched successfully.",
-    data: result,
-  });
-});
-
-// Delete
-const deleteNotification = catchAsync(async (req, res) => {
-  const { notificationId } = req.params;
-  const result = await NotificationServices.deleteNotification(notificationId);
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: "Notification deleted successfully.",
+    message: "Notifications fetched successfully",
     data: result,
   });
 });
@@ -69,6 +58,5 @@ const deleteNotification = catchAsync(async (req, res) => {
 export const NotificationControllers = {
   sendNotification,
   getAllNotifications,
-  getSingleNotificationById,
-  deleteNotification,
+  getAllNotificationsForUser,
 };

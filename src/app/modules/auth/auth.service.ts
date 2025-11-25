@@ -17,6 +17,7 @@ const generateOTP = () => {
 
 // Change user role (For admin)
 const saveUserPushToken = async (payload: any) => {
+  console.log(payload);
   const user = await User.findById(payload?.userId);
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, "User not found");
