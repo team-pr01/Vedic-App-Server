@@ -81,15 +81,6 @@ const sendEmergencyMessageAdmin = (payload) => __awaiter(void 0, void 0, void 0,
 // Create emergency post (For user)
 const postEmergency = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { user, message, location } = payload;
-    // const imageUrls: string[] = [];
-    // if (files && files.length > 0) {
-    //   for (const file of files) {
-    //     const imageName = `${name}-${Date.now()}`;
-    //     const path = file.path;
-    //     const { secure_url } = await sendImageToCloudinary(imageName, path);
-    //     imageUrls.push(secure_url);
-    //   }
-    // }
     const payloadData = {
         user,
         message,

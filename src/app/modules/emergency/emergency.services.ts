@@ -57,18 +57,6 @@ const sendEmergencyMessageAdmin = async (payload: TEmergencyMessageAdmin) => {
 const postEmergency = async (payload: TEmergency) => {
   const { user, message, location } = payload;
 
-  // const imageUrls: string[] = [];
-
-  // if (files && files.length > 0) {
-  //   for (const file of files) {
-  //     const imageName = `${name}-${Date.now()}`;
-  //     const path = file.path;
-
-  //     const { secure_url } = await sendImageToCloudinary(imageName, path);
-  //     imageUrls.push(secure_url);
-  //   }
-  // }
-
   const payloadData = {
     user,
     message,

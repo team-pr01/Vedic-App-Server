@@ -11,7 +11,7 @@ const auth_constannts_1 = require("../auth/auth.constannts");
 const authorizeRoute_1 = __importDefault(require("../../middlewares/authorizeRoute"));
 const router = express_1.default.Router();
 // For users
-router.post("/", emergency_controller_1.EmergencyControllers.postEmergency);
+router.post("/post", emergency_controller_1.EmergencyControllers.postEmergency);
 // Just for admin
 router.post("/send-message", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), (0, authorizeRoute_1.default)(), emergency_controller_1.EmergencyControllers.sendEmergencyMessageAdmin);
 router.get("/", (0, auth_1.default)(auth_constannts_1.UserRole.admin, auth_constannts_1.UserRole.moderator, auth_constannts_1.UserRole["super-admin"]), (0, authorizeRoute_1.default)(), emergency_controller_1.EmergencyControllers.getAllEmergencyPosts);

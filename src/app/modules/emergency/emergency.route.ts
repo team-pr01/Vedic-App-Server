@@ -7,7 +7,7 @@ import authorizeRoute from "../../middlewares/authorizeRoute";
 const router = express.Router();
 
 // For users
-router.post("/", EmergencyControllers.postEmergency);
+router.post("/post", EmergencyControllers.postEmergency);
 // Just for admin
 router.post("/send-message", auth(UserRole.admin, UserRole.moderator, UserRole["super-admin"]), authorizeRoute(), EmergencyControllers.sendEmergencyMessageAdmin);
 
